@@ -1,0 +1,110 @@
+body {
+    max-width: 1440px;
+    margin: auto;
+}
+
+/* HOMEPAGE ******************************************************/
+
+.logo {
+    width: 160px;
+    height: 24px;
+    position: absolute;
+    top: 55px;
+    left: 100px;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    height: 1024px;
+    position: relative;
+}
+
+.formWrapper {
+    width: 632px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
+.formWrapper .form {
+    width: 397px;
+    height: 618px;
+    border-radius: 20px;
+    background: white;
+    padding: 40px;
+    font-family: 'Inter', sans-serif;
+}
+
+.formWrapper .form h1 {
+    color: #0B23F4;
+    font-weight: 600;
+    font-size: 1.75em;
+    line-height: 1.3em;
+}
+
+.formWrapper .form .subtitle {
+    margin-top: 40px;
+    font-weight: 500;
+    font-size: 1.37em;
+    color: #111111;
+}
+
+.formWrapper .form .formGroup {
+    margin-top: 24px;
+}
+
+.formWrapper .form .formGroup .label {
+    font-weight: 400;
+    font-size: 0.87em;
+    color: #707070;
+    display: block;
+}
+
+.formWrapper .form .formGroup .input {
+    margin-top: 5px;
+    width: 317px;
+    height: 58px;
+    border-radius: 6px;
+    border: 1px solid #717171;
+    padding-left: 1em;
+    font-weight: bold;
+}
+
+.formWrapper .form .btnSubmit {
+    margin: 40px auto;
+    width: 100%;
+    height: 50px;
+    background: #0B23F4;
+    font-size: 1em;
+    font-weight: 500;
+    color: white;
+    border-radius: 10px;
+    border: none;
+}
+
+.homePicture {
+    flex: 1;
+    position: relative;
+}
+
+.homePicture .slogan {
+    position: absolute;
+    bottom: 29px;
+    right: 24px;
+    background: white;
+    font-weight: 400;
+    font-size: .75em;
+    width: 288px;
+    height: 62px;
+    border-radius: 50px;
+    color: #0B23F4;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
