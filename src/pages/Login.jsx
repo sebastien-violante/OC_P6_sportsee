@@ -1,9 +1,13 @@
 import './custom.css'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import validateForm from '../utils/validateForm';
-export default function Home() {
+import login from '../utils/login';
 
+export default function Home() {
     
+    // CONSTANTES ////////////////////////////////////////////////////////////////////////////////////
+    const navigate = useNavigate()
     
     // STATES ////////////////////////////////////////////////////////////////////////////////////
     const [formData, setFormData] = useState({
@@ -13,36 +17,53 @@ export default function Home() {
 
     const [errors, setErrors] = useState({
         username: "",
-        "password": ""
+        password: ""
     })
 
+    // FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////
+    
     // HANDLERS ////////////////////////////////////////////////////////////////////////////////////
-
     const handleChange = (event)  => {
         const { name, value } = event.target 
         setFormData((prev) => ({...prev, [name]: value}))
     }
-    const handleSubmit = () => {
+    
+    async function handleSubmit() {
         event.preventDefault()
         const errors = validateForm(formData)
         setErrors(errors)
+        if (Object.keys(errors).length === 0) {
+            const token = await login(formData)
+            if(token) {
+                sessionStorage.setItem("token", token)
+                navigate('/dashboard')
+            }
+        }
     }
+    const hideError = (event) => {
+        const name = event.target.name;
+        setErrors(prev => ({
+            ...prev,
+            [name]: null
+        }));
+    }
+
     return (
         <section className="wrapper">
             <img src="pictures/logo.png" alt="Logo du site Sportsee" className="logo"/>
             <section className='formWrapper'>
-                <form className="form" method="POST">
+                <form className="form">
                     <h1>Transformez<br />vos stats en résultats</h1>
                     <p className="subtitle">Se connecter</p>
                     <section className="formGroup">
                         <label htmlFor="username" className="label">Adresse email</label>
-                        <input id="username" className="input" name="username" type="text" onBlur={handleChange}/>
-                        <span>{errors.username}</span>
+                        <input id="username" className="input" name="username" type="text" onBlur={handleChange} onKeyDown={hideError}/>
+                        <span className="error">{errors.username}</span>
                     </section>
                     <section className="formGroup">
                         <label htmlFor="password" className="label">Mot de passe</label>
-                        <input id="password" className="input" name="password" type="password" onBlur={handleChange}/>
-                        <span>{errors.password}</span>
+                        <input id="password" className="input" name="password" type="password" onBlur={handleChange} onKeyDown={hideError}/>
+                        <span className="error">{errors.password}</span>
                     </section>
                     <input type="submit" className="btnSubmit" value="Se connecter" onClick={handleSubmit}/>
                 </form>
