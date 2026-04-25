@@ -52,6 +52,7 @@ body {
 
 .formWrapper .form .formGroup {
     margin-top: 24px;
+    position: relative;
 }
 
 .formWrapper .form .formGroup .label {
@@ -81,6 +82,14 @@ body {
     color: white;
     border-radius: 10px;
     border: none;
+}
+
+.formWrapper .error {
+    position: absolute;
+    bottom: 2px;
+    right: 5px;
+    color: red;
+    font-size: .7em;
 }
 
 .homePicture {
