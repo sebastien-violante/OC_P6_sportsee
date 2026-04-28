@@ -1,6 +1,18 @@
 body {
     max-width: 1440px;
     margin: auto;
+    background: #F2F3FF;
+    font-family: 'Inter', 'sans-serif';
+}
+
+/* LAYOUT ********************************************************/
+.layout {
+    margin-top: 35px;
+}
+
+.layout-content {
+    max-width: 1140px;
+    margin: auto;
 }
 
 /* HOMEPAGE ******************************************************/
@@ -114,6 +126,51 @@ body {
     justify-content: center;
 }
 
+/* ACTIVITIES ******************************************************/
 
+.distance {
+    width: 365px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 40px;
+    background: white;
+    border-radius: 10px;
+}
 
+.distance .header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 95px;
+    width: 100%;
+}
+.distance .data {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.distance .data .average {
+    color: #0B23F4;
+    font-weight: 500;
+    font-size: 1.4em;
+    margin: 0;
+}
+.distance .data .selectDate {
+    display: flex;
+    align-items: center;
+}
+
+.distance .data .selectDate .arrow {
+    width: 24px;
+    height: 24px;
+}
+
+.distance .header .caption {
+    color: #707070;
+    font-weight: 400;
+    font-size: 0.75em;
+}
