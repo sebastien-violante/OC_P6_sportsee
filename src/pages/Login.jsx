@@ -50,7 +50,7 @@ export default function Home() {
 
     return (
         <section className="wrapper">
-            <img src="pictures/logo.png" alt="Logo du site Sportsee" className="logo"/>
+            <img src="logo.png" alt="Logo du site Sportsee" className="logo"/>
             <section className='formWrapper'>
                 <form className="form">
                     <h1>Transformez<br />vos stats en résultats</h1>

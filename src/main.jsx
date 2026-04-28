@@ -1,6 +1,5 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from './pages/Login.jsx';
 import Error from './pages/Error.jsx';
@@ -17,8 +16,8 @@ createRoot(document.getElementById('root')).render(
           <Route element={<Layout />}>
             <Route path="/dashboard" index element={<Dashboard />} />
             <Route path="/profil" element={<Profil />} />
+            <Route path="*" element={<Error />} />
           </Route>
-          <Route path="*" element={<Error />} />
         </Routes>
     </Router>
   </StrictMode>,

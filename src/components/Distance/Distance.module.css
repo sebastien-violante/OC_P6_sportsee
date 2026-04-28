@@ -1,0 +1,46 @@
+.distance {
+    width: 365px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 40px;
+    background: white;
+    border-radius: 10px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 95px;
+    width: 100%;
+}
+.data {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.average {
+    color: #0B23F4;
+    font-weight: 500;
+    font-size: 1.4em;
+    margin: 0;
+}
+
+.selectDate {
+    display: flex;
+    align-items: center;
+}
+.arrow {
+    width: 24px;
+    height: 24px;
+}
+
+.caption {
+    color: #707070;
+    font-weight: 400;
+    font-size: 0.75em;
+}
