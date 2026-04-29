@@ -132,7 +132,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 365px;
+
 }
 
 .selectDate {
@@ -144,4 +144,62 @@ body {
 .selectDate .arrow {
     width: 24px;
     height: 24px;
+}
+
+.lastPerfo {
+    padding: 0 44px;
+}
+
+.lastPerfo button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.graphs {
+    display: flex;
+    justify-content: space-between;
+}
+.graphBarDistance, .graphBarBpm {
+    background: white;
+    border-radius: 10px;
+    padding: 18px 40px;
+}
+
+.graphBarDistance {
+    width: 445px;
+}
+
+.graphBarDistance .average {
+    color: #0B23F4;
+    font-weight: 500;
+    font-size: 1.4em;
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.graphBarBpm .average {
+    color: var(--orange);
+    font-weight: 500;
+    font-size: 1.4em;
+}
+
+.graphBarDistance .selectDate p, .graphBarBpm .selectDate p {
+    font-size: .75em;
+    font-weight: 400;
+    margin: 0;
+}
+
+.graphBarBpm {
+    width: 583px;
+}
+
+.distanceGraphWrapper {
+    width: 330px;
+    height: 307px;
+}
+
+.bpmGraphWrapper {
+    width: 503px;
+    height: 307px;
 }

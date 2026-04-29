@@ -1,28 +1,31 @@
 import { fourWeeksDistances, lastWeekBpm } from '../api/services/activitiesService';
 import { useState } from 'react';
 import { DateTime } from 'luxon';
-import Distance from '../components/Distance/Distance';
-import Bpm from '../components/Bpm/Bpm';
 import getFirstDayPeriod from '../utils/getFirstDayPeriod';
 import GraphChart from '../components/GraphChart/GraphChart';
 
 export default function Dashboard() {
 
   const today = DateTime.now()
-  // constantes permettant de faire varier l'affichage des différents graphiques
+
+  // Constantes de dates du graphique distances
   const [endDistancePeriod, setEndDistancePeriod] = useState(today)
   const beginDistancePeriod = getFirstDayPeriod(endDistancePeriod, "week")
   
+  // Contantes dates du graphique bpm
   const [endBpmPeriod, setEndBpmPeriod] = useState(today)
   const beginBpmPeriod = getFirstDayPeriod(endBpmPeriod, "day")
+
   const [bpmIndexDate, setBpmIndexDate] = useState(today)
 
   // Récupération des données depuis les services
   const data = fourWeeksDistances(endDistancePeriod)
   const averageDistance = data.distAverage
   const activities = data.distances
-  const bpm = lastWeekBpm(bpmIndexDate)
-  console.log(data)
+  const bpm = lastWeekBpm(endBpmPeriod)
+  const averageBpm = bpm.averageBpm
+  const bpmPerDay = bpm.bpmPerDay
+
   /* handlers */
   function changePeriod(slot, type) {
     if(type === "previous") {
@@ -42,32 +45,47 @@ export default function Dashboard() {
   }
   return (
     <>
-    <h2>Vos dernières performances</h2>
-      <section className="distanceBanner">
-        <div className="data">
-          <p className="average">{averageDistance}km en moyenne</p>
-            <div className="selectDate">
-              <img src="leftArrow.png" alt="période précédente" className="arrow" onClick={() => changePeriod('week','previous')}></img>
-              <p>{beginDistancePeriod.setLocale('fr').toFormat('d LLLL')} - {endDistancePeriod.setLocale('fr').toFormat('d LLLL')}</p>
-              <img src="rightArrow.png" alt="période suivante" className="arrow" onClick={() => changePeriod('week')}></img>
+      <section className='lastPerfo'>
+        <h2>Vos dernières performances</h2>
+        <div className="graphs">
+          <article className="graphBarDistance">
+            <div className="data">
+              <p className="average">{averageDistance}km en moyenne</p>
+                <div className="selectDate">
+                  <button onClick={() => changePeriod('week','previous')}>
+                    <img src="leftArrow.png" alt="période précédente" className="arrow" ></img>
+                  </button>
+                  <p>{beginDistancePeriod.setLocale('fr').toFormat('d LLLL')} - {endDistancePeriod.setLocale('fr').toFormat('d LLLL')}</p>
+                  <button onClick={() => changePeriod('week')}>
+                    <img src="rightArrow.png" alt="période suivante" className="arrow" ></img>
+                  </button>
+                </div>
             </div>
-        </div>
-        <p className="caption">Total des kilomètres 4 dernières semaines</p> 
-      </section>
-      <GraphChart data={activities} />
-
-      <section className="bpmBanner">
-        <div className="data">
-          <p className="average">{averageDistance}km en moyenne</p>
-            <div className="selectDate">
-              <img src="leftArrow.png" alt="période précédente" className="arrow" onClick={() => changePeriod('day','previous')}></img>
-              <p>{beginBpmPeriod.setLocale('fr').toFormat('d LLLL')} - {endBpmPeriod.setLocale('fr').toFormat('d LLLL')}</p>
-              <img src="rightArrow.png" alt="période suivante" className="arrow" onClick={() => changePeriod('day')}></img>
+            <p className="caption">Total des kilomètres 4 dernières semaines</p>
+            <div className="distanceGraphWrapper"> 
+              <GraphChart data={activities} />
             </div>
+          </article>
+          <article className="graphBarBpm">
+            <div className="data">
+              <p className="average">{averageBpm} BPM</p>
+                <div className="selectDate">
+                  <button onClick={() => changePeriod('day','previous')}>
+                    <img src="leftArrow.png" alt="période précédente" className="arrow" ></img>
+                  </button>
+                  <p>{beginBpmPeriod.setLocale('fr').toFormat('d LLLL')} - {endBpmPeriod.setLocale('fr').toFormat('d LLLL')}</p>
+                  <button onClick={() => changePeriod('day')}>
+                    <img src="rightArrow.png" alt="période suivante" className="arrow" ></img>
+                  </button>
+                </div>
+            </div>
+            <p className="caption">Fréquence cardiaque moyenne</p> 
+            <div className="bpmGraphWrapper"> 
+              <GraphChart data={bpmPerDay} />
+            </div>
+          </article>
         </div>
-        <p className="caption">Total des kilomètres 4 dernières semaines</p> 
       </section>
-      <GraphChart data={bpm} />
     </>
   )
 }
