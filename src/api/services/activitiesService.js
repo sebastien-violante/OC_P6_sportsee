@@ -8,7 +8,6 @@ export function fourWeeksDistances(distIndexDate) {
     let distTotal = 0
     activitiesMock.forEach(activity => {
         const index = getActivityPosition(activity.date, distIndexDate);
-        console.log(index)
         if (index === null) {
             return 
         } else {
@@ -33,7 +32,6 @@ export function lastWeekBpm(bpmIndexDate) {
     }));
 
     activitiesMock.forEach(activity => {
-        
         const index = getBpmPosition(activity.date, bpmIndexDate);
         if (index === null) return;
         totalBpm+=activity.heartRate.average
@@ -48,11 +46,22 @@ export function lastWeekBpm(bpmIndexDate) {
     const days = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 
     return {
-        averageBpm : totalBpm/records,
+        averageBpm : Number((totalBpm/records).toFixed(0)),
         bpmPerDay : bpmPerDay.map((val, i) => ({ name: days[i], ...val }))
     }
-    
-    
-    
 }
 
+export function dataCurrentWeek(start, end) {
+    const startMs = start.toMillis();
+    const endMs = end.toMillis();
+    let activityIndex = 0
+    activitiesMock.forEach(activity => {
+        const activityMs = DateTime.fromISO(activity.date).toMillis();
+        
+        if (activityMs >= startMs && activityMs <= endMs) {
+            activityIndex++
+        }
+    })
+
+    return activityIndex
+}

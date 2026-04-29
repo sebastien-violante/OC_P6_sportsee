@@ -1,13 +1,15 @@
-import { fourWeeksDistances, lastWeekBpm } from '../api/services/activitiesService';
+import { fourWeeksDistances, lastWeekBpm, dataCurrentWeek } from '../api/services/activitiesService';
 import { useState } from 'react';
 import { DateTime } from 'luxon';
 import getFirstDayPeriod from '../utils/getFirstDayPeriod';
 import GraphChart from '../components/GraphChart/GraphChart';
+import getCurrentWeek from '../utils/getCurrentWeek';
+import DonutChart  from '../components/DonutChart/DonutChart'
 
 export default function Dashboard() {
 
-  const today = DateTime.now()
-
+  //const today = DateTime.now()
+  const today = DateTime.fromISO("2026-03-01")
   // Constantes de dates du graphique distances
   const [endDistancePeriod, setEndDistancePeriod] = useState(today)
   const beginDistancePeriod = getFirstDayPeriod(endDistancePeriod, "week")
@@ -25,6 +27,13 @@ export default function Dashboard() {
   const bpm = lastWeekBpm(endBpmPeriod)
   const averageBpm = bpm.averageBpm
   const bpmPerDay = bpm.bpmPerDay
+  const {weekStart, weekEnd} = getCurrentWeek(today)
+  const activityIndex = dataCurrentWeek(weekStart, weekEnd)
+  const activityTarget = 6
+  const dataDonut = [
+    {name: "réalisés", value: activityIndex},
+    {name: "restants", value: activityTarget-activityIndex}
+  ]
 
   /* handlers */
   function changePeriod(slot, type) {
@@ -85,6 +94,11 @@ export default function Dashboard() {
             </div>
           </article>
         </div>
+      </section>
+      <section className='thisWeek'>
+        <h2>Cette semaine</h2>
+        <p>Du {weekStart.setLocale('fr').toFormat('d LLLL')} au {weekEnd.setLocale('fr').toFormat('d LLLL')}</p>
+        <DonutChart data={dataDonut}/>
       </section>
     </>
   )
