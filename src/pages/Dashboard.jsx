@@ -98,7 +98,20 @@ export default function Dashboard() {
       <section className='thisWeek'>
         <h2>Cette semaine</h2>
         <p>Du {weekStart.setLocale('fr').toFormat('d LLLL')} au {weekEnd.setLocale('fr').toFormat('d LLLL')}</p>
-        <DonutChart data={dataDonut}/>
+        <div className="donutAndData">
+          <DonutChart className="donut" data={dataDonut}/>
+          <div className="data">
+            <article className="duration">
+              <p className="label">Durée d'activité</p>
+              <p className="result"><span className="number">140</span> minutes</p>
+            </article>
+            <article className="distance">
+              <p className="label">Distance</p>
+              <p className="result"><span className="number">21.7</span> kilomètres</p>
+            </article>
+
+          </div>
+        </div>
       </section>
     </>
   )

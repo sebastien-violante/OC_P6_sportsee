@@ -146,8 +146,12 @@ body {
     height: 24px;
 }
 
-.lastPerfo {
+.lastPerfo, .thisWeek {
     padding: 0 44px;
+}
+
+.thisWeek {
+    margin-top: 70px;
 }
 
 .lastPerfo button {
@@ -203,3 +207,46 @@ body {
     width: 503px;
     height: 307px;
 }
+
+.donutAndData { 
+    display: flex;
+    justify-content: space-between;
+}
+
+.donutAndData .data {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+.donutAndData .data .distance,
+.donutAndData .data .duration {
+    width: 572px;
+    height: 103px;
+    border-radius: 10px;
+    background: white;
+    padding: 20px 30px;
+}
+
+.donutAndData .data .label {
+    font-weight: 400;
+    font-size: .875em;
+    color: #707070;
+}
+
+.donutAndData .data .duration {
+    color: var(--blue);
+}
+
+.donutAndData .data .distance {
+    color: var(--orange);
+}
+
+.donutAndData .data .duration span
+.donutAndData .data .distance span
+{
+    font-size: 1.375em;
+    font-weight: 500;
+}
+
