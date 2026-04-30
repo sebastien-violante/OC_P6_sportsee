@@ -1,6 +1,5 @@
 .header {
     display: flex;
-    height: 50px;
     max-width: 1140px;
     margin: auto;
     align-items: center;
@@ -20,6 +19,8 @@
     width: 460px;
     border-radius: 40px;
     background: white;
+    height: 50px;
+    display: flex;
 }
 
 .header nav ul {
@@ -33,6 +34,9 @@
 }
 
 .header nav ul .li-decon {
-    padding-left: 45px;
+    padding-left: 40px;
     border-left: 1px solid grey;
+    color: var(--blue);
 }
+
+.header nav ul 

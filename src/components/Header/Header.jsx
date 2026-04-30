@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 import './Header.css'
 
 export default function Header() {
@@ -9,8 +10,8 @@ export default function Header() {
             </div>
             <nav>
                 <ul>
-                    <li>Dashboard</li>
-                    <li>Mon profil</li>
+                    <li><NavLink  to="/dashboard" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Dashboard</NavLink></li>
+                    <li><NavLink  to="/profil" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Mon profil</NavLink></li>
                     <li className="li-decon">Se déconnecter</li>
                 </ul>
             </nav>

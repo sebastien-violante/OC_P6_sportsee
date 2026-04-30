@@ -1,4 +1,63 @@
 :root {
     --blue:#0B23F4;
+    --lightblue: #B6BDFC;
     --orange: #F4320B;
+    --lightorange:#FCC1B6;
+    --darkgrey: #111111;
+    --grey: #707070;
+}
+
+.nav-link,
+.nav-link:visited,
+.nav-link:hover {
+    text-decoration: none;
+    color: black;
+}
+.nav-link:active {
+    text-decoration: none;
+    color: var(--blue);
+}
+/* 1. Box sizing intelligent */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Reset des marges */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. Hauteur de base */
+html, body {
+  height: 100%;
+}
+
+/* 4. Typo plus propre */
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 5. Images et médias */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 6. Inputs et boutons héritent de la typo */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* 7. Évite les débordements de texte */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* 8. Listes sans style (optionnel) */
+ul, ol {
+  list-style: none;
 }

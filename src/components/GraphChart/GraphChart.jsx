@@ -20,11 +20,21 @@ export default function GraphChart({data}) {
               }}
             >
             <CartesianGrid stroke="#f5f5f5" />
-            <XAxis dataKey="name" scale="band"/>
-            {hasAvg && <YAxis type="number" domain={[130, 'auto']}/>}
-            {!hasAvg && <YAxis/>}
+            <XAxis 
+                dataKey="name" 
+                scale="band"
+                tickMargin={22}
+                tick={{ fontSize: 12, fill: "#707070" }} 
+            />
+            {hasAvg && <YAxis type="number" domain={[130, 'auto']} tick={{ fontSize: 10, fill: "#707070" }} tickMargin={9} tickLine={false} />}
+            {!hasAvg && <YAxis tick={{ fontSize: 10, fill: "#707070" }} tickMargin={9} tickLine={false} />}
             <Tooltip />
-            <Legend />
+            <Legend 
+                verticalAlign="bottom"
+                wrapperStyle={{ bottom: -16 , paddingLeft: 40}} 
+                iconType="circle"
+                iconSize={8}
+            />
             {hasDist && <Bar 
                 dataKey="distance" 
                 name="Km"

@@ -5,11 +5,14 @@ import getFirstDayPeriod from '../utils/getFirstDayPeriod';
 import GraphChart from '../components/GraphChart/GraphChart';
 import getCurrentWeek from '../utils/getCurrentWeek';
 import DonutChart  from '../components/DonutChart/DonutChart'
+import { getUser } from '../api/services/userService';
 
-export default function Dashboard() {
+export default  function Dashboard() {
 
+  const {userId, totalDistance, memberDate, userPicture} = getUser()
+  
   //const today = DateTime.now()
-  const today = DateTime.fromISO("2026-03-01")
+  const today = DateTime.fromISO("2026-02-05")
   // Constantes de dates du graphique distances
   const [endDistancePeriod, setEndDistancePeriod] = useState(today)
   const beginDistancePeriod = getFirstDayPeriod(endDistancePeriod, "week")
@@ -17,8 +20,6 @@ export default function Dashboard() {
   // Contantes dates du graphique bpm
   const [endBpmPeriod, setEndBpmPeriod] = useState(today)
   const beginBpmPeriod = getFirstDayPeriod(endBpmPeriod, "day")
-
-  const [bpmIndexDate, setBpmIndexDate] = useState(today)
 
   // Récupération des données depuis les services
   const data = fourWeeksDistances(endDistancePeriod)
@@ -28,11 +29,11 @@ export default function Dashboard() {
   const averageBpm = bpm.averageBpm
   const bpmPerDay = bpm.bpmPerDay
   const {weekStart, weekEnd} = getCurrentWeek(today)
-  const activityIndex = dataCurrentWeek(weekStart, weekEnd)
+  const { weekActivities, weekDistance, weekDuration } = dataCurrentWeek(weekStart, weekEnd)
   const activityTarget = 6
   const dataDonut = [
-    {name: "réalisés", value: activityIndex},
-    {name: "restants", value: activityTarget-activityIndex}
+    {name: "réalisés", value: weekActivities},
+    {name: "restants", value: activityTarget-weekActivities}
   ]
 
   /* handlers */
@@ -54,8 +55,24 @@ export default function Dashboard() {
   }
   return (
     <>
+      <section className="runner">
+        <article className="identity">
+          <img className="pictureId" src={userPicture} alt=""></img>
+          <div className="dataId">
+            <h1>{userId}</h1>
+            <p className="caption">Membre depuis le {memberDate.setLocale('fr').toFormat('d LLLL yyyy')}</p>
+          </div>
+        </article>
+        <article className="totalDistance">
+          <p className="caption">Distance totale parcourue</p>
+          <div className="badge">
+            <img className="flag" src="flag.png" alt=""></img>
+            <p className="totalDistanceNumber">{totalDistance} km</p>
+          </div>
+        </article>
+      </section>
       <section className='lastPerfo'>
-        <h2>Vos dernières performances</h2>
+        <h2 className="sectionTitle">Vos dernières performances</h2>
         <div className="graphs">
           <article className="graphBarDistance">
             <div className="data">
@@ -96,18 +113,24 @@ export default function Dashboard() {
         </div>
       </section>
       <section className='thisWeek'>
-        <h2>Cette semaine</h2>
-        <p>Du {weekStart.setLocale('fr').toFormat('d LLLL')} au {weekEnd.setLocale('fr').toFormat('d LLLL')}</p>
+        <h2 className="sectionTitle">Cette semaine</h2>
+        <p className="sectionSubTitle">Du {weekStart.setLocale('fr').toFormat('d LLLL')} au {weekEnd.setLocale('fr').toFormat('d LLLL')}</p>
         <div className="donutAndData">
-          <DonutChart className="donut" data={dataDonut}/>
+          <article className="donut">
+            <div className="donutHeader">
+              <p className="realised"><span className="target">x{weekActivities}</span> sur objectif de {activityTarget}</p>
+              <p className="caption">Courses hebdomadaires réalisées</p>
+            </div>
+            <DonutChart data={dataDonut}/>
+          </article>
           <div className="data">
             <article className="duration">
               <p className="label">Durée d'activité</p>
-              <p className="result"><span className="number">140</span> minutes</p>
+              <p className="result"><span className="number">{weekDuration}</span> minutes</p>
             </article>
             <article className="distance">
               <p className="label">Distance</p>
-              <p className="result"><span className="number">21.7</span> kilomètres</p>
+              <p className="result"><span className="number">{Math.round(weekDistance*10)/10}</span> kilomètres</p>
             </article>
 
           </div>

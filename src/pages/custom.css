@@ -12,7 +12,9 @@ body {
 
 .layout-content {
     max-width: 1140px;
-    margin: auto;
+    margin: 108px auto 80px auto;
+
+
 }
 
 /* HOMEPAGE ******************************************************/
@@ -128,6 +130,90 @@ body {
 
 /* ACTIVITIES ******************************************************/
 
+.runner {
+    background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255, 0));
+    height: 180px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 52px;
+    margin: 0 0 108px 0;
+}
+.sectionTitle {
+    color: var(--darkgrey);
+    font-weight: 500;
+    font-size: 1.375em;
+}
+.identity {
+    display: flex;
+    justify-content: center;
+    gap: 38px;
+}
+
+.pictureId {
+    width: 104px;
+    height: 117px;
+    border-radius: 10px;
+    object-fit:cover;
+}
+
+.dataId {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dataId h1, .dataId p {
+    margin: 0;
+}
+
+.dataId h1 {
+    font-weight: 500;
+    font-size: 1.375em;
+    color: var(--darkgrey);
+}
+
+.dataId p {
+    font-weight: 400;
+    font-size: .875em;
+    color: var(--grey);
+}
+
+.totalDistance {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+.totalDistance .caption {
+    font-weight: 400;
+    color: var(--grey);
+    font-size: .875em;
+}
+.badge {
+    background: var(--blue);
+    width: 183px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    gap: 19px;
+    align-items: center;
+    color: white;
+    border-radius: 10px;
+}
+
+.badge .totalDistanceNumber {
+    font-weight: 500;
+    font-size: 1.375em;
+}
+
+.flag {
+    width: 34px;
+    height: 34px;
+}
+
 .data {
     display: flex;
     align-items: center;
@@ -139,6 +225,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
+    flex-shrink: 0;
 }
 
 .selectDate .arrow {
@@ -162,11 +250,13 @@ body {
 .graphs {
     display: flex;
     justify-content: space-between;
+    margin-top: 32px;
 }
 .graphBarDistance, .graphBarBpm {
     background: white;
     border-radius: 10px;
     padding: 18px 40px;
+    height: 483px;
 }
 
 .graphBarDistance {
@@ -178,8 +268,10 @@ body {
     font-weight: 500;
     font-size: 1.4em;
     white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    flex: 1;
 }
 
 .graphBarBpm .average {
@@ -208,9 +300,50 @@ body {
     height: 307px;
 }
 
+.sectionSubTitle {
+    color: var(--grey);
+    font-weight: 500;
+}
+
 .donutAndData { 
     display: flex;
     justify-content: space-between;
+    margin-top: 32px;
+}
+
+.donut {
+    width: 450px;
+    height: 342px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 32px;
+}
+
+.donut .donutHeader {
+    width: 374px;
+    height: 97px;
+}
+
+.donut .donutHeader .realised {
+    color: var(--lightblue);
+}
+.donut .donutHeader .target {
+    color: var(--blue);
+    font-size: 1.75em;
+    font-weight: 600;
+}
+.donut .donutHeader .caption {
+    font-size: .875em;
+    color: var(--grey);
+    margin: 0;
+}
+
+.caption {
+    color: var(--grey);
+    font-size: .75em;
+    margin-bottom: 32px;
 }
 
 .donutAndData .data {
@@ -226,13 +359,17 @@ body {
     height: 103px;
     border-radius: 10px;
     background: white;
-    padding: 20px 30px;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .donutAndData .data .label {
     font-weight: 400;
     font-size: .875em;
     color: #707070;
+    margin: 0;
 }
 
 .donutAndData .data .duration {
@@ -243,10 +380,29 @@ body {
     color: var(--orange);
 }
 
-.donutAndData .data .duration span
-.donutAndData .data .distance span
+.donutAndData .data .duration .result
+.donutAndData .data .distance .result
+{
+    margin:0;
+}
+
+.donutAndData .data .duration .result {
+    color: var(--lightblue)
+}
+.donutAndData .data .duration span {
+    color: var(--blue);
+}
+.donutAndData .data .distance .result {
+    color: var(--lightorange)
+}
+.donutAndData .data .distance span {
+    color: var(--orange);
+}
+.donutAndData .data .span
+.donutAndData .data .span
 {
     font-size: 1.375em;
     font-weight: 500;
+    margin: 0;
 }
 

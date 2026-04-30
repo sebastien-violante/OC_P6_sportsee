@@ -54,14 +54,18 @@ export function lastWeekBpm(bpmIndexDate) {
 export function dataCurrentWeek(start, end) {
     const startMs = start.toMillis();
     const endMs = end.toMillis();
-    let activityIndex = 0
+    let weekActivities = 0
+    let weekDistance = 0
+    let weekDuration = 0
     activitiesMock.forEach(activity => {
         const activityMs = DateTime.fromISO(activity.date).toMillis();
         
         if (activityMs >= startMs && activityMs <= endMs) {
-            activityIndex++
+            console.log(activity)
+            weekActivities++
+            weekDistance+=activity.distance
+            weekDuration+=activity.duration
         }
     })
-
-    return activityIndex
+    return {weekActivities, weekDistance, weekDuration}
 }
