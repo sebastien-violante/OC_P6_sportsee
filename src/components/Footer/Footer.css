@@ -25,3 +25,19 @@ ul {
     height: 20px;
     margin-left: 32px;
 }
+
+.mock {
+    padding: 2px 5px;
+    border-radius: 5px;
+    border: none;
+    background: var(--blue);
+    color: white;
+}
+
+.api {
+    padding: 2px 5px;
+    border-radius: 5px;
+    border: none;
+    background: var(--orange);
+    color: white;
+}

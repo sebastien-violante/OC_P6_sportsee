@@ -6,25 +6,41 @@ import GraphChart from '../components/GraphChart/GraphChart';
 import getCurrentWeek from '../utils/getCurrentWeek';
 import DonutChart  from '../components/DonutChart/DonutChart'
 import { getUser } from '../api/services/userService';
+import { useContext } from 'react'
+import { DataContext } from '../providers/ContextData';
 
 export default  function Dashboard() {
 
+
+  //////////////////////////////
+  const {
+    fourWeeksData,
+    toggleUseMock,
+    useMock,
+    decalateDistanceGraph,
+    decalateBpmGraph,
+    endDistancePeriod,
+    beginDistancePeriod,
+    endBpmPeriod,
+    beginBpmPeriod
+  } = useContext(DataContext)
+
+  console.log(fourWeeksData)
+  //const activities = fourWeeksData.distances
+
+  /////////////////////////////////
+
+  const today = DateTime.fromISO("2026-02-05")
+
+
   const {userId, totalDistance, memberDate, userPicture} = getUser()
   
-  //const today = DateTime.now()
-  const today = DateTime.fromISO("2026-02-05")
-  // Constantes de dates du graphique distances
-  const [endDistancePeriod, setEndDistancePeriod] = useState(today)
-  const beginDistancePeriod = getFirstDayPeriod(endDistancePeriod, "week")
   
-  // Contantes dates du graphique bpm
-  const [endBpmPeriod, setEndBpmPeriod] = useState(today)
-  const beginBpmPeriod = getFirstDayPeriod(endBpmPeriod, "day")
 
   // Récupération des données depuis les services
   const data = fourWeeksDistances(endDistancePeriod)
   const averageDistance = data.distAverage
-  const activities = data.distances
+  //const activities = data.distances
   const bpm = lastWeekBpm(endBpmPeriod)
   const averageBpm = bpm.averageBpm
   const bpmPerDay = bpm.bpmPerDay
@@ -36,23 +52,7 @@ export default  function Dashboard() {
     {name: "restants", value: activityTarget-weekActivities}
   ]
 
-  /* handlers */
-  function changePeriod(slot, type) {
-    if(type === "previous") {
-      if(slot === "week") {
-        setEndDistancePeriod(endDistancePeriod.minus({ weeks: 1 }))
-      } else {
-        setEndBpmPeriod(endBpmPeriod.minus({ days: 1 }))
-      }
-    } else {
-      if(slot === "week") {
-        setEndDistancePeriod(endDistancePeriod.plus({ weeks: 1 }))
-      } else {
-        setEndBpmPeriod(endBpmPeriod.plus({ days: 1 }))
-      }
-    }
-    
-  }
+  
   return (
     <>
       <section className="runner">
@@ -78,29 +78,29 @@ export default  function Dashboard() {
             <div className="data">
               <p className="average">{averageDistance}km en moyenne</p>
                 <div className="selectDate">
-                  <button onClick={() => changePeriod('week','previous')}>
+                  <button onClick={() => decalateDistanceGraph('week', 'previous')}>
                     <img src="leftArrow.png" alt="période précédente" className="arrow" ></img>
                   </button>
                   <p>{beginDistancePeriod.setLocale('fr').toFormat('d LLLL')} - {endDistancePeriod.setLocale('fr').toFormat('d LLLL')}</p>
-                  <button onClick={() => changePeriod('week')}>
+                  <button onClick={() => decalateDistanceGraph('week')}>
                     <img src="rightArrow.png" alt="période suivante" className="arrow" ></img>
                   </button>
                 </div>
             </div>
             <p className="caption">Total des kilomètres 4 dernières semaines</p>
             <div className="distanceGraphWrapper"> 
-              <GraphChart data={activities} />
+              <GraphChart data={fourWeeksData.distances} />
             </div>
           </article>
           <article className="graphBarBpm">
             <div className="data">
               <p className="average">{averageBpm} BPM</p>
                 <div className="selectDate">
-                  <button onClick={() => changePeriod('day','previous')}>
+                  <button onClick={() => decalateBpmGraph('day', 'previous')}>
                     <img src="leftArrow.png" alt="période précédente" className="arrow" ></img>
                   </button>
                   <p>{beginBpmPeriod.setLocale('fr').toFormat('d LLLL')} - {endBpmPeriod.setLocale('fr').toFormat('d LLLL')}</p>
-                  <button onClick={() => changePeriod('day')}>
+                  <button onClick={() => decalateBpmGraph('day')}>
                     <img src="rightArrow.png" alt="période suivante" className="arrow" ></img>
                   </button>
                 </div>

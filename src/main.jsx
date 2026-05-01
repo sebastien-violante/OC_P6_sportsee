@@ -7,19 +7,22 @@ import Error from './pages/Error.jsx';
 import Layout from './pages/Layout.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Profil from './pages/Profil.jsx';
+import { DataProvider } from './providers/ContextData.jsx';
 import "@fontsource/inter"; 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Router>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route element={<Layout />}>
-            <Route path="/dashboard" index element={<Dashboard />} />
-            <Route path="/profil" element={<Profil />} />
-            <Route path="*" element={<Error />} />
-          </Route>
-        </Routes>
+        <DataProvider>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route element={<Layout />}>
+              <Route path="/dashboard" index element={<Dashboard />} />
+              <Route path="/profil" element={<Profil />} />
+              <Route path="*" element={<Error />} />
+            </Route>
+          </Routes>
+        </DataProvider>
     </Router>
   </StrictMode>,
 )

@@ -61,7 +61,6 @@ export function dataCurrentWeek(start, end) {
         const activityMs = DateTime.fromISO(activity.date).toMillis();
         
         if (activityMs >= startMs && activityMs <= endMs) {
-            console.log(activity)
             weekActivities++
             weekDistance+=activity.distance
             weekDuration+=activity.duration
