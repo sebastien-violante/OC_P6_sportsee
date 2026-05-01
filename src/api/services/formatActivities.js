@@ -24,8 +24,33 @@ export function formatDistanceFourWeeks(distIndexDate, activities) {
     
 }
 
-export function formatBpmOneWeek() {
-
+export function formatBpmOneWeek(bpmIndexDate, activities) {
+    let totalBpm = 0
+    let records = 0
+    const bpmPerDay = Array(7).fill(null).map(() => ({
+        min: null,
+        max: null,
+        avg: null
+    }));
+    
+    activities.forEach(activity => {
+        const index = getBpmPosition(activity.date, bpmIndexDate);
+        if (index === null) return;
+        totalBpm+=activity.heartRate.average
+        records++
+        bpmPerDay[index] = {
+            min: activity.heartRate.min === 0 ? null : activity.heartRate.min,
+            max: activity.heartRate.max === 0 ? null : activity.heartRate.max,
+            avg: activity.heartRate.average === 0 ? null : activity.heartRate.average
+        };
+    });
+    
+        const days = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+    
+        return {
+            averageBpm : Number((totalBpm/records).toFixed(0)),
+            bpmPerDay : bpmPerDay.map((val, i) => ({ name: days[i], ...val }))
+        }
 }
 
 export function formatCurrentWeekActivities() {

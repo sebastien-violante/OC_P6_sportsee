@@ -1,9 +1,5 @@
-import { fourWeeksDistances, lastWeekBpm, dataCurrentWeek } from '../api/services/activitiesService';
-import { useState } from 'react';
 import { DateTime } from 'luxon';
-import getFirstDayPeriod from '../utils/getFirstDayPeriod';
 import GraphChart from '../components/GraphChart/GraphChart';
-import getCurrentWeek from '../utils/getCurrentWeek';
 import DonutChart  from '../components/DonutChart/DonutChart'
 import { getUser } from '../api/services/userService';
 import { useContext } from 'react'
@@ -11,46 +7,27 @@ import { DataContext } from '../providers/ContextData';
 
 export default  function Dashboard() {
 
-
-  //////////////////////////////
   const {
     fourWeeksData,
-    toggleUseMock,
-    useMock,
+    lastWeekBpm,
     decalateDistanceGraph,
     decalateBpmGraph,
     endDistancePeriod,
     beginDistancePeriod,
     endBpmPeriod,
-    beginBpmPeriod
+    beginBpmPeriod,
+    weekStart,
+    weekEnd,
+    activityTarget,
+    dataDonut,
+    weekActivities,
+    weekDistance,
+    weekDuration,
+    userId,
+    totalDistance,
+    memberDate,
+    userPicture
   } = useContext(DataContext)
-
-  console.log(fourWeeksData)
-  //const activities = fourWeeksData.distances
-
-  /////////////////////////////////
-
-  const today = DateTime.fromISO("2026-02-05")
-
-
-  const {userId, totalDistance, memberDate, userPicture} = getUser()
-  
-  
-
-  // Récupération des données depuis les services
-  const data = fourWeeksDistances(endDistancePeriod)
-  const averageDistance = data.distAverage
-  //const activities = data.distances
-  const bpm = lastWeekBpm(endBpmPeriod)
-  const averageBpm = bpm.averageBpm
-  const bpmPerDay = bpm.bpmPerDay
-  const {weekStart, weekEnd} = getCurrentWeek(today)
-  const { weekActivities, weekDistance, weekDuration } = dataCurrentWeek(weekStart, weekEnd)
-  const activityTarget = 6
-  const dataDonut = [
-    {name: "réalisés", value: weekActivities},
-    {name: "restants", value: activityTarget-weekActivities}
-  ]
 
   
   return (
@@ -76,7 +53,7 @@ export default  function Dashboard() {
         <div className="graphs">
           <article className="graphBarDistance">
             <div className="data">
-              <p className="average">{averageDistance}km en moyenne</p>
+              <p className="average">{fourWeeksData.distAverage}km en moyenne</p>
                 <div className="selectDate">
                   <button onClick={() => decalateDistanceGraph('week', 'previous')}>
                     <img src="leftArrow.png" alt="période précédente" className="arrow" ></img>
@@ -94,7 +71,7 @@ export default  function Dashboard() {
           </article>
           <article className="graphBarBpm">
             <div className="data">
-              <p className="average">{averageBpm} BPM</p>
+              <p className="average">{lastWeekBpm.averageBpm} BPM</p>
                 <div className="selectDate">
                   <button onClick={() => decalateBpmGraph('day', 'previous')}>
                     <img src="leftArrow.png" alt="période précédente" className="arrow" ></img>
@@ -107,7 +84,7 @@ export default  function Dashboard() {
             </div>
             <p className="caption">Fréquence cardiaque moyenne</p> 
             <div className="bpmGraphWrapper"> 
-              <GraphChart data={bpmPerDay} />
+              <GraphChart data={lastWeekBpm.bpmPerDay} />
             </div>
           </article>
         </div>
@@ -132,7 +109,6 @@ export default  function Dashboard() {
               <p className="label">Distance</p>
               <p className="result"><span className="number">{Math.round(weekDistance*10)/10}</span> kilomètres</p>
             </article>
-
           </div>
         </div>
       </section>
