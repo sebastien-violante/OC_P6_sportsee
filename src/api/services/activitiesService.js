@@ -1,3 +1,4 @@
+/*
 import getActivityPosition from "../../utils/getActivityPosition";
 import getBpmPosition from "../../utils/getBpmPosition";
 import { activitiesMock } from "../mock/activities"
@@ -68,3 +69,4 @@ export function dataCurrentWeek(start, end) {
     })
     return {weekActivities, weekDistance, weekDuration}
 }
+    */

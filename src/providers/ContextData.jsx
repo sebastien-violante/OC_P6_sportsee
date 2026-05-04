@@ -6,35 +6,27 @@ import { DateTime } from 'luxon';
 import getFirstDayPeriod from "../utils/getFirstDayPeriod";
 import changePeriod from "../utils/changePeriod";
 import getCurrentWeek from "../utils/getCurrentWeek";
-import { dataCurrentWeek } from "../api/services/activitiesService";
+import { formatCurrentWeekActivities } from "../api/services/formatActivities";
 import { userMock } from "../api/mock/user";
 import { formatUser } from "../api/services/formatUser";
-//import { AuthContext } from "./AuthContext"
+import fetchUser from "../api/fetchFromBack/fetchUser";
+import fetchActivities from "../api/fetchFromBack/fetchActivities";
 
 export const DataContext = createContext()
 
 export const DataProvider = ({ children }) => {
 
-    //////////// debug
-
-    console.log(userMock)
-
-    /////////////
-
-
     // Récupération du token
     //const { token } = useContext(AuthContext)
     
     // Variables permettant de passer du mode mock au mode api
-    const [useMock, setUseMock] = useState(true)
+    const [useMock, setUseMock] = useState(false)
     const [loading, setLoading] = useState(true)
 
     // varaibles de paquets de données
     const [activities, setActivities] = useState(null)
     const [user, setUser] = useState(null)
-    const formattedUser = useMemo(() => {
-        return formatUser
-    },[user])
+  
     // Initialisation de la date du jour pour base de départ des données
     const today = DateTime.fromISO("2026-02-05")
 
@@ -56,14 +48,16 @@ export const DataProvider = ({ children }) => {
                 setUser(userMock)
             } else {
                 try {
-                    const activitiesData = await fetch("/api/activities")
-                    const userData = await fetch("/api/user")
-
-                    const activitiesJson = await activitiesData.json()
-                    const userJson = await userData.json()
-
-                    setActivities(activitiesJson)
-                    setUser(userJson)
+                    // récupération token
+                    const token = sessionStorage.getItem("token")
+                    // fetch des données user et placement en context
+                    const userData = await fetchUser(token)
+                    setUser(userData)
+                    // récupération de la date membre comme startDate et définition de la endDate pour borner le fetch des activités
+                    const startDate = userData.profile.createdAt
+                    const endDate = new Date().toISOString().split('T')[0];
+                    const activitiesData = await fetchActivities(token, startDate, endDate)
+                    setActivities(activitiesData)
                 } catch (error) {
                     console.error("Erreur API :", error)
                 }
@@ -86,7 +80,7 @@ export const DataProvider = ({ children }) => {
     )
 
     // Données du graphique de la semaine
-    const weekData = activities ? dataCurrentWeek(weekStart, weekEnd) : {
+    const weekData = activities ? formatCurrentWeekActivities(weekStart, weekEnd, activities) : {
         weekActivities: 0,
         weekDistance: 0,
         weekDuration: 0
@@ -99,7 +93,8 @@ export const DataProvider = ({ children }) => {
     ]
 
     // Données utilisateur
-    const {userId, totalDistance, memberDate, userPicture} = formattedUser(user) ?? {}
+    const formattedUser = user ? formatUser(user, useMock) : null
+    const {userId, totalDistance, memberDate, userPicture} = formattedUser ?? {}
        
     
 
@@ -117,7 +112,7 @@ export const DataProvider = ({ children }) => {
         setEndBpmPeriod(newEndDate)
     }
 
-    console.log(fourWeeksData)
+    
     return (
         <DataContext.Provider value={{
             fourWeeksData,
@@ -140,7 +135,7 @@ export const DataProvider = ({ children }) => {
             userId: userId ?? "",
             totalDistance: totalDistance ?? 0,
             memberDate: memberDate ?? DateTime.now(),
-            userPicture : userPicture ?? ""
+            userPicture
         }}>
             {children}
         </DataContext.Provider>
