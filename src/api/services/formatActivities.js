@@ -72,6 +72,20 @@ export function formatBpmOneWeek(bpmIndexDate, activities) {
         }
 }
 
-export function formatCurrentWeekActivities() {
-
+export function formatCurrentWeekActivities(start, end, activities) {
+    const startMs = start.toMillis();
+    const endMs = end.toMillis();
+    let weekActivities = 0
+    let weekDistance = 0
+    let weekDuration = 0
+    activities.forEach(activity => {
+        const activityMs = DateTime.fromISO(activity.date).toMillis();
+            
+        if (activityMs >= startMs && activityMs <= endMs) {
+            weekActivities++
+            weekDistance+=activity.distance
+            weekDuration+=activity.duration
+        }
+    })
+    return {weekActivities, weekDistance, weekDuration}
 }

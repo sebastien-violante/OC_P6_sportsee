@@ -29,7 +29,7 @@ export default  function Dashboard() {
     userPicture
   } = useContext(DataContext)
 
-  
+  console.log(userId)
   return (
     <>
       <section className="runner">
