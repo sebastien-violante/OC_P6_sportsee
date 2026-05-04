@@ -1,9 +1,15 @@
 import getActivityPosition from "../../utils/getActivityPosition";
 import getBpmPosition from "../../utils/getBpmPosition";
-import { activitiesMock } from "../mock/activities"
 import { DateTime } from 'luxon';
 
 export function formatDistanceFourWeeks(distIndexDate, activities) {
+
+    if (!activities || !Array.isArray(activities)) {
+        return {
+            distAverage: 0,
+            distances: Array(4).fill(null).map((_, i) => ({ name: `S${i + 1}`, distance: null }))
+        }
+    }
 
     const distPerWeek = Array(4).fill(0);
     let distTotal = 0
@@ -25,6 +31,19 @@ export function formatDistanceFourWeeks(distIndexDate, activities) {
 }
 
 export function formatBpmOneWeek(bpmIndexDate, activities) {
+    
+    if (!activities || !Array.isArray(activities)) {
+        return {
+        averageBpm: 0,
+        bpmPerDay: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].map(name => ({
+            name,
+            min: null,
+            max: null,
+            avg: null
+        }))
+        }
+    }
+    
     let totalBpm = 0
     let records = 0
     const bpmPerDay = Array(7).fill(null).map(() => ({

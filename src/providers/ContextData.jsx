@@ -9,23 +9,32 @@ import getCurrentWeek from "../utils/getCurrentWeek";
 import { dataCurrentWeek } from "../api/services/activitiesService";
 import { userMock } from "../api/mock/user";
 import { formatUser } from "../api/services/formatUser";
-import { AuthContext } from "./AuthContext"
+//import { AuthContext } from "./AuthContext"
 
 export const DataContext = createContext()
 
 export const DataProvider = ({ children }) => {
 
+    //////////// debug
+
+    console.log(userMock)
+
+    /////////////
+
+
     // Récupération du token
-    const { token } = useContext(AuthContext)
+    //const { token } = useContext(AuthContext)
     
     // Variables permettant de passer du mode mock au mode api
     const [useMock, setUseMock] = useState(true)
     const [loading, setLoading] = useState(true)
 
     // varaibles de paquets de données
-    const [activities, setActivities] = useState([])
-    const [user, setUser] = useState([])
-    
+    const [activities, setActivities] = useState(null)
+    const [user, setUser] = useState(null)
+    const formattedUser = useMemo(() => {
+        return formatUser
+    },[user])
     // Initialisation de la date du jour pour base de départ des données
     const today = DateTime.fromISO("2026-02-05")
 
@@ -67,27 +76,31 @@ export const DataProvider = ({ children }) => {
 
     // Données du graphique de distances
     const fourWeeksData = useMemo(() => {
-        if (!activities) return null
         return formatDistanceFourWeeks(endDistancePeriod, activities)
     }, [activities, endDistancePeriod])
 
     // Données du graphique des bpm
     const lastWeekBpm = useMemo(() => {
-        if(!activities) return null
         return formatBpmOneWeek(endBpmPeriod, activities)
     }, [activities, endBpmPeriod]
     )
 
     // Données du graphique de la semaine
-    const { weekActivities, weekDistance, weekDuration } = dataCurrentWeek(weekStart, weekEnd)
+    const weekData = activities ? dataCurrentWeek(weekStart, weekEnd) : {
+        weekActivities: 0,
+        weekDistance: 0,
+        weekDuration: 0
+    }
+
     const activityTarget = 6
     const dataDonut = [
-        {name: "réalisés", value: weekActivities},
-        {name: "restants", value: activityTarget-weekActivities}
+        {name: "réalisés", value: weekData.weekActivities},
+        {name: "restants", value: activityTarget-weekData.weekActivities}
     ]
 
     // Données utilisateur
-    const {userId, totalDistance, memberDate, userPicture} = formatUser(user)
+    const {userId, totalDistance, memberDate, userPicture} = formattedUser(user) ?? {}
+       
     
 
     function toggleUseMock() {
@@ -103,9 +116,6 @@ export const DataProvider = ({ children }) => {
         const newEndDate = changePeriod(slot, type, endBpmPeriod)
         setEndBpmPeriod(newEndDate)
     }
-
-    
-
 
     console.log(fourWeeksData)
     return (
@@ -124,13 +134,13 @@ export const DataProvider = ({ children }) => {
             weekEnd,
             activityTarget,
             dataDonut,
-            weekActivities,
-            weekDistance,
-            weekDuration,
-            userId,
-            totalDistance,
-            memberDate,
-            userPicture
+            weekActivities: weekData.weekActivities,
+            weekDistance : weekData.weekDistance,
+            weekDuration: weekData.weekDuration,
+            userId: userId ?? "",
+            totalDistance: totalDistance ?? 0,
+            memberDate: memberDate ?? DateTime.now(),
+            userPicture : userPicture ?? ""
         }}>
             {children}
         </DataContext.Provider>
