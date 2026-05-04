@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon';
 import GraphChart from '../components/GraphChart/GraphChart';
 import DonutChart  from '../components/DonutChart/DonutChart'
-import { getUser } from '../api/services/userService';
 import { useContext } from 'react'
 import { DataContext } from '../providers/ContextData';
 
@@ -29,15 +28,14 @@ export default  function Dashboard() {
     userPicture
   } = useContext(DataContext)
 
-  console.log(userId)
   return (
     <>
       <section className="runner">
         <article className="identity">
-          <img className="pictureId" src={userPicture} alt=""></img>
+          <img className="pictureId" src={userPicture} alt="image de profil"></img>
           <div className="dataId">
             <h1>{userId}</h1>
-            <p className="caption">Membre depuis le {memberDate.setLocale('fr').toFormat('d LLLL yyyy')}</p>
+            <p className="caption">{memberDate ? `Membre depuis le ${memberDate.setLocale('fr').toFormat('d LLLL yyyy')}` : "" }</p>
           </div>
         </article>
         <article className="totalDistance">

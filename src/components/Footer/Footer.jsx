@@ -9,7 +9,7 @@ export default function Footer() {
     return (
         <footer>
             <article>@Sportsee  Tous droits réservés</article>
-            <button className={useMock ? "mock" : "api"} onClick={toggleUseMock}>{useMock ? "Mock" : "Api"}</button>
+            <button className={useMock ? "mock" : "api"} onClick={toggleUseMock}>{useMock ? "mode : Mock" : "mode : Api"}</button>
             <section className="bottom-links">
                 <ul>
                     <li>Conditions générales</li>

@@ -42,7 +42,10 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         async function fetchData() {
             setLoading(true)
-
+            // vidage de user et activities pour éviter de garfder en mémoire les données de l'autre mode
+            setActivities(null)
+            setUser(null)
+            
             if (useMock) {
                 setActivities(activitiesMock)
                 setUser(userMock)
@@ -93,7 +96,7 @@ export const DataProvider = ({ children }) => {
     ]
 
     // Données utilisateur
-    const formattedUser = user ? formatUser(user, useMock) : null
+    const formattedUser = user ? formatUser(user, useMock) : {userId: "", memberDate: null, totalDistance: 0, userPicture: "defaultUser.jpg"}
     const {userId, totalDistance, memberDate, userPicture} = formattedUser ?? {}
        
     
@@ -132,9 +135,9 @@ export const DataProvider = ({ children }) => {
             weekActivities: weekData.weekActivities,
             weekDistance : weekData.weekDistance,
             weekDuration: weekData.weekDuration,
-            userId: userId ?? "",
-            totalDistance: totalDistance ?? 0,
-            memberDate: memberDate ?? DateTime.now(),
+            userId,
+            totalDistance,
+            memberDate: memberDate ?? null,
             userPicture
         }}>
             {children}
