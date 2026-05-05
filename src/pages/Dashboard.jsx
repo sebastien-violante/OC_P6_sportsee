@@ -3,6 +3,7 @@ import GraphChart from '../components/GraphChart/GraphChart';
 import DonutChart  from '../components/DonutChart/DonutChart'
 import { useContext } from 'react'
 import { DataContext } from '../providers/ContextData';
+import ProfileBadge from '../components/ProfileBadge/ProfileBadge';
 
 export default  function Dashboard() {
 
@@ -31,13 +32,7 @@ export default  function Dashboard() {
   return (
     <>
       <section className="runner">
-        <article className="identity">
-          <img className="pictureId" src={userPicture} alt="image de profil"></img>
-          <div className="dataId">
-            <h1>{userId}</h1>
-            <p className="caption">{memberDate ? `Membre depuis le ${memberDate.setLocale('fr').toFormat('d LLLL yyyy')}` : "" }</p>
-          </div>
-        </article>
+        <ProfileBadge picture={userPicture} id={userId} date={memberDate}/>
         <article className="totalDistance">
           <p className="caption">Distance totale parcourue</p>
           <div className="badge">

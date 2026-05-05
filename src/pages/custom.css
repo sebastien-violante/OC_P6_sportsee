@@ -145,40 +145,7 @@ body {
     font-weight: 500;
     font-size: 1.375em;
 }
-.identity {
-    display: flex;
-    justify-content: center;
-    gap: 38px;
-}
 
-.pictureId {
-    width: 104px;
-    height: 117px;
-    border-radius: 10px;
-    object-fit:cover;
-}
-
-.dataId {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.dataId h1, .dataId p {
-    margin: 0;
-}
-
-.dataId h1 {
-    font-weight: 500;
-    font-size: 1.375em;
-    color: var(--darkgrey);
-}
-
-.dataId p {
-    font-weight: 400;
-    font-size: .875em;
-    color: var(--grey);
-}
 
 .totalDistance {
     display: flex;
@@ -407,3 +374,69 @@ body {
     margin: 0;
 }
 
+/*///////////// PROFILE ////////////////////////*/
+.mainProfile {
+    display: flex;
+    gap: 57px;
+    height: 778px;
+    margin-bottom: 80px;
+}
+
+.mainProfile .biodata {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mainProfile .identity {
+    width: 508px;
+    height: 165px;
+    padding-left: 32px;
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 10px;
+}
+
+.mainProfile .biodata .data{
+    width: 508px;
+    height: 331px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 40px 24px 0 28px;
+}
+
+.mainProfile .subTitle {
+    width: 100%;
+    font-weight: 500;
+    font-size: 1.375em;
+    color: var(--darkgrey);
+}
+
+.mainProfile .data .subTitle {
+    padding-bottom: 24px;
+    border-bottom: 1px solid #E7E7E7;
+}
+
+.mainProfile .items {
+    padding-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.mainProfile .items .item {
+    color: var(--grey);
+    font-weight: 500;
+}
+
+.mainProfile .statistics .badges {
+    display: flex;
+    gap: 19px;
+    width: 575px;
+    flex-wrap: wrap;
+}

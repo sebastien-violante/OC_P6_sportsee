@@ -1,0 +1,32 @@
+.dataBadge {
+    width: 278px;
+    height: 103px;
+    border-radius: 10px;
+    background: var(--blue);
+    display: flex;
+    flex-direction: column;
+    color: white;
+    align-items: flex-start;
+    justify-content: center;
+    gap:20px;
+    padding-left: 30px;
+}
+
+.dataBadge .title {
+    font-weight: 400;
+    font-size: .875em;
+}
+
+.dataBadge .result {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+.dataBadge .data {
+    font-weight: 500;
+    font-size: 1.375em;
+}
+
+.dataBadge .unit{
+    color: var(--lightblue);
+}

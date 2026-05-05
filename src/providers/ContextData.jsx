@@ -53,19 +53,20 @@ export const DataProvider = ({ children }) => {
                 try {
                     // récupération token
                     const token = sessionStorage.getItem("token")
-                    // fetch des données user et placement en context
-                    const userData = await fetchUser(token)
-                    setUser(userData)
-                    // récupération de la date membre comme startDate et définition de la endDate pour borner le fetch des activités
-                    const startDate = userData.profile.createdAt
-                    const endDate = new Date().toISOString().split('T')[0];
-                    const activitiesData = await fetchActivities(token, startDate, endDate)
-                    setActivities(activitiesData)
+                    if(token) {
+                        // fetch des données user et placement en context
+                        const userData = await fetchUser(token)
+                        setUser(userData)
+                        // récupération de la date membre comme startDate et définition de la endDate pour borner le fetch des activités
+                        const startDate = userData.profile.createdAt
+                        const endDate = new Date().toISOString().split('T')[0];
+                        const activitiesData = await fetchActivities(token, startDate, endDate)
+                        setActivities(activitiesData)
+                    }
                 } catch (error) {
                     console.error("Erreur API :", error)
                 }
             }   
-
             setLoading(false)
         }
         fetchData()
@@ -96,8 +97,17 @@ export const DataProvider = ({ children }) => {
     ]
 
     // Données utilisateur
-    const formattedUser = user ? formatUser(user, useMock) : {userId: "", memberDate: null, totalDistance: 0, userPicture: "defaultUser.jpg"}
-    const {userId, totalDistance, memberDate, userPicture} = formattedUser ?? {}
+    const formattedUser = user ? formatUser(user, useMock) : {
+        userId: "", 
+        memberDate: null, 
+        totalDistance: 0, 
+        userPicture: "defaultUser.jpg", 
+        age: "", 
+        weight:"",
+        totalDurationHrs: "0h",
+        totalDurationMin:'0min'
+    }
+    const {userId, totalDistance, memberDate, userPicture, age, weight, height, totalDurationHrs, totalDurationMin, totalSessions} = formattedUser ?? {}
        
     
 
@@ -138,7 +148,13 @@ export const DataProvider = ({ children }) => {
             userId,
             totalDistance,
             memberDate: memberDate ?? null,
-            userPicture
+            userPicture,
+            age,
+            weight,
+            height,
+            totalDurationHrs,
+            totalDurationMin,
+            totalSessions
         }}>
             {children}
         </DataContext.Provider>

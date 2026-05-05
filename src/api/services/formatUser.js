@@ -6,6 +6,17 @@ export function formatUser(user, useMock) {
   const memberDate = DateTime.fromISO(user.profile.createdAt)
   const userPicture = useMock ? user.profile.profilePicture.split('/').pop() : user.profile.profilePicture
   const totalDistance = Math.floor(Number(user.statistics.totalDistance))
-
-  return { userId, memberDate, totalDistance, userPicture }
+  const age = user.profile.age
+  const weight = user.profile.weight
+  // Formatage de la hauteur en prenant en compte les hauteurs de moins d'un mètre
+  let tempHeight = user.profile.height.toString()
+  if(tempHeight.length === 2) tempHeight = '0'+tempHeight
+  const height = tempHeight[0]+'m'+tempHeight.substring(1,3)
+  // formatage du temps total d'activité
+  const totalDurationHrs = Math.floor(user.statistics.totalDuration/60).toString()+'h'
+  const totalDurationMin = (user.statistics.totalDuration%60).toString()+'min'
+  const totalSessions = user.statistics.totalSessions
+  console.log(totalDurationHrs)
+  console.log(totalDurationMin)
+  return { userId, memberDate, totalDistance, userPicture, age, weight, height, totalDurationHrs, totalDurationMin, totalSessions }
 }
