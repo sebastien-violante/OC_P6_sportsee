@@ -1,53 +1,78 @@
 import { createContext } from "react"
 import { useState, useMemo, useEffect, useContext } from "react"
-import { activitiesMock } from "../api/mock/activities"
-import { formatBpmOneWeek, formatDistanceFourWeeks } from "../api/services/formatActivities"
-import { DateTime } from 'luxon';
-import getFirstDayPeriod from "../utils/getFirstDayPeriod";
-import changePeriod from "../utils/changePeriod";
-import getCurrentWeek from "../utils/getCurrentWeek";
-import { formatCurrentWeekActivities } from "../api/services/formatActivities";
-import { userMock } from "../api/mock/user";
+//import { activitiesMock } from "../api/mock/activities"
+//import { formatBpmOneWeek, formatDistanceFourWeeks } from "../api/services/formatActivities"
+//import { DateTime } from 'luxon';
+//import getFirstDayPeriod from "../utils/getFirstDayPeriod";
+//import changePeriod from "../utils/changePeriod";
+//import getCurrentWeek from "../utils/getCurrentWeek";
+//import { formatCurrentWeekActivities } from "../api/services/formatActivities";
+//import { userMock } from "../api/mock/user";
 import { formatUser } from "../api/services/formatUser";
 import fetchUser from "../api/fetchFromBack/fetchUser";
-import fetchActivities from "../api/fetchFromBack/fetchActivities";
-import { calculateBurntCalories } from "../api/services/formatActivities";
+//import fetchActivities from "../api/fetchFromBack/fetchActivities";
+//import { calculateBurntCalories } from "../api/services/formatActivities";
 
 export const DataContext = createContext()
 
 export const DataProvider = ({ children }) => {
 
-    // Récupération du token
-    //const { token } = useContext(AuthContext)
-    
     // Variables permettant de passer du mode mock au mode api
     const [useMock, setUseMock] = useState(false)
     const [loading, setLoading] = useState(true)
 
-    // varaibles de paquets de données
-    const [activities, setActivities] = useState(null)
+    // Variables de paquets de données
+    //const [activities, setActivities] = useState(null)
     const [user, setUser] = useState(null)
   
     // Initialisation de la date du jour pour base de départ des données
-    const today = DateTime.fromISO("2026-02-05")
+    //const today = DateTime.now()
 
-    // Début et fin de période du graphique des distances et bpm
-    const [endDistancePeriod, setEndDistancePeriod] = useState(today)
-    const beginDistancePeriod = getFirstDayPeriod(endDistancePeriod, "week")
-    const [endBpmPeriod, setEndBpmPeriod] = useState(today)
-    const beginBpmPeriod = getFirstDayPeriod(endBpmPeriod, "day")
-    const {weekStart, weekEnd} = getCurrentWeek(today)
+    // Début et fin de période du graphique des distances et bpm, calculées par défaut à partir de la date du jour
+    //const [endDistancePeriod, setEndDistancePeriod] = useState(today)
+    //const beginDistancePeriod = getFirstDayPeriod(endDistancePeriod, "week")
+    //const [endBpmPeriod, setEndBpmPeriod] = useState(today)
+    //const beginBpmPeriod = getFirstDayPeriod(endBpmPeriod, "day")
+    //const {weekStart, weekEnd} = getCurrentWeek(today)
 
     // Aiguillage entre mode mock et mode api
     
     useEffect(() => {
         async function fetchData() {
-            setLoading(true)
+            //setLoading(true)
             // vidage de user et activities pour éviter de garfder en mémoire les données de l'autre mode
-            setActivities(null)
-            setUser(null)
-            
+            let userData = null
             if (useMock) {
+                userData = await fetchUser()
+            } else {
+                const token = sessionStorage.getItem('token')
+                userData = await fetchUser(token)
+            }
+            setUser(userData)
+            //setLoading(false)
+        }
+        fetchData()
+    }, [useMock])
+    // Données utilisateur
+    const formattedUser = user ? formatUser(user, useMock) : {
+        userId: "", 
+        memberDate: null, 
+        totalDistance: 0, 
+        userPicture: "defaultUser.jpg", 
+        age: "", 
+        weight:"",
+        totalDurationHrs: "0h",
+        totalDurationMin:'0min'
+    }
+    const {userId, totalDistance, memberDate, userPicture, age, weight, height, totalDurationHrs, totalDurationMin, totalSessions} = formattedUser ?? {}
+    console.log(userId)
+    function toggleUseMock() {
+        setUseMock(prev => !prev)
+    }
+            /*       setActivities(null)
+           
+            
+            
                 setActivities(activitiesMock)
                 setUser(userMock)
             } else {
@@ -59,8 +84,8 @@ export const DataProvider = ({ children }) => {
                         const userData = await fetchUser(token)
                         setUser(userData)
                         // récupération de la date membre comme startDate et définition de la endDate pour borner le fetch des activités
-                        const startDate = userData.profile.createdAt
-                        const endDate = new Date().toISOString().split('T')[0];
+                        const startDate = beginDistancePeriod
+                        const endDate = today
                         const activitiesData = await fetchActivities(token, startDate, endDate)
                         setActivities(activitiesData)
                     }
@@ -99,26 +124,8 @@ export const DataProvider = ({ children }) => {
 
     // Calories brûlées
     const burntCalories = activities ? calculateBurntCalories(activities) : 0
-    // Données utilisateur
-    const formattedUser = user ? formatUser(user, useMock) : {
-        userId: "", 
-        memberDate: null, 
-        totalDistance: 0, 
-        userPicture: "defaultUser.jpg", 
-        age: "", 
-        weight:"",
-        totalDurationHrs: "0h",
-        totalDurationMin:'0min'
-    }
-    const {userId, totalDistance, memberDate, userPicture, age, weight, height, totalDurationHrs, totalDurationMin, totalSessions} = formattedUser ?? {}
-       
-
-    function toggleUseMock() {
-        setUseMock(prev => !prev)
-    }
-
-    function decalateDistanceGraph(slot, type) {
-        const newEndDate = changePeriod(slot, type, endDistancePeriod)
+    
+    const newEndDate = changePeriod(slot, type, endDistancePeriod)
         setEndDistancePeriod(newEndDate)
     }
 
@@ -127,29 +134,28 @@ export const DataProvider = ({ children }) => {
         setEndBpmPeriod(newEndDate)
     }
 
-    
+    */
     return (
         <DataContext.Provider value={{
-            fourWeeksData,
-            lastWeekBpm,
+           // lastWeekBpm,
             toggleUseMock,
             useMock,
-            decalateDistanceGraph,
-            decalateBpmGraph,
-            endDistancePeriod,
-            beginDistancePeriod,
-            endBpmPeriod,
-            beginBpmPeriod,
-            weekStart,
-            weekEnd,
-            activityTarget,
-            dataDonut,
-            weekActivities: weekData.weekActivities,
-            weekDistance : weekData.weekDistance,
-            weekDuration: weekData.weekDuration,
+            //decalateDistanceGraph,
+            //decalateBpmGraph,
+            //endDistancePeriod,
+            //beginDistancePeriod,
+            //endBpmPeriod,
+            //beginBpmPeriod,
+            //weekStart,
+            //weekEnd,
+            //activityTarget,
+            //dataDonut,
+            //weekActivities: weekData.weekActivities,
+            //weekDistance : weekData.weekDistance,
+            //weekDuration: weekData.weekDuration,
             userId,
             totalDistance,
-            memberDate: memberDate ?? null,
+            memberDate,
             userPicture,
             age,
             weight,
@@ -157,8 +163,14 @@ export const DataProvider = ({ children }) => {
             totalDurationHrs,
             totalDurationMin,
             totalSessions,
-            burntCalories
-        }}>
+            //burntCalories,
+
+
+            //today,
+            setUser
+        }}
+        
+        >
             {children}
         </DataContext.Provider>
     )

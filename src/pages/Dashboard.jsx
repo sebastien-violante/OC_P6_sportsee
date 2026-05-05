@@ -1,19 +1,18 @@
 import { DateTime } from 'luxon';
-import GraphChart from '../components/GraphChart/GraphChart';
+import GraphChart from '../components/GraphChart/GraphChart'
 import DonutChart  from '../components/DonutChart/DonutChart'
-import { useContext } from 'react'
+import { useContext, useState, useMemo } from 'react'
 import { DataContext } from '../providers/ContextData';
 import ProfileBadge from '../components/ProfileBadge/ProfileBadge';
+import getFirstDayPeriod from '../utils/getFirstDayPeriod';
 
 export default  function Dashboard() {
 
   const {
-    fourWeeksData,
     lastWeekBpm,
     decalateDistanceGraph,
     decalateBpmGraph,
-    endDistancePeriod,
-    beginDistancePeriod,
+    
     endBpmPeriod,
     beginBpmPeriod,
     weekStart,
@@ -26,9 +25,23 @@ export default  function Dashboard() {
     userId,
     totalDistance,
     memberDate,
-    userPicture
-  } = useContext(DataContext)
+    userPicture,
 
+
+
+    today
+  } = useContext(DataContext)
+  
+  const [activities, setActivities] = useState(null)
+
+  // Données du graphique de distances
+  const [endDistancePeriod, setEndDistancePeriod] = useState(today)
+  const beginDistancePeriod = getFirstDayPeriod(endDistancePeriod, "week")
+
+  const fourWeeksData = useMemo(() => {
+          return formatDistanceFourWeeks(endDistancePeriod, activities)
+    }, [activities, endDistancePeriod])
+  
   return (
     <>
       <section className="runner">

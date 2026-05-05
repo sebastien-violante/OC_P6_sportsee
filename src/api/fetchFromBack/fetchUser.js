@@ -1,12 +1,19 @@
+import { fetchMockUser } from "../fetchFromMock/fetchMockUser"
+
 export default async function fetchUser(token) {
 
     try {
-        const result = await fetch("http://localhost:8000/api/user-info", { headers: {Authorization: `Bearer ${token}`} })
+        let result = null
+        if(token) {
+            result = await fetch("http://localhost:8000/api/user-info", { headers: {Authorization: `Bearer ${token}`} })
+        } else {
+            result = await fetchMockUser()
+        }
         if(result.status !== 200) {
             throw new Error(`Erreur ${result.status}`)
         }
         const data = await result.json()
-        console.log(data)
+        
         return data
     }
     catch (error) {
