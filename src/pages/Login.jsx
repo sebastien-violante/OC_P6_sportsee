@@ -36,7 +36,7 @@ export default function Home() {
             const token = await login(formData)
             if(token) {
                 sessionStorage.setItem("token", token)
-                navigate('/dashboard')
+                navigate('/newdashboard')
             }
         }
     }

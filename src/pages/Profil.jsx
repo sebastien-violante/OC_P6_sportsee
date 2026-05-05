@@ -31,10 +31,10 @@ export default function Profil() {
         totalSessions,
         totalDurationHrs,
         totalDurationMin,
-        burntCalories
+        burntCalories,
       } = useContext(DataContext)
 
-
+    
     return (
     <main className="mainProfile">
         <section  className="biodata">
