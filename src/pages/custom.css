@@ -388,6 +388,10 @@ body {
     gap: 16px;
 }
 
+.mainProfile .biodata .profilBadge {
+    display: flex;
+}
+
 .mainProfile .identity {
     width: 508px;
     height: 165px;

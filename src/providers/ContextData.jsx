@@ -11,6 +11,7 @@ import { userMock } from "../api/mock/user";
 import { formatUser } from "../api/services/formatUser";
 import fetchUser from "../api/fetchFromBack/fetchUser";
 import fetchActivities from "../api/fetchFromBack/fetchActivities";
+import { calculateBurntCalories } from "../api/services/formatActivities";
 
 export const DataContext = createContext()
 
@@ -96,6 +97,8 @@ export const DataProvider = ({ children }) => {
         {name: "restants", value: activityTarget-weekData.weekActivities}
     ]
 
+    // Calories brûlées
+    const burntCalories = activities ? calculateBurntCalories(activities) : 0
     // Données utilisateur
     const formattedUser = user ? formatUser(user, useMock) : {
         userId: "", 
@@ -109,7 +112,6 @@ export const DataProvider = ({ children }) => {
     }
     const {userId, totalDistance, memberDate, userPicture, age, weight, height, totalDurationHrs, totalDurationMin, totalSessions} = formattedUser ?? {}
        
-    
 
     function toggleUseMock() {
         setUseMock(prev => !prev)
@@ -154,7 +156,8 @@ export const DataProvider = ({ children }) => {
             height,
             totalDurationHrs,
             totalDurationMin,
-            totalSessions
+            totalSessions,
+            burntCalories
         }}>
             {children}
         </DataContext.Provider>

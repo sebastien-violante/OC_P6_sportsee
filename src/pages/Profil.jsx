@@ -30,19 +30,21 @@ export default function Profil() {
         height,
         totalSessions,
         totalDurationHrs,
-        totalDurationMin
+        totalDurationMin,
+        burntCalories
       } = useContext(DataContext)
 
 
     return (
     <main className="mainProfile">
         <section  className="biodata">
-            <ProfileBadge picture={userPicture} id={userId} date={memberDate}/>
+            <div className="profilBadge">
+                <ProfileBadge picture={userPicture} id={userId} date={memberDate}/>
+            </div>
             <article className="data">
                 <h2 className="subTitle">Votre profil</h2>
                 <div className="items">
                     <p className="item">Âge : {age}</p>
-                    <p className="item">Genre : </p>
                     <p className="item">Taille : {height}</p>
                     <p className="item">Poids : {weight}kg</p>
                 </div>
@@ -53,12 +55,10 @@ export default function Profil() {
             <p className="caption">{memberDate ? `depuis le ${memberDate.setLocale('fr').toFormat('d LLLL yyyy')}` : "" }</p>
             <div className="badges">
                 <DataBadge title={"Temps total couru"} data={totalDurationHrs} unit={totalDurationMin} />
-                <DataBadge title={"Calories brûlées"} data={0} unit={"cal"} />
+                <DataBadge title={"Calories brûlées"} data={burntCalories} unit={"cal"} />
                 <DataBadge title={"Distance totale parcourue"} data={totalDistance} unit={"km"} />
                 <DataBadge title={"Nombre de jours de repos"} data={totalDistance} unit={"km"} />
                 <DataBadge title={"Nombre de sessions"} data={totalSessions} unit={"sessions"} />
-                
-
             </div>
         </section>
         

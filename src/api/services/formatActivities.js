@@ -89,3 +89,14 @@ export function formatCurrentWeekActivities(start, end, activities) {
     })
     return {weekActivities, weekDistance, weekDuration}
 }
+
+export function calculateBurntCalories(activities) {
+
+    let burntCalories = 0
+    activities.forEach(activity => {
+        burntCalories+=activity.caloriesBurned}
+    )
+
+    return burntCalories
+}
+    
