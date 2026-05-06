@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { DataContext } from '../providers/ContextData';
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useMemo } from 'react';
 import { DateTime } from 'luxon';
 import GraphChart from '../components/GraphChart/GraphChart'
 import DonutChart  from '../components/DonutChart/DonutChart'
@@ -8,6 +8,8 @@ import ProfileBadge from '../components/ProfileBadge/ProfileBadge';
 import getFirstDayPeriod from '../utils/getFirstDayPeriod';
 import getCurrentWeek from '../utils/getCurrentWeek'
 import fetchActivities from '../api/fetchFromBack/fetchActivities'
+import { formatDistanceFourWeeks, formatBpmOneWeek } from '../api/services/formatActivities'
+
 
 export default function NewDashboard() {
     
@@ -20,44 +22,108 @@ export default function NewDashboard() {
     useMock
   } = useContext(DataContext)
  
+  // Initialisation des données de distance et de bpm pour les graphiques
+  const [distanceData, setDistanceData] = useState({})
+  const [bpmData, setBpmData] = useState({})
+
   // Initialisation de la date du jour pour base de départ des données
-  const today = DateTime.local().toFormat('yyyy-MM-dd');
-  const startDate = DateTime.local().minus({ months: 1 }).toFormat('yyyy-MM-dd');
-  //Début et fin de période du graphique des distances et bpm, calculées par défaut à partir de la date du jour
-  //const [endDistancePeriod, setEndDistancePeriod] = useState(today)
-  //const beginDistancePeriod = getFirstDayPeriod(endDistancePeriod, "week")
-  //const [endBpmPeriod, setEndBpmPeriod] = useState(today)
-  //const beginBpmPeriod = getFirstDayPeriod(endBpmPeriod, "day")
+  const today = DateTime.now()
+  // Calcul de l'intervalle pour le graphe des distances
+  const [endDistanceDate, setEndDistanceDate] = useState(today)
+  const startDistanceDate = getFirstDayPeriod(endDistanceDate, "week")
+// Calcul de l'intervalle pour le graphe des bpm
+  const [endBpmDate, setEndBpmDate] = useState(today)
+  const startBpmDate = getFirstDayPeriod(endBpmDate, "day")
+
   //const {weekStart, weekEnd} = getCurrentWeek(today)
 
-  
-  // Renvoi vers la page login en cas d'absence de token en session
-  const token = sessionStorage.getItem('token')
-     if (!token) {
-        return <Navigate to="/" />;
-    }
-    
+  // Calcul des données du graphique de distance
   useEffect(() => {
-    async function getActivities(token, startDate, endDate) {
-      const activities = await fetchActivities(token, startDate, endDate)
-      console.log(activities)
+    async function getDistanceData() {
+      const token = sessionStorage.getItem('token')
+      const distanceActivities = await fetchActivities(useMock, token, startDistanceDate, endDistanceDate)
+      setDistanceData(formatDistanceFourWeeks(endDistanceDate, distanceActivities))
     }
-    getActivities(token, startDate, today)
-  }, [useMock, token])
+    getDistanceData()
+  }, [useMock, endDistanceDate])
 
+  // Calcul des données du graphique de bpm
+  useEffect(() => {
+    async function getBpmData() {
+      const token = sessionStorage.getItem('token')
+      const bpmActivities = await fetchActivities(useMock, token, startBpmDate, endBpmDate)
+      setBpmData(formatBpmOneWeek(endBpmDate, bpmActivities))
+    }
+    getBpmData()
+  }, [useMock, endBpmDate])
+  // Renvoi vers la page login en cas d'absence de token en session
+   //  if (!token) {
+   //     return <Navigate to="/" />;
+  //  }
+  const decalateDistanceGraph = (item, type) => {
+    console.log(item)
+    console.log(type)
+  }
+    const decalateBpmGraph = (item, type) => {
+    console.log(item)
+    console.log(type)
+  }
+  console.log(startDistanceDate)
+  console.log(endDistanceDate)
+  
      return (
         <>
           <section className="runner">
-                  <ProfileBadge picture={userPicture} id={userId} date={memberDate}/>
-                  <article className="totalDistance">
-                    <p className="caption">Distance totale parcourue</p>
-                    <div className="badge">
-                      <img className="flag" src="flag.png" alt=""></img>
-                      <p className="totalDistanceNumber">{totalDistance} km</p>
+            <ProfileBadge picture={userPicture} id={userId} date={memberDate}/>
+            <article className="totalDistance">
+              <p className="caption">Distance totale parcourue</p>
+              <div className="badge">
+                <img className="flag" src="flag.png" alt=""></img>
+                <p className="totalDistanceNumber">{totalDistance} km</p>
+              </div>
+            </article>
+          </section>
+          <section className='lastPerfo'>
+            <h2 className="sectionTitle">Vos dernières performances</h2>
+            <div className="graphs">
+              <article className="graphBarDistance">
+                <div className="data">
+                  <p className="average">{distanceData.distAverage}km en moyenne</p>
+                    <div className="selectDate">
+                      <button onClick={() => decalateDistanceGraph('week', 'previous')}>
+                        <img src="leftArrow.png" alt="période précédente" className="arrow" ></img>
+                      </button>
+                      <p>{startDistanceDate.setLocale('fr').toFormat('d LLLL')} - {endDistanceDate.setLocale('fr').toFormat('d LLLL')}</p>
+                      <button onClick={() => decalateDistanceGraph('week')}>
+                        <img src="rightArrow.png" alt="période suivante" className="arrow" ></img>
+                      </button>
                     </div>
-                  </article>
-                </section>
-
+                </div>
+                <p className="caption">Total des kilomètres 4 dernières semaines</p>
+                <div className="distanceGraphWrapper"> 
+                  <GraphChart data={distanceData.distances} />
+                </div>
+              </article>
+              <article className="graphBarBpm">
+                <div className="data">
+                  <p className="average">{bpmData.averageBpm} BPM</p>
+                    <div className="selectDate">
+                      <button onClick={() => decalateBpmGraph('day', 'previous')}>
+                        <img src="leftArrow.png" alt="période précédente" className="arrow" ></img>
+                      </button>
+                      <p>{startBpmDate.setLocale('fr').toFormat('d LLLL')} - {endBpmDate.setLocale('fr').toFormat('d LLLL')}</p>
+                      <button onClick={() => decalateBpmGraph('day')}>
+                        <img src="rightArrow.png" alt="période suivante" className="arrow" ></img>
+                      </button>
+                    </div>
+                </div>
+                <p className="caption">Fréquence cardiaque moyenne</p> 
+                <div className="bpmGraphWrapper"> 
+                  <GraphChart data={bpmData.bpmPerDay} />
+                </div>
+              </article>
+            </div>
+          </section>
         </>
       )
 }

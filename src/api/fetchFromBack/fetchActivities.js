@@ -1,6 +1,14 @@
-export default async function fetchActivities(token, startDate, endDate) {
+import { fetchMockActivities } from "../fetchFromMock/fetchMockActivities"
+
+export default async function fetchActivities(useMock, token, startDate, endDate) {
     try {
-        const result = await fetch(`http://localhost:8000/api/user-activity?startWeek=${startDate}&endWeek=${endDate}`, { headers: {Authorization: `Bearer ${token}`} })
+        let result = null
+        if(!useMock) {
+            result = await fetch(`http://localhost:8000/api/user-activity?startWeek=${startDate}&endWeek=${endDate}`, { headers: {Authorization: `Bearer ${token}`} })
+        } else {
+            result = await fetchMockActivities()
+        }
+
         if(result.status !== 200) {
             throw new Error(`Erreur ${result.status}`)
         }
