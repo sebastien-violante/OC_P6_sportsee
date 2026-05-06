@@ -16,7 +16,6 @@ export function formatUser(user, useMock) {
   const totalDurationHrs = Math.floor(user.statistics.totalDuration/60).toString()+'h'
   const totalDurationMin = (user.statistics.totalDuration%60).toString()+'min'
   const totalSessions = user.statistics.totalSessions
-  console.log(totalDurationHrs)
-  console.log(totalDurationMin)
+  
   return { userId, memberDate, totalDistance, userPicture, age, weight, height, totalDurationHrs, totalDurationMin, totalSessions }
 }

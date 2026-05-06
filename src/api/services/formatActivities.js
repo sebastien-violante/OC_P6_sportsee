@@ -65,9 +65,9 @@ export function formatBpmOneWeek(bpmIndexDate, activities) {
     });
     
         const days = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-    
+
         return {
-            averageBpm : Number((totalBpm/records).toFixed(0)),
+            averageBpm : records > 0 ? Number((totalBpm/records).toFixed(0)) : 0,
             bpmPerDay : bpmPerDay.map((val, i) => ({ name: days[i], ...val }))
         }
 }
