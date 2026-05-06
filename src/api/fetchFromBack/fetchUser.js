@@ -1,10 +1,10 @@
 import { fetchMockUser } from "../fetchFromMock/fetchMockUser"
 
-export default async function fetchUser(token) {
+export default async function fetchUser(useMock, token) {
 
     try {
         let result = null
-        if(token) {
+        if(!useMock) {
             result = await fetch("http://localhost:8000/api/user-info", { headers: {Authorization: `Bearer ${token}`} })
         } else {
             result = await fetchMockUser()

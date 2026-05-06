@@ -12,7 +12,6 @@ export default  function Dashboard() {
     lastWeekBpm,
     decalateDistanceGraph,
     decalateBpmGraph,
-    
     endBpmPeriod,
     beginBpmPeriod,
     weekStart,

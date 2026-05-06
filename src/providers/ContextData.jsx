@@ -41,13 +41,15 @@ export const DataProvider = ({ children }) => {
         async function fetchData() {
             //setLoading(true)
             // vidage de user et activities pour éviter de garfder en mémoire les données de l'autre mode
-            let userData = null
-            if (useMock) {
-                userData = await fetchUser()
-            } else {
-                const token = sessionStorage.getItem('token')
-                userData = await fetchUser(token)
-            }
+            const token = sessionStorage.getItem('token')
+            const userData = await fetchUser(useMock, token)
+           
+            //if (useMock) {
+            //    userData = await fetchUser()
+            //} else {
+            //    const token = sessionStorage.getItem('token')
+            //    userData = await fetchUser(token)
+            //}
             setUser(userData)
             //setLoading(false)
         }
