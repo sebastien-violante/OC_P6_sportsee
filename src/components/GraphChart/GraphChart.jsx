@@ -33,7 +33,23 @@ export default function GraphChart({data}) {
             />
             {hasAvg && <YAxis type="number" domain={[130, 'auto']} tick={{ fontSize: 10, fill: "#707070" }} tickMargin={9} tickLine={false} />}
             {!hasAvg && <YAxis tick={{ fontSize: 10, fill: "#707070" }} tickMargin={9} tickLine={false} />}
-            <Tooltip />
+            {hasDist && <Tooltip 
+                labelFormatter={(label, payload) => {
+                    return payload?.[0]?.payload?.tooltipLabel || label;
+                }}
+                formatter={(value) => [value ? `${value} km` : '', null]}
+                contentStyle={{
+                    backgroundColor: '#000',
+                    borderRadius: '10px',
+                }}
+                labelStyle={{
+                    color: '#ffffff',
+                    fontWeight: 600,
+                    marginBottom: '4px'
+                }}
+            />}
+            {!hasDist && <Tooltip/>}
+
             <Legend 
                 verticalAlign="bottom"
                 wrapperStyle={{ bottom: -16 , paddingLeft: 40}} 

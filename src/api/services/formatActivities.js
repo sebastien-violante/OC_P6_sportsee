@@ -23,11 +23,21 @@ export function formatDistanceFourWeeks(distIndexDate, activities) {
         }
     });
     
+    const tooltipLabel = [
+        `${distIndexDate.minus({ weeks: 4 }).plus({days : 1}).toFormat('dd.MM')} au ${distIndexDate.minus({ weeks: 3 }).toFormat('dd.MM')}`,
+        `${distIndexDate.minus({ weeks: 3 }).plus({days : 1}).toFormat('dd.MM')} au ${distIndexDate.minus({ weeks: 2 }).toFormat('dd.MM')}`,
+        `${distIndexDate.minus({ weeks: 2 }).plus({days : 1}).toFormat('dd.MM')} au ${distIndexDate.minus({ weeks: 1 }).toFormat('dd.MM')}`,
+        `${distIndexDate.minus({ weeks: 1 }).plus({days : 1}).toFormat('dd.MM')} au ${distIndexDate.toFormat('dd.MM')}`
+    ]
+
     return {
         distAverage : Number((distTotal/4).toFixed(1)),
-        distances : distPerWeek.map((value, i) => ({ name: `S${i + 1}`, distance: value === 0 ? null : value }))
-    }
-    
+        distances : distPerWeek.map((value, i) => ({ 
+            name: `S${i + 1}`,
+            distance: value === 0 ? null : Math.floor(value),
+            tooltipLabel : tooltipLabel[i]
+        }))      
+    }  
 }
 
 export function formatBpmOneWeek(bpmIndexDate, activities) {
