@@ -9,12 +9,14 @@ import Dashboard from './pages/Dashboard.jsx';
 import NewDashboard from './pages/Dashboard.jsx';
 import Profil from './pages/Profil.jsx';
 import { DataProvider } from './providers/ContextData.jsx';
+import { CookiesProvider } from 'react-cookie';
 import "@fontsource/inter"; 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Router>
-        <DataProvider>
+    <CookiesProvider>
+      <DataProvider>
+        <Router>
           <Routes>
             <Route path="/" element={<Login />} />
             <Route element={<Layout />}>
@@ -23,7 +25,8 @@ createRoot(document.getElementById('root')).render(
               <Route path="*" element={<Error />} />
             </Route>
           </Routes>
-        </DataProvider>
-    </Router>
+        </Router>
+      </DataProvider>
+    </CookiesProvider>
   </StrictMode>,
 )

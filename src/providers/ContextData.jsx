@@ -4,6 +4,7 @@ import { formatUser } from "../api/services/formatUser";
 import fetchUser from "../api/fetchFromBack/fetchUser";
 import fetchActivities from "../api/fetchFromBack/fetchActivities";
 import { DateTime } from "luxon";
+import { Cookies } from "react-cookie";
 
 export const DataContext = createContext()
 
@@ -11,12 +12,12 @@ export const DataProvider = ({ children }) => {
 
     // Variables permettant de passer du mode mock au mode api
     const [useMock, setUseMock] = useState(false)
-    const [loading, setLoading] = useState(true)
-
+    const cookies = new Cookies()
+    const token = cookies.get("token")
     const [user, setUser] = useState(null)
     const [globalActivities, setGlobalActivities] = useState(null)
     
-    const token = sessionStorage.getItem('token')
+    //const token = sessionStorage.getItem('token')
     const today = DateTime.now()
     
     // Aiguillage entre mode mock et mode api

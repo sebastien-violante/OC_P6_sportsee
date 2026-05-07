@@ -14,20 +14,17 @@ export default async function login(data) {
         if (!response.ok) {
             // On récupère le message d'erreur éventuel du backend
             const errorData = await response.json().catch(() => null);
+            if (response.status === 401) {
+                throw new Error("Identifiants invalides");
+            }
             throw new Error(errorData?.message || "Erreur lors de la connexion");
         }
-
         const result = await response.json();
 
-        // Si ton API renvoie un token JWT
         return result.token;
 
     } catch (error) {
         console.error("Erreur login :", error);
-
-        // Tu peux soit relancer l'erreur...
-        throw error;
-
-    
+        throw error;    
     }
 }

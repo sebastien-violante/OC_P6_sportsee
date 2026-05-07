@@ -1,15 +1,16 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import './Header.css'
+import { useCookies } from 'react-cookie'
 
 export default function Header() {
 
     const navigate = useNavigate()
-
+    const [cookies, setCookie, removeCookie] = useCookies(["token"])
     const handleLogout = () => {
          // Supprimer le token en session
-        sessionStorage.removeItem("token")
+        //sessionStorage.removeItem("token")
+        removeCookie("token", {path: "/"})
         navigate("/");
-
     }
     return (
         <header className="header">

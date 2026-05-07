@@ -10,7 +10,7 @@ import getCurrentWeek from '../utils/getCurrentWeek'
 import fetchActivities from '../api/fetchFromBack/fetchActivities'
 import { formatDistanceFourWeeks, formatBpmOneWeek, formatCurrentWeekActivities } from '../api/services/formatActivities'
 import changePeriod from '../utils/changePeriod';
-
+import { Cookies } from 'react-cookie';
 
 export default function NewDashboard() {
     
@@ -23,6 +23,9 @@ export default function NewDashboard() {
     useMock
   } = useContext(DataContext)
  
+  const cookies = new Cookies()
+  const token = cookies.get("token")
+  
   // Initialisation des données de distance et de bpm
   const initialDistanceData = { distAverage: 0, distances: []}
   const initialBpmData = { averageBpm: 0, bpmPerDay: []}
@@ -43,10 +46,11 @@ export default function NewDashboard() {
   // Calcul des dates de fin et début de la semaine actuelle
   const {weekStart, weekEnd} = getCurrentWeek(today)
   
+
   // Calcul des données du graphique de distance
   useEffect(() => {
     async function getDistanceData() {
-      const token = sessionStorage.getItem('token')
+      //const token = sessionStorage.getItem('token')
       const distanceActivities = await fetchActivities(useMock, token, startDistanceDate.toFormat('yyyy-MM-dd'), endDistanceDate.toFormat('yyyy-MM-dd'))
       setDistanceData(formatDistanceFourWeeks(endDistanceDate, distanceActivities))
     }
@@ -56,7 +60,7 @@ export default function NewDashboard() {
   // Calcul des données du graphique de bpm
   useEffect(() => {
     async function getBpmData() {
-      const token = sessionStorage.getItem('token')
+      //const token = sessionStorage.getItem('token')
       const bpmActivities = await fetchActivities(useMock, token, startBpmDate.toFormat('yyyy-MM-dd'), endBpmDate.toFormat('yyyy-MM-dd'))
       setBpmData(formatBpmOneWeek(endBpmDate, bpmActivities))
     }
@@ -72,7 +76,7 @@ export default function NewDashboard() {
   
   useEffect(() => {
     async function getWeekData() {
-      const token = sessionStorage.getItem('token')
+     // const token = sessionStorage.getItem('token')
       const weekActivities = await fetchActivities(useMock, token, weekStart.toFormat('yyyy-MM-dd'), weekEnd.toFormat('yyyy-MM-dd'))
       setWeekData(formatCurrentWeekActivities(weekStart, weekEnd, weekActivities))
     }

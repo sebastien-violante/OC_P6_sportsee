@@ -3,12 +3,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validateForm from '../utils/validateForm';
 import login from '../utils/login';
+import { useCookies } from 'react-cookie';
 
 export default function Home() {
     
     // CONSTANTES ////////////////////////////////////////////////////////////////////////////////////
     const navigate = useNavigate()
-    
+    const [cookies, setCookie] = useCookies(["token"])
+
     // STATES ////////////////////////////////////////////////////////////////////////////////////
     const [formData, setFormData] = useState({
         identifiant: "",
@@ -20,7 +22,8 @@ export default function Home() {
         password: ""
     })
 
-    // FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////
+    const [loginError, setLoginError] = useState("")
+
     
     // HANDLERS ////////////////////////////////////////////////////////////////////////////////////
     const handleChange = (event)  => {
@@ -28,18 +31,29 @@ export default function Home() {
         setFormData((prev) => ({...prev, [name]: value}))
     }
     
-    async function handleSubmit() {
+    async function handleSubmit(event) {
         event.preventDefault()
         const errors = validateForm(formData)
         setErrors(errors)
         if (Object.keys(errors).length === 0) {
-            const token = await login(formData)
-            if(token) {
-                sessionStorage.setItem("token", token)
+            try {
+                setLoginError("")
+                const token = await login(formData)
+            if (token) {
+                setCookie("token", token, {
+                    path: "/",
+                    secure: true,
+                    sameSite: "strict",
+                    maxAge: 60 * 60 // délai max : 1 heure
+                })
                 navigate('/dashboard')
             }
+        } catch (error) {
+            setLoginError(error.message)
+        }
         }
     }
+
     const hideError = (event) => {
         const name = event.target.name;
         setErrors(prev => ({
@@ -66,7 +80,8 @@ export default function Home() {
                         <span className="error">{errors.password}</span>
                     </section>
                     <input type="submit" className="btnSubmit" value="Se connecter" onClick={handleSubmit}/>
-                </form>
+                    {loginError && (<p className="invalidCredential">{loginError}</p>)}
+                </form>            
             </section>
             <section className='homePicture'>
                 <img src="pictures/homepage/homepage-background-picture.jpg" alt="image de coureurs"/>

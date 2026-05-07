@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react'
 import { DataContext } from '../providers/ContextData'
 import { DateTime } from "luxon"
 import fetchActivities from "../api/fetchFromBack/fetchActivities"
+import { Cookies } from "react-cookie"
 
 export default function Profil() {
 
@@ -21,12 +22,13 @@ export default function Profil() {
         useMock
     } = useContext(DataContext)
 
-
+    const cookies = new Cookies()
+    const token = cookies.get("token")
     const [restDays, setRestDays] = useState(0)
     const [calories, setCalories] = useState(0)
 
     const today = DateTime.now()
-    const token = sessionStorage.getItem('token')
+   // const token = sessionStorage.getItem('token')
     
     // Rapatriement de toutes les activités depuis memberDate
     useEffect(() => {

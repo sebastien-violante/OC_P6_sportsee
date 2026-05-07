@@ -19,6 +19,11 @@ body {
 
 /* HOMEPAGE ******************************************************/
 
+.invalidCredential {
+    color: red;
+    text-align: center;
+}
+
 .logo {
     width: 160px;
     height: 24px;
