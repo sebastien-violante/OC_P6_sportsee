@@ -1,7 +1,16 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import './Header.css'
 
 export default function Header() {
+
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+         // Supprimer le token en session
+        sessionStorage.removeItem("token")
+        navigate("/");
+
+    }
     return (
         <header className="header">
             <div className="brand">
@@ -10,9 +19,19 @@ export default function Header() {
             </div>
             <nav>
                 <ul>
-                    <li><NavLink  to="/dashboard" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Dashboard</NavLink></li>
-                    <li><NavLink  to="/profil" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Mon profil</NavLink></li>
-                    <li className="li-decon">Se déconnecter</li>
+                    <li>
+                        <button>
+                            <NavLink  to="/dashboard" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Dashboard</NavLink>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <NavLink  to="/profil" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Mon profil</NavLink>
+                        </button>
+                    </li>
+                    <li className="li-decon" >
+                        <button onClick={handleLogout}>Se déconnecter</button>
+                    </li>
                 </ul>
             </nav>
         </header>

@@ -17,15 +17,13 @@ export default function Profil() {
         height,
         totalDurationHrs,
         totalDurationMin,
-        burntCalories,
+        totalSessions,
         useMock
     } = useContext(DataContext)
 
 
     const [restDays, setRestDays] = useState(0)
     const [calories, setCalories] = useState(0)
-    const [sessions, setSessions] = useState(0)
-    const [distance, setDistance] = useState(0)
 
     const today = DateTime.now()
     const token = sessionStorage.getItem('token')
@@ -36,18 +34,11 @@ export default function Profil() {
         async function getAllActivities() {
             const allActivities = await fetchActivities(useMock, token, memberDate.toFormat('yyyy-MM-dd'), today.toFormat('yyyy-MM-dd'))
             let calories = 0
-            let daysWithActivity = 0
-            let distance = 0
             allActivities.forEach(activity => {
                 calories+=activity.caloriesBurned 
-                daysWithActivity++   
-                distance+=activity.distance        
             })
-            console.log(allActivities)
             setCalories(calories)
-            setRestDays(Math.floor(today.diff(memberDate, 'days').days - daysWithActivity))
-            setSessions(daysWithActivity)
-            setDistance(distance)
+            setRestDays(Math.floor(today.diff(memberDate, 'days').days - totalSessions))
         }
         getAllActivities()
     }, [useMock])
@@ -75,9 +66,9 @@ export default function Profil() {
             <div className="badges">
                 <DataBadge title={"Temps total couru"} data={totalDurationHrs} unit={totalDurationMin} />
                 <DataBadge title={"Calories brûlées"} data={calories} unit={"cal"} />
-                <DataBadge title={"Distance totale parcourue"} data={distance} unit={"km"} />
+                <DataBadge title={"Distance totale parcourue"} data={totalDistance} unit={"km"} />
                 <DataBadge title={"Nombre de jours de repos"} data={restDays} unit={"jours"} />
-                <DataBadge title={"Nombre de sessions"} data={sessions} unit={"sessions"} />
+                <DataBadge title={"Nombre de sessions"} data={totalSessions} unit={"sessions"} />
             </div>
         </section>
         

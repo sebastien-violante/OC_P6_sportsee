@@ -51,6 +51,7 @@ export function formatBpmOneWeek(bpmIndexDate, activities) {
         max: null,
         avg: null
     }));
+    const labels = []
     
     activities.forEach(activity => {
         const index = getBpmPosition(activity.date, bpmIndexDate);
@@ -63,12 +64,14 @@ export function formatBpmOneWeek(bpmIndexDate, activities) {
             avg: activity.heartRate.average === 0 ? null : activity.heartRate.average
         };
     });
-    
-        const days = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-
-        return {
+        // détermination des label en fonction des jours précédents
+        for(let index = 0 ; index <= 7; index++) {
+            const tempDay = bpmIndexDate.minus({ days: index })
+            labels[7-index] = tempDay.setLocale('fr').toFormat('ccc')
+        }
+       return {
             averageBpm : records > 0 ? Number((totalBpm/records).toFixed(0)) : 0,
-            bpmPerDay : bpmPerDay.map((val, i) => ({ name: days[i], ...val }))
+            bpmPerDay : bpmPerDay.map((val, i) => ({ name: labels[i], ...val }))
         }
 }
 

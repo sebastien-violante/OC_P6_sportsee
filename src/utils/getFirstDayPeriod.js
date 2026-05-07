@@ -2,7 +2,6 @@ import { DateTime } from "luxon"
 
 export default function getFirstDayPeriod(date, type) {
     let periodStart = null
-    console.log(date)
     switch(type) {
         case "week" :
             periodStart = date.minus({ weeks: 4 })

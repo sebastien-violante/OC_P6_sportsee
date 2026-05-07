@@ -13,7 +13,6 @@ export default async function fetchActivities(useMock, token, startDate, endDate
             throw new Error(`Erreur ${result.status}`)
         }
         const data = await result.json()
-
         return data
     }
     catch (error) {

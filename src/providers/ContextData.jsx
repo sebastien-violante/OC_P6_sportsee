@@ -28,18 +28,6 @@ export const DataProvider = ({ children }) => {
         }
         fetchData()
     }, [useMock])
-    console.log(user)
-
-    // Récupération des données globales
-    useEffect(() => {
-        if (!user) return;
-        async function fetchGlobalActivities() {
-            const allActivities = await fetchActivities(useMock, token, user.profile.createdAt.toFormat('yyyy-MM-dd'), today.toFormat('yyyy-MM-dd'))
-            setGlobalActivities(allActivities)
-        }
-        fetchGlobalActivities()
-        console.log(globalActivities)
-    })
 
     // Données utilisateur
     const formattedUser = user ? formatUser(user, useMock) : {
@@ -73,7 +61,6 @@ export const DataProvider = ({ children }) => {
             totalDurationHrs,
             totalDurationMin,
             totalSessions,
-            //burntCalories,
         }}
         >
             {children}

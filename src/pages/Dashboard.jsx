@@ -73,12 +73,13 @@ export default function NewDashboard() {
   useEffect(() => {
     async function getWeekData() {
       const token = sessionStorage.getItem('token')
-      const weekActivities = await fetchActivities(useMock, token, weekStart, weekEnd)
+      const weekActivities = await fetchActivities(useMock, token, weekStart.toFormat('yyyy-MM-dd'), weekEnd.toFormat('yyyy-MM-dd'))
       setWeekData(formatCurrentWeekActivities(weekStart, weekEnd, weekActivities))
     }
     getWeekData()
   }, [useMock])
   
+
   function decalateGraph(slot, type) {
     if(slot === "week") {
       const newEndDate = changePeriod(slot, type, endDistanceDate)
@@ -88,7 +89,7 @@ export default function NewDashboard() {
       setEndBpmDate(newEndDate)
     }
   }
-  console.log(distanceData)  
+
   return (
         <>
           <section className="runner">
