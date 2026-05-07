@@ -1,5 +1,6 @@
 import { ComposedChart, Line, Area, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Scatter, ResponsiveContainer } from 'recharts';
 import { RechartsDevtools } from '@recharts/devtools';
+import { useState } from 'react';
 
 export default function GraphChart({data}) {
     const hasMin = data[0]?.min !== undefined;
@@ -7,17 +8,21 @@ export default function GraphChart({data}) {
     const hasAvg = data[0]?.avg !== undefined;
     const hasDist = data[0]?.distance !== undefined;
     
+    const [hovered, setHovered] = useState(false);
+
+    console.log(data)
     return (
         <ResponsiveContainer height="100%" width="100%">
             <ComposedChart
-            //style={{ width: '100%', maxWidth: '700px', maxHeight: '70vh', aspectRatio: 1.618 }}
-            data={data}
-            margin={{
-                top: 20,
-                right: 0,
-                bottom: 0,
-                left: 0,
-              }}
+                data={data}
+                margin={{
+                    top: 20,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                }}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
             >
             <CartesianGrid stroke="#f5f5f5" />
             <XAxis 
@@ -38,8 +43,7 @@ export default function GraphChart({data}) {
             {hasDist && <Bar 
                 dataKey="distance" 
                 name="Km"
-                fill="#B6BDFC" 
-                activeBar={{ fill: '#0B23F4' }} 
+                fill= {hovered ? '#0B23F4' : '#B6BDFC'} 
                 radius={[30, 30, 30, 30]} 
                 barSize={14} />}
             {hasMin && <Bar 
@@ -52,7 +56,13 @@ export default function GraphChart({data}) {
                 barSize={14} 
                 radius={[30, 30, 30, 30]} 
                 fill="#F4320B" />}
-            {hasAvg && <Line type="monotone" dataKey="avg" stroke="#F2F3FF" />}
+            {hasAvg && <Line 
+                type="monotone" 
+                dataKey="avg" 
+                stroke={hovered ? '#0B23F4' : '#B6BDFC'} 
+                strokeWidth={2}
+                connectNulls
+            />}
         </ComposedChart>
         </ResponsiveContainer>
     )
