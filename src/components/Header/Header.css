@@ -37,6 +37,17 @@
     padding-left: 40px;
     border-left: 1px solid grey;
     color: var(--blue);
+    cursor: pointer;
 }
 
-.header nav ul 
+.header .nav-link.active { 
+    color: var(--blue);
+
+}
+
+.nav-link,
+.nav-link:visited,
+.nav-link:hover {
+    text-decoration: none;
+    color: black;
+}

@@ -21,18 +21,12 @@ export default function Header() {
             <nav>
                 <ul>
                     <li>
-                        <button>
-                            <NavLink  to="/dashboard" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Dashboard</NavLink>
-                        </button>
+                        <NavLink  to="/dashboard" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Dashboard</NavLink>
                     </li>
                     <li>
-                        <button>
-                            <NavLink  to="/profil" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Mon profil</NavLink>
-                        </button>
+                        <NavLink  to="/profil" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Mon profil</NavLink>
                     </li>
-                    <li className="li-decon" >
-                        <button onClick={handleLogout}>Se déconnecter</button>
-                    </li>
+                    <li className="li-decon" onClick={handleLogout}>Se déconnecter</li>
                 </ul>
             </nav>
         </header>

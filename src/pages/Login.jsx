@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import validateForm from '../utils/validateForm';
 import login from '../utils/login';
 import { useCookies } from 'react-cookie';
+import { NavLink } from 'react-router-dom';
 
 export default function Home() {
     
@@ -80,6 +81,7 @@ export default function Home() {
                         <span className="error">{errors.password}</span>
                     </section>
                     <input type="submit" className="btnSubmit" value="Se connecter" onClick={handleSubmit}/>
+                    <NavLink  to="/nouveau-mot-de-passe"><button className="forgottenPassword">Mot de passe oublié ?</button></NavLink>
                     {loginError && (<p className="invalidCredential">{loginError}</p>)}
                 </form>            
             </section>

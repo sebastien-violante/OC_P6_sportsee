@@ -113,12 +113,16 @@ export default function NewDashboard() {
                 <div className="data">
                   <p className="average">{distanceData.distAverage}km en moyenne</p>
                     <div className="selectDate">
-                      <button onClick={() => decalateGraph('week', 'previous')}>
-                        <img src="leftArrow.png" alt="période précédente" className="arrow" ></img>
+                      <button className="btnArrow" onClick={() => decalateGraph('week', 'previous')}>
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
                       </button>
                       <p>{startDistanceDate.setLocale('fr').toFormat('d LLLL')} - {endDistanceDate.setLocale('fr').toFormat('d LLLL')}</p>
-                      <button onClick={() => decalateGraph('week')}>
-                        <img src="rightArrow.png" alt="période suivante" className="arrow" ></img>
+                      <button className="btnArrow" onClick={() => decalateGraph('week')}>
+                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
                       </button>
                     </div>
                 </div>
@@ -131,12 +135,16 @@ export default function NewDashboard() {
                 <div className="data">
                   <p className="average">{bpmData.averageBpm} BPM</p>
                     <div className="selectDate">
-                      <button onClick={() => decalateGraph('day', 'previous')}>
-                        <img src="leftArrow.png" alt="période précédente" className="arrow" ></img>
+                      <button className="btnArrow" onClick={() => decalateGraph('day', 'previous')}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
                       </button>
                       <p>{startBpmDate.setLocale('fr').toFormat('d LLLL')} - {endBpmDate.setLocale('fr').toFormat('d LLLL')}</p>
-                      <button onClick={() => decalateGraph('day')}>
-                        <img src="rightArrow.png" alt="période suivante" className="arrow" ></img>
+                      <button className="btnArrow" onClick={() => decalateGraph('day')}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
                       </button>
                     </div>
                 </div>

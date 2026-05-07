@@ -19,10 +19,6 @@ body {
 
 /* HOMEPAGE ******************************************************/
 
-.invalidCredential {
-    color: red;
-    text-align: center;
-}
 
 .logo {
     width: 160px;
@@ -88,7 +84,6 @@ body {
     border-radius: 6px;
     border: 1px solid #717171;
     padding-left: 1em;
-    font-weight: bold;
 }
 
 .formWrapper .form .btnSubmit {
@@ -111,6 +106,20 @@ body {
     font-size: .7em;
 }
 
+.formWrapper .form .forgottenPassword {
+    color: var(--darkgrey);
+    font-size: .875em;
+    font-weight: 400;
+    background: none;
+    border: none;
+    cursor: pointer;
+    height: 2em;
+}
+
+.formWrapper .form .invalidCredential {
+    color: red;
+    text-align: end;
+}
 .homePicture {
     flex: 1;
     position: relative;
@@ -234,6 +243,19 @@ body {
 
 .graphBarDistance {
     width: 445px;
+}
+
+.btnArrow svg {
+    color: black;
+    border: 1px solid grey;
+    border-radius: 10px;
+}
+
+.btnArrow svg:hover {
+    color: white;
+    border-radius: 10px;
+    border: 1px solid var(--blue);
+    background: #5465F7;
 }
 
 .graphBarDistance .average {
