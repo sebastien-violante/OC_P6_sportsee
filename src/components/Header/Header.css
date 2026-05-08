@@ -40,14 +40,13 @@
     cursor: pointer;
 }
 
-.header .nav-link.active { 
+.header .nav-link.active,
+.header .nav-link:hover { 
     color: var(--blue);
-
 }
 
 .nav-link,
-.nav-link:visited,
-.nav-link:hover {
+.nav-link:visited {
     text-decoration: none;
     color: black;
 }
