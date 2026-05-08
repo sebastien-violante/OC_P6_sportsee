@@ -48,8 +48,7 @@ export default function GraphChart({data}) {
                     marginBottom: '4px'
                 }}
             />}
-            {!hasDist && <Tooltip/>}
-
+            
             <Legend 
                 verticalAlign="bottom"
                 wrapperStyle={{ bottom: -16 , paddingLeft: 40}} 

@@ -14,6 +14,7 @@ export const DataProvider = ({ children }) => {
     const [useMock, setUseMock] = useState(false)
     const cookies = new Cookies()
     const token = cookies.get("token")
+    if(!token && !useMock) return
     const [user, setUser] = useState(null)
     const [globalActivities, setGlobalActivities] = useState(null)
     
@@ -28,7 +29,7 @@ export const DataProvider = ({ children }) => {
             setUser(userData)
         }
         fetchData()
-    }, [useMock])
+    }, [useMock, token])
 
     // Données utilisateur
     const formattedUser = user ? formatUser(user, useMock) : {

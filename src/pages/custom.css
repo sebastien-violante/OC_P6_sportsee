@@ -415,18 +415,30 @@ body {
     gap: 16px;
 }
 
-.mainProfile .biodata .profilBadge {
-    display: flex;
-}
-
 .mainProfile .identity {
     width: 508px;
     height: 165px;
     padding-left: 32px;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     background: white;
     border-radius: 10px;
+    gap: 24px;
+}
+
+.profilBadge .identity .pictureWrapper {
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.profilBadge .identity .pictureId {
+    transform: scale(1);
+    transition: transform .6s ease;
+}
+
+.profilBadge .identity .pictureId:hover {
+    transform: scale(1.2);
 }
 
 .mainProfile .biodata .data{

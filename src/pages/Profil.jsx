@@ -38,9 +38,9 @@ export default function Profil() {
             const allActivities = await fetchActivities(useMock, token, memberDate.toFormat('yyyy-MM-dd'), today.toFormat('yyyy-MM-dd'))
             setActivities(allActivities)
             
-            const calories = allActivities.reduce((sum, activity) => sum + activity.caloriesBurned)
+            const calories = allActivities.reduce((sum, activity) => sum + activity.caloriesBurned, 0)
             setCalories(calories)
-            
+
             setRestDays(Math.floor(today.diff(memberDate, 'days').days ) - allActivities.length)
         }
         getAllActivities()
