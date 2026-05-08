@@ -26,6 +26,7 @@ export default function Profil() {
     const token = cookies.get("token")
     const [restDays, setRestDays] = useState(0)
     const [calories, setCalories] = useState(0)
+    const [activities, setActivities] = useState(0)
 
     const today = DateTime.now()
    // const token = sessionStorage.getItem('token')
@@ -35,12 +36,12 @@ export default function Profil() {
         if(!memberDate) return
         async function getAllActivities() {
             const allActivities = await fetchActivities(useMock, token, memberDate.toFormat('yyyy-MM-dd'), today.toFormat('yyyy-MM-dd'))
-            let calories = 0
-            allActivities.forEach(activity => {
-                calories+=activity.caloriesBurned 
-            })
+            setActivities(allActivities)
+            
+            const calories = allActivities.reduce((sum, activity) => sum + activity.caloriesBurned)
             setCalories(calories)
-            setRestDays(Math.floor(today.diff(memberDate, 'days').days - totalSessions))
+            
+            setRestDays(Math.floor(today.diff(memberDate, 'days').days ) - allActivities.length)
         }
         getAllActivities()
     }, [useMock])
@@ -70,7 +71,7 @@ export default function Profil() {
                 <DataBadge title={"Calories brûlées"} data={calories} unit={"cal"} />
                 <DataBadge title={"Distance totale parcourue"} data={totalDistance} unit={"km"} />
                 <DataBadge title={"Nombre de jours de repos"} data={restDays} unit={"jours"} />
-                <DataBadge title={"Nombre de sessions"} data={totalSessions} unit={"sessions"} />
+                <DataBadge title={"Nombre de sessions"} data={activities.length} unit={"sessions"} />
             </div>
         </section>
         
