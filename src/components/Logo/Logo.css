@@ -1,0 +1,64 @@
+.movingLogo {
+    position: relative;
+}
+
+.blueBarGroup {
+    display: flex;
+    align-items: flex-start;
+    gap: 1px;
+    position: absolute;
+    top: 12px;
+    width: 19px
+}
+
+.redBarGroup {
+    display: flex;
+    align-items: flex-end;
+    gap: 1px;
+    position: absolute;
+    top: 1px;
+    width: 19px;
+}
+
+.blueBarGroup .blueBar1 {
+    height: 8px;
+    
+}
+
+.blueBarGroup .blueBar2 {
+    height: 10px;
+    width: 3px;
+}
+
+.blueBarGroup .blueBar3 {
+    height: 5px;
+}
+
+.blueBarGroup .blueBar4 {
+    height: 8px;
+    width: 3px;
+}
+
+.blueBarGroup .blueBar5 {
+    height: 6px;
+}
+
+.redBarGroup .redBar1 {
+    height: 11px;
+}
+
+.redBarGroup .redBar2 {
+    height: 14px;
+}
+
+.redBarGroup .redBar3 {
+    height: 12px;
+}
+
+.redBarGroup .redBar4 {
+    height: 9px;
+}
+
+.redBarGroup .redBar5 {
+    height: 14px;
+}

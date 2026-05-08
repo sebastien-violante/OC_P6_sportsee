@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import './Header.css'
 import { useCookies } from 'react-cookie'
+import Logo from '../Logo/Logo'
 
 export default function Header() {
 
@@ -17,6 +18,7 @@ export default function Header() {
             <div className="brand">
                 <img className="brand-picture" src="Icon.png" alt="logo de Sportsee"></img>
                 <img className="brand-name" src="brand-name.png" alt="Sportsee"></img>
+                <Logo />
             </div>
             <nav>
                 <ul>
