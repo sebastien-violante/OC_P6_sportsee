@@ -20,10 +20,10 @@ createRoot(document.getElementById('root')).render(
           <Routes>
             <Route path="/" element={<Login />} />
             <Route element={<Layout />}>
-              <Route path="/dashboard" index element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/profil" element={<Profil />} />
-              <Route path="*" element={<Error />} />
               <Route path="/nouveau-mot-de-passe" element={<NewPwd />} />
+              <Route path="*" element={<Error />} />
             </Route>
           </Routes>
         </Router>
