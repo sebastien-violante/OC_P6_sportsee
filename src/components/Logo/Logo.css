@@ -1,64 +1,56 @@
-.movingLogo {
+.logo-container {
+    width: 24px;
+    height: 24px;
     position: relative;
 }
 
-.blueBarGroup {
-    display: flex;
-    align-items: flex-start;
-    gap: 1px;
+.bar {
     position: absolute;
-    top: 12px;
-    width: 19px
-}
-
-.redBarGroup {
-    display: flex;
-    align-items: flex-end;
-    gap: 1px;
-    position: absolute;
-    top: 1px;
-    width: 19px;
-}
-
-.blueBarGroup .blueBar1 {
-    height: 8px;
-    
-}
-
-.blueBarGroup .blueBar2 {
-    height: 10px;
     width: 3px;
+    top: var(--top);
+    left: var(--left);
+    height: var(--height);
 }
 
-.blueBarGroup .blueBar3 {
-    height: 5px;
+.redGroup {
+    z-index: 2;
 }
 
-.blueBarGroup .blueBar4 {
-    height: 8px;
-    width: 3px;
+/* Animation principale */
+.move {
+    animation: move 3s ease-in-out infinite;
 }
 
-.blueBarGroup .blueBar5 {
-    height: 6px;
+@keyframes move {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(var(--moveY));
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
 
-.redBarGroup .redBar1 {
-    height: 11px;
+/* Petit tremblement */
+.shake {
+    animation: shake 1s ease-in-out infinite;
+    display: block;
 }
 
-.redBarGroup .redBar2 {
-    height: 14px;
-}
+@keyframes shake {
+    0% {
+        transform: translateY(0);
+    }
 
-.redBarGroup .redBar3 {
-    height: 12px;
-}
+    80% {
+        transform: translateY(-1px);
+    }
 
-.redBarGroup .redBar4 {
-    height: 9px;
-}
-
-.redBarGroup .redBar5 {
-    height: 14px;
+    100% {
+        transform: translateY(0);
+    }
 }

@@ -5,6 +5,7 @@ import validateForm from '../utils/validateForm';
 import login from '../utils/login';
 import { useCookies } from 'react-cookie';
 import { NavLink } from 'react-router-dom';
+import Logo from '../components/Logo/Logo';
 
 export default function Home() {
     
@@ -65,8 +66,11 @@ export default function Home() {
 
     return (
         <section className="wrapper">
-            <img src="logo.png" alt="Logo du site Sportsee" className="logo"/>
             <section className='formWrapper'>
+                <div className="logo">
+                    <Logo />
+                    <img src="brand.svg" alt="Nom de la marque" className="brand"/>
+                </div>
                 <form className="form">
                     <h1>Transformez<br />vos stats en résultats</h1>
                     <p className="subtitle">Se connecter</p>

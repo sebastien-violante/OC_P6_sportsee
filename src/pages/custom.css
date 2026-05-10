@@ -26,6 +26,8 @@ body {
     position: absolute;
     top: 55px;
     left: 100px;
+    display: flex;
+    gap:3px;
 }
 
 .wrapper {
