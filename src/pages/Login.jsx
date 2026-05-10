@@ -73,7 +73,7 @@ export default function Home() {
                 </div>
                 <form className="form">
                     <h1>Transformez<br />vos stats en résultats</h1>
-                    <p className="subtitle">Se connecter</p>
+                    <h2 className="subtitle">Se connecter</h2>
                     <section className="formGroup">
                         <label htmlFor="username" className="label">Adresse email</label>
                         <input id="username" className="input" name="username" type="text" onBlur={handleChange} onKeyDown={hideError}/>
