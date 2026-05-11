@@ -9,7 +9,10 @@ import { Navigate } from 'react-router-dom';
 
 export default function Profil() {
 
-     const {
+    // CONTANTES //////////////////////////////////////////
+
+    // Récupération des données user provenant du context
+    const {
         userId,
         totalDistance,
         memberDate,
@@ -19,42 +22,41 @@ export default function Profil() {
         height,
         totalDurationHrs,
         totalDurationMin,
-        totalSessions,
         useMock
     } = useContext(DataContext)
+    
+    const today = DateTime.now()
 
-    const cookies = new Cookies()
-    const token = cookies.get("token")
-
-    if (!token && !useMock) {
-        return <Navigate to="/" replace />
-    }
-
+    // STATES /////////////////////////////////////////////
     const [restDays, setRestDays] = useState(0)
     const [calories, setCalories] = useState(0)
     const [activities, setActivities] = useState(0)
 
-    const today = DateTime.now()
-   // const token = sessionStorage.getItem('token')
-    
+    // Récupération du token
+    const cookies = new Cookies()
+    const token = cookies.get("token")
+    if (!token && !useMock) {
+        return <Navigate to="/" replace />
+    }
+
     // Rapatriement de toutes les activités depuis memberDate
     useEffect(() => {
         if(!memberDate) return
         async function getAllActivities() {
+            // Requête auprès de l'API pour récupérer toutes les activités
             const allActivities = await fetchActivities(useMock, token, memberDate.toFormat('yyyy-MM-dd'), today.toFormat('yyyy-MM-dd'))
             if(!allActivities) return
             setActivities(allActivities)
             
+            // Détérmination des calories brûlées et du nombre de jours de repos
             const calories = allActivities.reduce((sum, activity) => sum + activity.caloriesBurned, 0)
             setCalories(calories)
-
             setRestDays(Math.floor(today.diff(memberDate, 'days').days ) - allActivities.length)
         }
         getAllActivities()
     }, [useMock])
 
- 
-    
+     
     return (
     <main className="mainProfile">
         <section  className="biodata" tabIndex={0} aria-label={`profil de ${userId}`}>
@@ -81,7 +83,6 @@ export default function Profil() {
                 <DataBadge title={"Nombre de sessions"} data={activities.length} unit={"sessions"} aria-label={`${activities.length} sessions`} />
             </div>
         </section>
-        
     </main>
     )
 }

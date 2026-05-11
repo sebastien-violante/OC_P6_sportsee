@@ -120,7 +120,7 @@ body {
 
 .formWrapper .form .invalidCredential {
     color: red;
-    text-align: end;
+    text-align: center;
 }
 .homePicture {
     position: relative;

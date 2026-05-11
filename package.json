@@ -12,6 +12,8 @@
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
     "@recharts/devtools": "^0.0.12",
+    "lodash": "^4.18.1",
+    "lodash-es": "^4.18.1",
     "luxon": "^3.7.2",
     "react": "^19.2.5",
     "react-cookie": "^8.1.2",

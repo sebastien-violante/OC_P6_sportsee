@@ -1,11 +1,12 @@
 import './custom.css'
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import validateForm from '../utils/validateForm';
-import login from '../utils/login';
-import { useCookies } from 'react-cookie';
-import { NavLink } from 'react-router-dom';
-import Logo from '../components/Logo/Logo';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import validateForm from '../utils/validateForm'
+import login from '../utils/login'
+import { useCookies } from 'react-cookie'
+import { NavLink } from 'react-router-dom'
+import Logo from '../components/Logo/Logo'
+import isEmpty from "lodash-es/isEmpty"
 
 export default function Home() {
     
@@ -34,7 +35,7 @@ export default function Home() {
         event.preventDefault()
         const errors = validateForm(formData)
         setErrors(errors)
-        if (Object.keys(errors).length === 0) {
+        if (isEmpty(errors)) {
             try {
                 setLoginError("")
                 const token = await login(formData)
@@ -48,7 +49,7 @@ export default function Home() {
                     navigate('/dashboard')
                 }
             } catch (error) {
-                setLoginError("Le serveur est indisponible. Veuillez réessayer plus tard.")
+               // setLoginError("Le serveur est indisponible. Veuillez réessayer plus tard.")
             }
         }
     }

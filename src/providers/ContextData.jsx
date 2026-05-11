@@ -14,7 +14,8 @@ export const DataProvider = ({ children }) => {
     const [useMock, setUseMock] = useState(false)
     const cookies = new Cookies()
     const token = cookies.get("token")
-    
+    const [loadingUser, setLoadingUser] = useState(true)
+
     const [user, setUser] = useState(null)
     const [globalActivities, setGlobalActivities] = useState(null)
     
@@ -25,9 +26,10 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
         async function fetchData() {
             if(!token && !useMock) return
-            // vidage de user et activities pour éviter de garfder en mémoire les données de l'autre mode
+            setLoadingUser(true)
             const userData = await fetchUser(useMock, token)
             setUser(userData)
+            setLoadingUser(false)
         }
         fetchData()
     }, [useMock, token])
@@ -53,7 +55,6 @@ export const DataProvider = ({ children }) => {
     
     return (
         <DataContext.Provider value={{
-           // lastWeekBpm,
             toggleUseMock,
             useMock,
             userId,

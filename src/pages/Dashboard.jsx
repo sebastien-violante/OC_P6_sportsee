@@ -23,7 +23,7 @@ export default function NewDashboard() {
     userPicture,
     useMock
   } = useContext(DataContext)
- 
+  console.log(userId)
   const cookies = new Cookies()
   const token = cookies.get("token")
   
