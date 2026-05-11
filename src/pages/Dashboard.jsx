@@ -40,6 +40,8 @@ export default function NewDashboard() {
   // Calcul de l'intervalle pour le graphe des distances
   const [endDistanceDate, setEndDistanceDate] = useState(today)
   const startDistanceDate = getFirstDayPeriod(endDistanceDate, "week")
+  const isSameDay = endDistanceDate.hasSame(today, "day");
+  
   // Calcul de l'intervalle pour le graphe des bpm
   const [endBpmDate, setEndBpmDate] = useState(today)
   const startBpmDate = getFirstDayPeriod(endBpmDate, "day")
@@ -113,20 +115,26 @@ export default function NewDashboard() {
                 <div className="data">
                   <p className="average">{distanceData.distAverage}km en moyenne</p>
                     <div className="selectDate">
-                      <button className="btnArrow" onClick={() => decalateGraph('week', 'previous')}>
+                      <button 
+                        className="btnArrow" 
+                        aria-label="semaine précédente" 
+                        onClick={() => decalateGraph('week', 'previous')}>
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M14 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
                           </svg>
                       </button>
                       <p>{startDistanceDate.setLocale('fr').toFormat('d LLLL')} - {endDistanceDate.setLocale('fr').toFormat('d LLLL')}</p>
-                      <button className="btnArrow" onClick={() => decalateGraph('week')}>
+                      <button 
+                        className="btnArrow" 
+                        aria-label="semaine suivante" 
+                        onClick={() => decalateGraph('week')}>
                          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M10 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
                           </svg>
                       </button>
                     </div>
                 </div>
-                <p className="caption">Total des kilomètres 4 dernières semaines</p>
+                {isSameDay && <p className="caption">Total des kilomètres 4 dernières semaines</p>}
                 <div className="distanceGraphWrapper"> 
                   <GraphChart data={distanceData.distances} />
                 </div>

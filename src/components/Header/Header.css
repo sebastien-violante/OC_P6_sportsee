@@ -40,6 +40,11 @@
     cursor: pointer;
 }
 
+.header nav ul li button {
+    border: none;
+    background: none;
+}
+
 .header .nav-link.active,
 .header .nav-link:hover { 
     color: var(--blue);

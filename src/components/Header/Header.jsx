@@ -15,10 +15,9 @@ export default function Header() {
     }
     return (
         <header className="header">
-            <div className="brand">
-                <img className="brand-picture" src="Icon.png" alt="logo de Sportsee"></img>
-                <img className="brand-name" src="brand-name.png" alt="Sportsee"></img>
+            <div className="logo">
                 <Logo />
+                <img src="brand.svg" alt="Nom de la marque" className="brand"/>
             </div>
             <nav>
                 <ul>
@@ -28,7 +27,9 @@ export default function Header() {
                     <li>
                         <NavLink  to="/profil" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Mon profil</NavLink>
                     </li>
-                    <li className="li-decon" onClick={handleLogout}>Se déconnecter</li>
+                    <li>
+                        <button className="li-decon" onClick={handleLogout}>Se déconnecter</button>
+                    </li>
                 </ul>
             </nav>
         </header>

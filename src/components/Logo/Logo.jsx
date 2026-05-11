@@ -18,7 +18,7 @@ export default function Logo() {
     ];
 
     return (
-        <div className="logo-container" role="img" aria-label="Sportsee" tabindex={0}>
+        <figure className="logo-container" role="img" aria-label="logo Sportsee">
             <div className="blueGroup" aria-hidden="true">
                 {blueBars.map((bar, index) => (
                     <img key={index} src={bar.src} className="bar blue" style={{"--top": `${bar.top}px`, "--left": `${bar.left}px`, "--height": `${bar.height}px`}} alt=""/>
@@ -31,6 +31,6 @@ export default function Logo() {
                     </div>
                 ))}
             </div>
-        </div>
+        </figure>
     );
 }
