@@ -18,15 +18,12 @@ export default function Home() {
         identifiant: "",
         password: "",
     })
-
     const [errors, setErrors] = useState({
         username: "",
         password: ""
     })
-
     const [loginError, setLoginError] = useState("")
 
-    
     // HANDLERS ////////////////////////////////////////////////////////////////////////////////////
     const handleChange = (event)  => {
         const { name, value } = event.target 
@@ -41,18 +38,18 @@ export default function Home() {
             try {
                 setLoginError("")
                 const token = await login(formData)
-            if (token) {
-                setCookie("token", token, {
-                    path: "/",
-                    secure: true,
-                    sameSite: "strict",
-                    maxAge: 60 * 60 // délai max : 1 heure
-                })
-                navigate('/dashboard')
+                if(token) {
+                    setCookie("token", token, {
+                        path: "/",
+                        secure: true,
+                        sameSite: "strict",
+                        maxAge: 60 * 60 // délai max : 1 heure
+                    })
+                    navigate('/dashboard')
+                }
+            } catch (error) {
+                setLoginError("Le serveur est indisponible. Veuillez réessayer plus tard.")
             }
-        } catch (error) {
-            setLoginError(error.message)
-        }
         }
     }
 
@@ -62,6 +59,7 @@ export default function Home() {
             ...prev,
             [name]: null
         }));
+        setLoginError("")
     }
 
     return (
@@ -69,7 +67,7 @@ export default function Home() {
             <section className='formWrapper'>
                 <div className="logo">
                     <Logo />
-                    <img src="brand.svg" alt="Nom de la marque" className="brand"/>
+                    <img src="brand.svg" alt="Sportsee" className="brand"/>
                 </div>
                 <form className="form">
                     <h1>Transformez<br />vos stats en résultats</h1>

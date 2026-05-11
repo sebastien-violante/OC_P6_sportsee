@@ -12,6 +12,7 @@ import { formatDistanceFourWeeks, formatBpmOneWeek, formatCurrentWeekActivities 
 import changePeriod from '../utils/changePeriod';
 import { Cookies } from 'react-cookie';
 
+
 export default function NewDashboard() {
     
   // Récupération des informations de contexte
@@ -26,10 +27,18 @@ export default function NewDashboard() {
   const cookies = new Cookies()
   const token = cookies.get("token")
   
+  if (!token && !useMock) {
+    return <Navigate to="/" replace />
+  }
+
   // Initialisation des données de distance et de bpm
   const initialDistanceData = { distAverage: 0, distances: []}
   const initialBpmData = { averageBpm: 0, bpmPerDay: []}
-  const initialWeekData = {}
+  const initialWeekData = { 
+    weekActivities: 0,
+    weekDuration: 0,
+    weekDistance: 0
+  }
 
   const [distanceData, setDistanceData] = useState(initialDistanceData)
   const [bpmData, setBpmData] = useState(initialBpmData)
@@ -98,7 +107,7 @@ export default function NewDashboard() {
 
   return (
         <>
-          <section className="runner">
+          <section className="runner" aria-label={`Dashboard de ${userId}, ${totalDistance} kilomètre parcourus`} tabIndex={0} >
             <ProfileBadge picture={userPicture} id={userId} date={memberDate}/>
             <article className="totalDistance">
               <p className="caption">Distance totale parcourue</p>
@@ -111,7 +120,7 @@ export default function NewDashboard() {
           <section className='lastPerfo'>
             <h2 className="sectionTitle">Vos dernières performances</h2>
             <div className="graphs">
-              <article className="graphBarDistance">
+              <article className="graphBarDistance" aria-label={`Graphique des distances parcourues par ${userId} sur 4 semaines`} tabIndex={0}>
                 <div className="data">
                   <p className="average">{distanceData.distAverage}km en moyenne</p>
                     <div className="selectDate">
@@ -139,17 +148,23 @@ export default function NewDashboard() {
                   <GraphChart data={distanceData.distances} />
                 </div>
               </article>
-              <article className="graphBarBpm">
+              <article className="graphBarBpm" aria-label={`Graphique du rythme cardiaque de ${userId} sur 7 jours`} tabIndex={0}>
                 <div className="data">
                   <p className="average">{bpmData.averageBpm} BPM</p>
                     <div className="selectDate">
-                      <button className="btnArrow" onClick={() => decalateGraph('day', 'previous')}>
+                      <button 
+                        className="btnArrow" 
+                        aria-label="jour précédent" 
+                        onClick={() => decalateGraph('day', 'previous')}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M14 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
                           </svg>
                       </button>
                       <p>{startBpmDate.setLocale('fr').toFormat('d LLLL')} - {endBpmDate.setLocale('fr').toFormat('d LLLL')}</p>
-                      <button className="btnArrow" onClick={() => decalateGraph('day')}>
+                      <button 
+                        className="btnArrow" 
+                        aria-label="jour suivant" 
+                        onClick={() => decalateGraph('day')}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M10 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
                           </svg>
@@ -167,7 +182,7 @@ export default function NewDashboard() {
               <h2 className="sectionTitle">Cette semaine</h2>
               <p className="sectionSubTitle">Du {weekStart.setLocale('fr').toFormat('d LLLL')} au {weekEnd.setLocale('fr').toFormat('d LLLL')}</p>
               <div className="donutAndData">
-                <article className="donut">
+                <article className="donut" aria-label={`Graphique des activités de ${userId} cette semaine`} tabIndex={0}>
                   <div className="donutHeader">
                     <p className="realised"><span className="target">x{weekData.weekActivities}</span> sur objectif de {activityTarget}</p>
                     <p className="caption">Courses hebdomadaires réalisées</p>
@@ -175,11 +190,11 @@ export default function NewDashboard() {
                   <DonutChart data={dataDonut}/>
                 </article>
                 <div className="data">
-                  <article className="duration">
+                  <article className="duration" aria-label={`Durée d'activité de ${userId} cette semaine`} tabIndex={0}>
                     <p className="label">Durée d'activité</p>
                     <p className="result"><span className="number">{weekData.weekDuration}</span> minutes</p>
                   </article>
-                  <article className="distance">
+                  <article className="distance" aria-label={`Distance parcourue par ${userId} cette semaine`} tabIndex={0}>
                     <p className="label">Distance</p>
                     <p className="result"><span className="number">{Math.round(weekData.weekDistance*10)/10}</span> kilomètres</p>
                   </article>

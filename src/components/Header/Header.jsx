@@ -11,7 +11,7 @@ export default function Header() {
          // Supprimer le token en session
         //sessionStorage.removeItem("token")
         removeCookie("token", {path: "/"})
-        navigate("/");
+        navigate("/")
     }
     return (
         <header className="header">

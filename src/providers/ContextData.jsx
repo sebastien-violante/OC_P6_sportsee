@@ -34,14 +34,16 @@ export const DataProvider = ({ children }) => {
 
     // Données utilisateur
     const formattedUser = user ? formatUser(user, useMock) : {
-        userId: "", 
+        userId: "Anonyme", 
         memberDate: null, 
         totalDistance: 0, 
         userPicture: "defaultUser.jpg", 
-        age: "", 
-        weight:"",
+        age: "--", 
+        weight:"--",
+        height:"--",
         totalDurationHrs: "0h",
-        totalDurationMin:'0min'
+        totalDurationMin:'0min',
+        totalSessions: 0
     }
     const {userId, totalDistance, memberDate, userPicture, age, weight, height, totalDurationHrs, totalDurationMin, totalSessions} = formattedUser
     

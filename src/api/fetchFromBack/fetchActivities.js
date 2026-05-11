@@ -2,6 +2,10 @@ import { fetchMockActivities } from "../fetchFromMock/fetchMockActivities"
 
 export default async function fetchActivities(useMock, token, startDate, endDate) {
     try {
+        if (!useMock && !token) {
+            throw new Error("Token manquant")
+        }
+        
         let result = null
         if(!useMock) {
             result = await fetch(`http://localhost:8000/api/user-activity?startWeek=${startDate}&endWeek=${endDate}`, { headers: {Authorization: `Bearer ${token}`} })
@@ -9,14 +13,20 @@ export default async function fetchActivities(useMock, token, startDate, endDate
             result = await fetchMockActivities()
         }
 
-        if(result.status !== 200) {
+        if(!result.ok) {
             throw new Error(`Erreur ${result.status}`)
         }
         const data = await result.json()
+        console.log(data)
         return data
     }
     catch (error) {
-          console.error('Erreur lors de la récupération des activités :', error);
+          console.error(
+            'Pas de récupération des données',
+            error.message
+        )
+
+        throw error
     }
 } 
    

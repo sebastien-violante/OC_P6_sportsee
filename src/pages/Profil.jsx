@@ -5,6 +5,7 @@ import { DataContext } from '../providers/ContextData'
 import { DateTime } from "luxon"
 import fetchActivities from "../api/fetchFromBack/fetchActivities"
 import { Cookies } from "react-cookie"
+import { Navigate } from 'react-router-dom';
 
 export default function Profil() {
 
@@ -24,6 +25,11 @@ export default function Profil() {
 
     const cookies = new Cookies()
     const token = cookies.get("token")
+
+    if (!token && !useMock) {
+        return <Navigate to="/" replace />
+    }
+
     const [restDays, setRestDays] = useState(0)
     const [calories, setCalories] = useState(0)
     const [activities, setActivities] = useState(0)
@@ -36,6 +42,7 @@ export default function Profil() {
         if(!memberDate) return
         async function getAllActivities() {
             const allActivities = await fetchActivities(useMock, token, memberDate.toFormat('yyyy-MM-dd'), today.toFormat('yyyy-MM-dd'))
+            if(!allActivities) return
             setActivities(allActivities)
             
             const calories = allActivities.reduce((sum, activity) => sum + activity.caloriesBurned, 0)
@@ -50,11 +57,11 @@ export default function Profil() {
     
     return (
     <main className="mainProfile">
-        <section  className="biodata">
+        <section  className="biodata" tabIndex={0} aria-label={`profil de ${userId}`}>
             <div className="profilBadge">
                 <ProfileBadge picture={userPicture} id={userId} date={memberDate}/>
             </div>
-            <article className="data">
+            <article className="data" tabIndex={0} aria-label={`biodata de ${userId}`}>
                 <h2 className="subTitle">Votre profil</h2>
                 <div className="items">
                     <p className="item">Âge : {age}</p>
@@ -67,11 +74,11 @@ export default function Profil() {
             <h2 className="subTitle">Vos statistiques</h2>
             <p className="caption">{memberDate ? `depuis le ${memberDate.setLocale('fr').toFormat('d LLLL yyyy')}` : "" }</p>
             <div className="badges">
-                <DataBadge title={"Temps total couru"} data={totalDurationHrs} unit={totalDurationMin} />
-                <DataBadge title={"Calories brûlées"} data={calories} unit={"cal"} />
-                <DataBadge title={"Distance totale parcourue"} data={totalDistance} unit={"km"} />
-                <DataBadge title={"Nombre de jours de repos"} data={restDays} unit={"jours"} />
-                <DataBadge title={"Nombre de sessions"} data={activities.length} unit={"sessions"} />
+                <DataBadge title={"Temps total couru"} data={totalDurationHrs} unit={totalDurationMin} aria-label={`temps parcouru ${totalDurationHrs} heures et ${totalDurationMin} minutes`}/>
+                <DataBadge title={"Calories brûlées"} data={calories} unit={"cal"} aria-label={`${calories} calorise brulées`} />
+                <DataBadge title={"Distance totale parcourue"} data={totalDistance} unit={"km"} aria-label={`${totalDistance} kilomètres parcourus`} />
+                <DataBadge title={"Nombre de jours de repos"} data={restDays} unit={"jours"} aria-label={`${restDays} jours de repos`} />
+                <DataBadge title={"Nombre de sessions"} data={activities.length} unit={"sessions"} aria-label={`${activities.length} sessions`} />
             </div>
         </section>
         

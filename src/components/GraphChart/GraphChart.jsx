@@ -7,10 +7,8 @@ export default function GraphChart({data}) {
     const hasMax = data[0]?.max !== undefined;
     const hasAvg = data[0]?.avg !== undefined;
     const hasDist = data[0]?.distance !== undefined;
-    
     const [hovered, setHovered] = useState(false);
 
-    console.log(data)
     return (
         <ResponsiveContainer height="100%" width="100%">
             <ComposedChart
@@ -60,7 +58,8 @@ export default function GraphChart({data}) {
                 name="Km"
                 fill= {hovered ? '#0B23F4' : '#B6BDFC'} 
                 radius={[30, 30, 30, 30]} 
-                barSize={14} />}
+                barSize={14}
+            />}
             {hasMin && <Bar 
                 dataKey="min" 
                 barSize={14} 
