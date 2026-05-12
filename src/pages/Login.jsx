@@ -49,7 +49,8 @@ export default function Home() {
                     navigate('/dashboard')
                 }
             } catch (error) {
-               // setLoginError("Le serveur est indisponible. Veuillez réessayer plus tard.")
+                console.log(error.message)
+               setLoginError(error.message)
             }
         }
     }

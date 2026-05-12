@@ -9,32 +9,24 @@ body {
 .layout {
     margin-top: 35px;
 }
-
 .layout-content {
     max-width: 1140px;
     margin: 108px auto 80px auto;
-
-
 }
 
 /* HOMEPAGE ******************************************************/
-
-
 .logo {
     width: 160px;
     height: 24px;
-    
     display: flex;
     gap:3px;
 }
-
 .wrapper {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     height: 1024px;
 }
-
 .formWrapper {
     width: 632px;
     display: flex;
@@ -43,7 +35,6 @@ body {
     padding-top: 55px;
     gap: 150px;
 }
-
 .formWrapper .form {
     width: 397px;
     height: 618px;
@@ -52,33 +43,28 @@ body {
     padding: 40px;
     font-family: 'Inter', sans-serif;
 }
-
 .formWrapper .form h1 {
     color: #0B23F4;
     font-weight: 600;
     font-size: 1.75em;
     line-height: 1.3em;
 }
-
 .formWrapper .form .subtitle {
     margin-top: 40px;
     font-weight: 500;
     font-size: 1.37em;
     color: #111111;
 }
-
 .formWrapper .form .formGroup {
     margin-top: 24px;
     position: relative;
 }
-
 .formWrapper .form .formGroup .label {
     font-weight: 400;
     font-size: 0.87em;
     color: #707070;
     display: block;
 }
-
 .formWrapper .form .formGroup .input {
     margin-top: 5px;
     width: 317px;
@@ -87,7 +73,6 @@ body {
     border: 1px solid #717171;
     padding-left: 1em;
 }
-
 .formWrapper .form .btnSubmit {
     margin: 40px auto;
     width: 100%;
@@ -99,7 +84,6 @@ body {
     border-radius: 10px;
     border: none;
 }
-
 .formWrapper .error {
     position: absolute;
     bottom: 2px;
@@ -107,7 +91,6 @@ body {
     color: red;
     font-size: .7em;
 }
-
 .formWrapper .form .forgottenPassword {
     color: var(--darkgrey);
     font-size: .875em;
@@ -117,7 +100,6 @@ body {
     cursor: pointer;
     height: 2em;
 }
-
 .formWrapper .form .invalidCredential {
     color: red;
     text-align: center;
@@ -125,7 +107,6 @@ body {
 .homePicture {
     position: relative;
 }
-
 .homePicture .slogan {
     position: absolute;
     bottom: 29px;
@@ -144,7 +125,6 @@ body {
 }
 
 /* ACTIVITIES ******************************************************/
-
 .runner {
     background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255, 0));
     height: 180px;
@@ -160,15 +140,12 @@ body {
     font-weight: 500;
     font-size: 1.375em;
 }
-
-
 .totalDistance {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 18px;
 }
-
 .totalDistance .caption {
     font-weight: 400;
     color: var(--grey);
@@ -186,24 +163,20 @@ body {
     color: white;
     border-radius: 10px;
 }
-
 .badge .totalDistanceNumber {
     font-weight: 500;
     font-size: 1.375em;
 }
-
 .flag {
     width: 34px;
     height: 34px;
 }
-
 .data {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
 }
-
 .selectDate {
     display: flex;
     align-items: center;
@@ -211,20 +184,16 @@ body {
     gap: 6px;
     flex-shrink: 0;
 }
-
 .selectDate .arrow {
     width: 24px;
     height: 24px;
 }
-
 .lastPerfo, .thisWeek {
     padding: 0 44px;
 }
-
 .thisWeek {
     margin-top: 70px;
 }
-
 .lastPerfo button {
     background: none;
     border: none;
@@ -241,24 +210,20 @@ body {
     padding: 18px 40px;
     height: 483px;
 }
-
 .graphBarDistance {
     width: 445px;
 }
-
 .btnArrow svg {
     color: black;
     border: 1px solid grey;
     border-radius: 10px;
 }
-
 .btnArrow svg:hover {
     color: white;
     border-radius: 10px;
     border: 1px solid var(--blue);
     background: #5465F7;
 }
-
 .graphBarDistance .average {
     color: #0B23F4;
     font-weight: 500;
@@ -269,44 +234,36 @@ body {
     min-width: 0;
     flex: 1;
 }
-
 .graphBarBpm .average {
     color: var(--orange);
     font-weight: 500;
     font-size: 1.4em;
 }
-
 .graphBarDistance .selectDate p, .graphBarBpm .selectDate p {
     font-size: .75em;
     font-weight: 400;
     margin: 0;
 }
-
 .graphBarBpm {
     width: 583px;
 }
-
 .distanceGraphWrapper {
     width: 330px;
     height: 307px;
 }
-
 .bpmGraphWrapper {
     width: 503px;
     height: 307px;
 }
-
 .sectionSubTitle {
     color: var(--grey);
     font-weight: 500;
 }
-
 .donutAndData { 
     display: flex;
     justify-content: space-between;
     margin-top: 32px;
 }
-
 .donut {
     width: 450px;
     height: 342px;
@@ -316,12 +273,10 @@ body {
     align-items: center;
     padding: 16px 32px;
 }
-
 .donut .donutHeader {
     width: 374px;
     height: 97px;
 }
-
 .donut .donutHeader .realised {
     color: var(--lightblue);
 }
@@ -335,20 +290,17 @@ body {
     color: var(--grey);
     margin: 0;
 }
-
 .caption {
     color: var(--grey);
     font-size: .75em;
     margin-bottom: 32px;
 }
-
 .donutAndData .data {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     gap: 16px;
 }
-
 .donutAndData .data .distance,
 .donutAndData .data .duration {
     width: 572px;
@@ -360,28 +312,23 @@ body {
     flex-direction: column;
     justify-content: center;
 }
-
 .donutAndData .data .label {
     font-weight: 400;
     font-size: .875em;
     color: #707070;
     margin: 0;
 }
-
 .donutAndData .data .duration {
     color: var(--blue);
 }
-
 .donutAndData .data .distance {
     color: var(--orange);
 }
-
 .donutAndData .data .duration .result
 .donutAndData .data .distance .result
 {
     margin:0;
 }
-
 .donutAndData .data .duration .result {
     color: var(--lightblue)
 }
@@ -409,13 +356,11 @@ body {
     height: 778px;
     margin-bottom: 80px;
 }
-
 .mainProfile .biodata {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
-
 .mainProfile .identity {
     width: 508px;
     height: 165px;
@@ -427,22 +372,7 @@ body {
     border-radius: 10px;
     gap: 24px;
 }
-
-.profilBadge .identity .pictureWrapper {
-    overflow: hidden;
-    border-radius: 10px;
-}
-
-.profilBadge .identity .pictureId {
-    transform: scale(1);
-    transition: transform .6s ease;
-}
-
-.profilBadge .identity .pictureId:hover {
-    transform: scale(1.2);
-}
-
-.mainProfile .biodata .data{
+.mainProfile .biodata .data {
     width: 508px;
     height: 331px;
     background: white;
@@ -453,31 +383,26 @@ body {
     justify-content: flex-start;
     padding: 40px 24px 0 28px;
 }
-
 .mainProfile .subTitle {
     width: 100%;
     font-weight: 500;
     font-size: 1.375em;
     color: var(--darkgrey);
 }
-
 .mainProfile .data .subTitle {
     padding-bottom: 24px;
     border-bottom: 1px solid #E7E7E7;
 }
-
 .mainProfile .items {
     padding-top: 32px;
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
-
 .mainProfile .items .item {
     color: var(--grey);
     font-weight: 500;
 }
-
 .mainProfile .statistics .badges {
     display: flex;
     gap: 19px;

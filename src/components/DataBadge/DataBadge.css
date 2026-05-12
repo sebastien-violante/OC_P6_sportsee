@@ -23,11 +23,11 @@
     align-items: baseline;
     gap: 5px;
 }
-.dataBadge .data {
+.dataBadge .result .data {
     font-weight: 500;
     font-size: 1.375em;
 }
 
-.dataBadge .unit{
+.dataBadge .result .unit{
     color: var(--lightblue);
 }

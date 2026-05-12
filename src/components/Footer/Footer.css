@@ -7,39 +7,40 @@ footer {
     align-items: center;
 }
 
-.bottom-links {
+footer .bottom-links {
     display: flex;
     align-items: center;
-
+    gap: 30px;
 }
 
-ul {
+footer .bottom-links ul {
     display: flex;
     list-style-type: none;  
     gap: 16px;
     font-size: 0.87em;
 }
 
-.bottom-logo {
-    width: 20px;
-    height: 20px;
-    margin-left: 32px;
+footer .bottom-links ul li a {
+    text-decoration: none; 
+} 
+
+footer .bottom-links ul li a:visited {
+    color: inherit; 
 }
 
-.mock {
+footer .mock,
+footer .api {
     padding: 2px 5px;
     border-radius: 5px;
     border: none;
-    background: var(--blue);
     color: white;
     cursor: pointer;
 }
 
-.api {
-    padding: 2px 5px;
-    border-radius: 5px;
-    border: none;
+footer .api {
     background: var(--orange);
-    color: white;
-    cursor: pointer;
+}
+
+footer .mock {
+    background: var(--blue);
 }

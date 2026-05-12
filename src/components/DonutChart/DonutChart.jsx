@@ -50,7 +50,7 @@ const renderCustomLabel = ({
 
 export default function DonutChart({data}) {
   return (
-    <PieChart width={300} height={250}>
+    <PieChart width={400} height={250}>
       <Pie
         data={data}
         cx="50%"

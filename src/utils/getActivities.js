@@ -1,3 +1,11 @@
+/**
+ * Renvoie une date calculée à partir d'une date initiale, d'un type et d'un pas
+ * @param {string} token - le token permettant d'identifier l'utilisateur
+ * @param {String} type - le type de décalalge : précédent ou suivant
+ * @param {Object} date - la date de référence
+ * @returns {Object} - une nouvelle date issue du décalage
+ */
+/*
 export default async function getActivities(token) {
     try {
         const response = await fetch("http://localhost:8000/api/login", {
@@ -31,3 +39,4 @@ export default async function getActivities(token) {
     
     }
 }
+    */

@@ -7,16 +7,6 @@
     --grey: #707070;
 }
 
-.nav-link,
-.nav-link:visited,
-.nav-link:hover {
-    text-decoration: none;
-    color: black;
-}
-.nav-link:active {
-    text-decoration: none;
-    color: var(--blue);
-}
 /* 1. Box sizing intelligent */
 *,
 *::before,

@@ -4,7 +4,7 @@ export default function ProfileBadge({picture, id, date}) {
     return (
          <article className="identity">
           <div className="pictureWrapper">
-            <img className="pictureId" src={picture} alt="image de profil"></img>
+            <img className="pictureId" src={picture} alt={`image de profil de ${id}`}></img>
           </div>
           <div className="dataId">
             {id && <h1>{id}</h1>}

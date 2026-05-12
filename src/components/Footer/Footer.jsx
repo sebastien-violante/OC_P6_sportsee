@@ -2,7 +2,7 @@ import './Footer.css'
 import { useContext } from 'react'
 import { DataContext } from '../../providers/ContextData'
 import { NavLink } from 'react-router-dom'
-
+import Logo from '../Logo/Logo'
 
 export default function Footer() {
 
@@ -16,7 +16,7 @@ export default function Footer() {
                     <li><NavLink  to="/">Conditions générales</NavLink></li>
                     <li><NavLink to="/">Contact</NavLink></li>
                 </ul>
-                <img alt="logo" src="Icon.png" className="bottom-logo"></img>
+                <Logo />
             </section>
         </footer>
     )
