@@ -1,19 +1,18 @@
 export const userMock = 
 {
     "profile": {
-        "firstName": "Marc",
-        "lastName": "Dubois",
+        "firstName": "Emma",
+        "lastName": "Leroy",
         "createdAt": "2025-01-01",
-        "age": 45,
-        "weight": 85,
-        "height": 180,
-        "profilePicture": "http://localhost:8000/images/marc.jpg"
+        "age": 28,
+        "weight": 62,
+        "height": 170,
+        "profilePicture": "http://localhost:8000/images/emma.jpg"
     },
     "statistics": {
-        "totalDistance": "501.7",
-        "totalSessions": 130,
-        "totalDuration": 3555
+        "totalDistance": "3791.4",
+        "totalSessions": 607,
+        "totalDuration": 22624
     }
 }
-
 

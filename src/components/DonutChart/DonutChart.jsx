@@ -1,11 +1,6 @@
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
-const data = [
-  { name: "réalisée", value: 4 },
-  { name: "restants", value: 2 },
-];
-
-const COLORS = ["#1E2BE6", "#AAB0E8"]; // bleu foncé / bleu clair
+const COLORS = ["#1E2BE6", "#AAB0E8"];
 const RADIAN = Math.PI / 180;
 
 const renderCustomLabel = ({
@@ -65,6 +60,7 @@ export default function DonutChart({data}) {
         stroke={0}
         labelLine={false}
         label={renderCustomLabel}
+        isAnimationActive={false}
       >
         {data.map((entry, index) => (
           <Cell 

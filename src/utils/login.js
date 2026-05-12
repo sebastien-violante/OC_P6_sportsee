@@ -1,3 +1,8 @@
+/**
+ * Renvoie le token de l'utilisateur ou une erreur
+ * @param {Object} data - les données d'identifications issues du formulaire de connexion
+ * @returns {Object} - le token ou une erreur
+ */
 export default async function login(data) {
     try {
         const response = await fetch("http://localhost:8000/api/login", {
@@ -12,19 +17,29 @@ export default async function login(data) {
         });
 
         if (!response.ok) {
-            // On récupère le message d'erreur éventuel du backend
+            // Transformation de l'erreur en json ou null
             const errorData = await response.json().catch(() => null);
+            
+            // Cas de login/password invalides
             if (response.status === 401) {
                 throw new Error("Identifiants invalides");
             }
             throw new Error(errorData?.message || "Erreur lors de la connexion");
         }
+
         const result = await response.json();
 
         return result.token;
 
     } catch (error) {
+        // cas de l'API indisponible ou d'une erreur réseau
+        if (error instanceof TypeError) {
+            throw new Error(
+                "Les données d'identification n'ont pas pu être récupérées"
+            );
+        }
+
         console.error("Erreur login :", error);
-        throw error;    
+        throw error;
     }
 }

@@ -2,27 +2,31 @@ import getActivityPosition from "../../utils/getActivityPosition";
 import getBpmPosition from "../../utils/getBpmPosition";
 import { DateTime } from 'luxon';
 
+/**
+ * Renvoie les données formatées à partir des activités données si elles se trouvent dans le mois précédant la date fournie
+ * @param {DateTime} distIndexDate - fin du mois des activités à formater
+ * @param {Object} activities - les activités utilisateur
+ * @returns {Object} - les données d'activité formatées durant le mois précédant la date
+ */
 export function formatDistanceFourWeeks(distIndexDate, activities) {
 
-    if (!activities || !Array.isArray(activities)) {
-        return {
-            distAverage: 0,
-            distances: Array(4).fill(null).map((_, i) => ({ name: `S${i + 1}`, distance: null }))
-        }
-    }
-
-    const distPerWeek = Array(4).fill(0);
+    // Définition des données par défaut 
+    const distPerWeek = Array(4).fill(0)
     let distTotal = 0
+
+    // Bouclage sur les activités pour connaitre leur écart en semaine par rapport à distIndexDate. 
     activities.forEach(activity => {
         const index = getActivityPosition(activity.date, distIndexDate);
         if (index === null) {
             return 
         } else {
+            // Concaténation des distances par semaine et de la distance totale
             distPerWeek[index] += activity.distance;
             distTotal+=activity.distance
         }
     });
     
+    // Elaboration du label pour chacune des barre de semaine en fonction des dates
     const tooltipLabel = [
         `${distIndexDate.minus({ weeks: 4 }).plus({days : 1}).toFormat('dd.MM')} au ${distIndexDate.minus({ weeks: 3 }).toFormat('dd.MM')}`,
         `${distIndexDate.minus({ weeks: 3 }).plus({days : 1}).toFormat('dd.MM')} au ${distIndexDate.minus({ weeks: 2 }).toFormat('dd.MM')}`,
@@ -40,20 +44,16 @@ export function formatDistanceFourWeeks(distIndexDate, activities) {
     }  
 }
 
+
+/**
+ * Renvoie les données formatées à partir des activités données si elles se trouvent dans la semaine précédant la date fournie
+ * @param {DateTime} bpmIndexDate - fin de la semaine des activités à formater
+ * @param {Object} activities - les activités utilisateur
+ * @returns {Object} - les données d'activité formatées durant la semaine précédant la date
+ */
 export function formatBpmOneWeek(bpmIndexDate, activities) {
     
-    if (!activities || !Array.isArray(activities)) {
-        return {
-        averageBpm: 0,
-        bpmPerDay: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].map(name => ({
-            name,
-            min: null,
-            max: null,
-            avg: null
-        }))
-        }
-    }
-    
+    // Définition des valeurs par défaut
     let totalBpm = 0
     let records = 0
     const bpmPerDay = Array(7).fill(null).map(() => ({

@@ -45,11 +45,15 @@ export default function GraphChart({data}) {
                     fontWeight: 600,
                     marginBottom: '4px'
                 }}
+                itemStyle={{
+                    color: '#FFFFFF'
+                }}
             />}
             
             <Legend 
                 verticalAlign="bottom"
-                wrapperStyle={{ bottom: -16 , paddingLeft: 40}} 
+                align="left"
+                wrapperStyle={{ bottom: -20 , paddingLeft: 40, fontSize: "14px"}} 
                 iconType="circle"
                 iconSize={8}
             />
@@ -59,6 +63,14 @@ export default function GraphChart({data}) {
                 fill= {hovered ? '#0B23F4' : '#B6BDFC'} 
                 radius={[30, 30, 30, 30]} 
                 barSize={14}
+            />}
+            {hasAvg && <Line 
+                type="monotone" 
+                dataKey="avg" 
+                stroke={hovered ? '#0B23F4' : '#F2F3FF'} 
+                dot={{fill: '#0B23F4', r:4}}
+                strokeWidth={2}
+                connectNulls
             />}
             {hasMin && <Bar 
                 dataKey="min" 
@@ -70,13 +82,7 @@ export default function GraphChart({data}) {
                 barSize={14} 
                 radius={[30, 30, 30, 30]} 
                 fill="#F4320B" />}
-            {hasAvg && <Line 
-                type="monotone" 
-                dataKey="avg" 
-                stroke={hovered ? '#0B23F4' : '#B6BDFC'} 
-                strokeWidth={2}
-                connectNulls
-            />}
+            
         </ComposedChart>
         </ResponsiveContainer>
     )

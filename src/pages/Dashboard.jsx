@@ -15,86 +15,87 @@ import { Cookies } from 'react-cookie';
 
 export default function NewDashboard() {
     
-  // Récupération des informations de contexte
-  const {
-    userId,
-    totalDistance,
-    memberDate,
-    userPicture,
-    useMock
-  } = useContext(DataContext)
-  console.log(userId)
+  // CONSTANTES //////////////////////////////////////////////////////////////////////////////////
+
+  // Informations utilisateur provenant du contexte
+  const { userId, totalDistance, memberDate, userPicture, useMock } = useContext(DataContext)
+
+  // Récupération du token dans les cookies
   const cookies = new Cookies()
   const token = cookies.get("token")
   
-  if (!token && !useMock) {
-    return <Navigate to="/" replace />
-  }
+  // Initialisation de la date du jour pour base de départ des données
+  const today = DateTime.now()
 
   // Initialisation des données de distance et de bpm
   const initialDistanceData = { distAverage: 0, distances: []}
   const initialBpmData = { averageBpm: 0, bpmPerDay: []}
-  const initialWeekData = { 
-    weekActivities: 0,
-    weekDuration: 0,
-    weekDistance: 0
-  }
+  const initialWeekData = { weekActivities: 0, weekDuration: 0, weekDistance: 0 }
+
+  // STATES ET CONSTANTES DERIVEES /////////////////////////////////////////////////////////////
 
   const [distanceData, setDistanceData] = useState(initialDistanceData)
   const [bpmData, setBpmData] = useState(initialBpmData)
   const [weekData, setWeekData] = useState(initialWeekData)
 
-  // Initialisation de la date du jour pour base de départ des données
-  const today = DateTime.now()
   // Calcul de l'intervalle pour le graphe des distances
   const [endDistanceDate, setEndDistanceDate] = useState(today)
   const startDistanceDate = getFirstDayPeriod(endDistanceDate, "week")
+  
+  // variable permettant l'affichage du sous-titre du graphique distance
   const isSameDay = endDistanceDate.hasSame(today, "day");
   
   // Calcul de l'intervalle pour le graphe des bpm
   const [endBpmDate, setEndBpmDate] = useState(today)
   const startBpmDate = getFirstDayPeriod(endBpmDate, "day")
+
   // Calcul des dates de fin et début de la semaine actuelle
   const {weekStart, weekEnd} = getCurrentWeek(today)
   
+  // EFFETS //////////////////////////////////////////////////////////////////////////////////
 
   // Calcul des données du graphique de distance
   useEffect(() => {
     async function getDistanceData() {
-      //const token = sessionStorage.getItem('token')
-      const distanceActivities = await fetchActivities(useMock, token, startDistanceDate.toFormat('yyyy-MM-dd'), endDistanceDate.toFormat('yyyy-MM-dd'))
-      setDistanceData(formatDistanceFourWeeks(endDistanceDate, distanceActivities))
+      if(token) {
+        const distanceActivities = await fetchActivities(useMock, token, startDistanceDate.toFormat('yyyy-MM-dd'), endDistanceDate.toFormat('yyyy-MM-dd'))
+        setDistanceData(formatDistanceFourWeeks(endDistanceDate, distanceActivities))
+      }
     }
     getDistanceData()
-  }, [useMock, endDistanceDate])
+  }, [useMock, endDistanceDate, token])
 
   // Calcul des données du graphique de bpm
   useEffect(() => {
     async function getBpmData() {
-      //const token = sessionStorage.getItem('token')
-      const bpmActivities = await fetchActivities(useMock, token, startBpmDate.toFormat('yyyy-MM-dd'), endBpmDate.toFormat('yyyy-MM-dd'))
-      setBpmData(formatBpmOneWeek(endBpmDate, bpmActivities))
+      if(token) {
+        const bpmActivities = await fetchActivities(useMock, token, startBpmDate.toFormat('yyyy-MM-dd'), endBpmDate.toFormat('yyyy-MM-dd'))
+        setBpmData(formatBpmOneWeek(endBpmDate, bpmActivities))
+      }
     }
     getBpmData()
-  }, [useMock, endBpmDate])
+  }, [useMock, endBpmDate, token])
+
+  // Calcul des données pour la section semaine
+  useEffect(() => {
+    async function getWeekData() {
+      if(token) {
+        const weekActivities = await fetchActivities(useMock, token, weekStart.toFormat('yyyy-MM-dd'), weekEnd.toFormat('yyyy-MM-dd'))
+        setWeekData(formatCurrentWeekActivities(weekStart, weekEnd, weekActivities))
+      } 
+    }
+    getWeekData()
+  }, [useMock, token])
 
   // Calcul des données du graphique du donut
   const activityTarget = 6
-  const dataDonut = [
-        {name: "réalisés", value: weekData.weekActivities},
-        {name: "restants", value: activityTarget-weekData.weekActivities}
-  ]
-  
-  useEffect(() => {
-    async function getWeekData() {
-     // const token = sessionStorage.getItem('token')
-      const weekActivities = await fetchActivities(useMock, token, weekStart.toFormat('yyyy-MM-dd'), weekEnd.toFormat('yyyy-MM-dd'))
-      setWeekData(formatCurrentWeekActivities(weekStart, weekEnd, weekActivities))
-    }
-    getWeekData()
-  }, [useMock])
-  
+  const dataDonut = useMemo(() => [
+        {name: "réalisés", value: Number(weekData.weekActivities ?? 0)},
+        {name: "restants", value: Number(activityTarget ?? 0) - Number(weekData.weekActivities ?? 0)}
+  ], [weekData])
 
+  // HANDLERS //////////////////////////////////////////////////////////////////////////////////
+  
   function decalateGraph(slot, type) {
     if(slot === "week") {
       const newEndDate = changePeriod(slot, type, endDistanceDate)
@@ -103,6 +104,11 @@ export default function NewDashboard() {
       const newEndDate = changePeriod(slot, type, endBpmDate)
       setEndBpmDate(newEndDate)
     }
+  }
+
+  // Dans le cas où le token est null en mode API, redirection vers l'authentification
+  if (!token && !useMock) {
+    return <Navigate to="/" replace />
   }
 
   return (
@@ -143,7 +149,7 @@ export default function NewDashboard() {
                       </button>
                     </div>
                 </div>
-                {isSameDay && <p className="caption">Total des kilomètres 4 dernières semaines</p>}
+                {isSameDay ? <p className="caption">Total des kilomètres 4 dernières semaines</p> : <p className="caption">Total des kilomètres sur 4 semaines</p>}
                 <div className="distanceGraphWrapper"> 
                   <GraphChart data={distanceData.distances} />
                 </div>

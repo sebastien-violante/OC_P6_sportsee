@@ -14,23 +14,30 @@ export default function Home() {
     const navigate = useNavigate()
     const [cookies, setCookie] = useCookies(["token"])
 
-    // STATES ////////////////////////////////////////////////////////////////////////////////////
+    // STATES ///////////////////////////////////////////////////////////////////////////////////////
+
+    // Initialisation à null des valeurs des champs du formulaire
     const [formData, setFormData] = useState({
         identifiant: "",
         password: "",
     })
+    // Initialisation à null des erreurs du formulaire
     const [errors, setErrors] = useState({
         username: "",
         password: ""
     })
+    // Initialisation à null de l'erreur issu de la soumission du formulaire
     const [loginError, setLoginError] = useState("")
 
     // HANDLERS ////////////////////////////////////////////////////////////////////////////////////
+
+    // Remplissage de l'objet formData au fur et à mesure du Remplissage
     const handleChange = (event)  => {
         const { name, value } = event.target 
         setFormData((prev) => ({...prev, [name]: value}))
     }
     
+    // Soumission du formulaire
     async function handleSubmit(event) {
         event.preventDefault()
         const errors = validateForm(formData)
@@ -49,12 +56,12 @@ export default function Home() {
                     navigate('/dashboard')
                 }
             } catch (error) {
-                console.log(error.message)
                setLoginError(error.message)
             }
         }
     }
 
+    // Permet d'effacer le message d'erreur d'un champ lorsd'une nouvelle saisie
     const hideError = (event) => {
         const name = event.target.name;
         setErrors(prev => ({
@@ -85,7 +92,7 @@ export default function Home() {
                         <span className="error">{errors.password}</span>
                     </section>
                     <input type="submit" className="btnSubmit" value="Se connecter" onClick={handleSubmit}/>
-                    <NavLink  to="/nouveau-mot-de-passe"><button className="forgottenPassword">Mot de passe oublié ?</button></NavLink>
+                    <NavLink  to="/"><button className="forgottenPassword">Mot de passe oublié ?</button></NavLink>
                     {loginError && (<p className="invalidCredential">{loginError}</p>)}
                 </form>            
             </section>

@@ -25,6 +25,7 @@ export default function Profil() {
         useMock
     } = useContext(DataContext)
     
+    // Date du jour
     const today = DateTime.now()
 
     // STATES /////////////////////////////////////////////
@@ -35,27 +36,32 @@ export default function Profil() {
     // Récupération du token
     const cookies = new Cookies()
     const token = cookies.get("token")
-    if (!token && !useMock) {
-        return <Navigate to="/" replace />
-    }
+    
+    // EFFETS /////////////////////////////////////////////
 
     // Rapatriement de toutes les activités depuis memberDate
     useEffect(() => {
-        if(!memberDate) return
-        async function getAllActivities() {
-            // Requête auprès de l'API pour récupérer toutes les activités
-            const allActivities = await fetchActivities(useMock, token, memberDate.toFormat('yyyy-MM-dd'), today.toFormat('yyyy-MM-dd'))
-            if(!allActivities) return
-            setActivities(allActivities)
-            
-            // Détérmination des calories brûlées et du nombre de jours de repos
-            const calories = allActivities.reduce((sum, activity) => sum + activity.caloriesBurned, 0)
-            setCalories(calories)
-            setRestDays(Math.floor(today.diff(memberDate, 'days').days ) - allActivities.length)
+        if(token) {
+           if(!memberDate) return
+            async function getAllActivities() {
+                // Requête auprès de l'API pour récupérer toutes les activités
+                const allActivities = await fetchActivities(useMock, token, memberDate.toFormat('yyyy-MM-dd'), today.toFormat('yyyy-MM-dd'))
+                if(!allActivities) return
+                setActivities(allActivities)
+                
+                // Détérmination des calories brûlées et du nombre de jours de repos
+                const calories = allActivities.reduce((sum, activity) => sum + activity.caloriesBurned, 0)
+                setCalories(calories)
+                setRestDays(Math.floor(today.diff(memberDate, 'days').days ) - allActivities.length) 
+            }
+            getAllActivities()
         }
-        getAllActivities()
     }, [useMock])
-
+    
+    // En l'absence de token, redirection vers authentification
+    if (!token && !useMock) {
+        return <Navigate to="/" replace />
+    }
      
     return (
     <main className="mainProfile">

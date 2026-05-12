@@ -7,7 +7,6 @@ import Error from './pages/Error.jsx';
 import Layout from './pages/Layout.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Profil from './pages/Profil.jsx';
-import NewPwd from './pages/Newpwd.jsx';
 import { DataProvider } from './providers/ContextData.jsx';
 import { CookiesProvider } from 'react-cookie';
 import "@fontsource/inter"; 
@@ -22,7 +21,6 @@ createRoot(document.getElementById('root')).render(
             <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/profil" element={<Profil />} />
-              <Route path="/nouveau-mot-de-passe" element={<NewPwd />} />
               <Route path="*" element={<Error />} />
             </Route>
           </Routes>
