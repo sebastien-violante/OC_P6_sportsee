@@ -2,7 +2,6 @@ import { createContext } from "react"
 import { useState, useEffect } from "react"
 import { formatUser } from "../api/services/formatUser";
 import fetchUser from "../api/fetchFromBack/fetchUser";
-import fetchActivities from "../api/fetchFromBack/fetchActivities";
 import { DateTime } from "luxon";
 import { Cookies } from "react-cookie";
 
@@ -17,19 +16,22 @@ export const DataProvider = ({ children }) => {
     const [loadingUser, setLoadingUser] = useState(true)
 
     const [user, setUser] = useState(null)
-    const [globalActivities, setGlobalActivities] = useState(null)
-    
-    //const token = sessionStorage.getItem('token')
-    const today = DateTime.now()
     
     // Aiguillage entre mode mock et mode api
     useEffect(() => {
         async function fetchData() {
-            if(!token && !useMock) return
-            setLoadingUser(true)
-            const userData = await fetchUser(useMock, token)
-            setUser(userData)
-            setLoadingUser(false)
+            try {
+                if(!token && !useMock) {
+                    setLoadingUser(false)
+                    return
+                }
+                const userData = await fetchUser(useMock, token)
+                setUser(userData)
+            } catch(error) {
+                console.log(error)
+            } finally {
+                setLoadingUser(false)
+            }
         }
         fetchData()
     }, [useMock, token])
@@ -55,6 +57,7 @@ export const DataProvider = ({ children }) => {
     
     return (
         <DataContext.Provider value={{
+            loadingUser,
             toggleUseMock,
             useMock,
             userId,

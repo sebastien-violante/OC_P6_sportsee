@@ -11,14 +11,14 @@ import fetchActivities from '../api/fetchFromBack/fetchActivities'
 import { formatDistanceFourWeeks, formatBpmOneWeek, formatCurrentWeekActivities } from '../api/services/formatActivities'
 import changePeriod from '../utils/changePeriod';
 import { Cookies } from 'react-cookie';
-
+import { BeatLoader } from 'react-spinners';
 
 export default function NewDashboard() {
     
   // CONSTANTES //////////////////////////////////////////////////////////////////////////////////
 
   // Informations utilisateur provenant du contexte
-  const { userId, totalDistance, memberDate, userPicture, useMock } = useContext(DataContext)
+  const { userId, totalDistance, memberDate, userPicture, useMock, loadingUser } = useContext(DataContext)
 
   // Récupération du token dans les cookies
   const cookies = new Cookies()
@@ -114,12 +114,16 @@ export default function NewDashboard() {
   return (
         <>
           <section className="runner" aria-label={`Dashboard de ${userId}, ${totalDistance} kilomètre parcourus`} tabIndex={0} >
-            <ProfileBadge picture={userPicture} id={userId} date={memberDate}/>
+            <ProfileBadge picture={userPicture} id={userId} date={memberDate} loadingUser={loadingUser}/>
             <article className="totalDistance">
               <p className="caption">Distance totale parcourue</p>
               <div className="badge">
                 <img className="flag" src="flag.png" alt=""></img>
-                <p className="totalDistanceNumber">{totalDistance} km</p>
+                { loadingUser ? 
+                (<div className="flex justify-center">
+                  <BeatLoader size={10} color="#FFFFFF"/>
+                </div>) 
+                : <p className="totalDistanceNumber">{totalDistance} km</p>}
               </div>
             </article>
           </section>
