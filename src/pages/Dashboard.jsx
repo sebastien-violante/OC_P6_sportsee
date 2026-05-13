@@ -41,7 +41,7 @@ export default function NewDashboard() {
   // Calcul de l'intervalle pour le graphe des distances
   const [endDistanceDate, setEndDistanceDate] = useState(today)
   const startDistanceDate = getFirstDayPeriod(endDistanceDate, "week")
-  
+
   // variable permettant l'affichage du sous-titre du graphique distance
   const isSameDay = endDistanceDate.hasSame(today, "day");
   
@@ -135,7 +135,7 @@ export default function NewDashboard() {
                         aria-label="semaine précédente" 
                         onClick={() => decalateGraph('week', 'previous')}>
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M14 18l-6-6 6-6" fill="none" stroke="currentColor" strokeWidth="1" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 18l-6-6 6-6" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                       </button>
                       <p>{startDistanceDate.setLocale('fr').toFormat('d LLLL')} - {endDistanceDate.setLocale('fr').toFormat('d LLLL')}</p>
@@ -144,7 +144,7 @@ export default function NewDashboard() {
                         aria-label="semaine suivante" 
                         onClick={() => decalateGraph('week')}>
                          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 18l6-6-6-6" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                       </button>
                     </div>
@@ -163,7 +163,7 @@ export default function NewDashboard() {
                         aria-label="jour précédent" 
                         onClick={() => decalateGraph('day', 'previous')}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M14 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 18l-6-6 6-6" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                       </button>
                       <p>{startBpmDate.setLocale('fr').toFormat('d LLLL')} - {endBpmDate.setLocale('fr').toFormat('d LLLL')}</p>
@@ -172,7 +172,7 @@ export default function NewDashboard() {
                         aria-label="jour suivant" 
                         onClick={() => decalateGraph('day')}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 18l6-6-6-6" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                       </button>
                     </div>

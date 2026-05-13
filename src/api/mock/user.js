@@ -2,7 +2,7 @@ export const userMock =
 {
     "profile": {
         "firstName": "Emma",
-        "lastName": "Leroy",
+        "lastName": "Mock",
         "createdAt": "2025-01-01",
         "age": 28,
         "weight": 62,

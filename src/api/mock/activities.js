@@ -1783,6 +1783,17 @@ export const activitiesMock =
         "caloriesBurned": 350
     },
     {
+        "date": "2026-04-29",
+        "distance": 5,
+        "duration": 32,
+        "heartRate": {
+            "min": 150,
+            "max": 180,
+            "average": 165
+        },
+        "caloriesBurned": 350
+    },
+    {
         "date": "2026-05-01",
         "distance": 7,
         "duration": 42,
@@ -1836,17 +1847,6 @@ export const activitiesMock =
             "average": 159
         },
         "caloriesBurned": 390
-    },
-    {
-        "date": "2026-05-08",
-        "distance": 12,
-        "duration": 120,
-        "heartRate": {
-            "min": 110,
-            "max": 150,
-            "average": 130
-        },
-        "caloriesBurned": 440
     },
     {
         "date": "2026-05-09",
@@ -1903,15 +1903,4 @@ export const activitiesMock =
         },
         "caloriesBurned": 440
     },
-    {
-        "date": "2026-05-14",
-        "distance": 10,
-        "duration": 60,
-        "heartRate": {
-            "min": 143,
-            "max": 179,
-            "average": 162
-        },
-        "caloriesBurned": 440
-    }
 ]

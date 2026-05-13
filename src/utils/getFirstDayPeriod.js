@@ -10,7 +10,7 @@ export default function getFirstDayPeriod(date, type) {
     let periodStart = null
     switch(type) {
         case "week" :
-            periodStart = date.minus({ weeks: 4 })
+            periodStart = date.minus({ weeks: 4 }).plus({ days : 1 })
             break
         case "day" :
             periodStart = date.minus({ days: 7 })

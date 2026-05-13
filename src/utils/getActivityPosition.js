@@ -8,10 +8,8 @@ import { DateTime } from 'luxon';
  */
 export default function getActivityPosition(date, referenceDate) {
 
-    const activity = DateTime.fromISO(date).startOf('week');
-    const reference = DateTime.fromISO(referenceDate).startOf('week');
-    const diffWeeks = Math.floor(reference.diff(activity, 'weeks').weeks);
-    
+    const activity = DateTime.fromISO(date);
+    const diffWeeks = Math.floor(referenceDate.diff(activity, 'weeks').weeks);
     if (diffWeeks >= 0 && diffWeeks < 4) {
         return diffWeeks;
     }

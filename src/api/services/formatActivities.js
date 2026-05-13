@@ -20,12 +20,12 @@ export function formatDistanceFourWeeks(distIndexDate, activities) {
         if (index === null) {
             return 
         } else {
+            console.log(index)
             // Concaténation des distances par semaine et de la distance totale
             distPerWeek[index] += activity.distance;
             distTotal+=activity.distance
         }
     });
-    
     // Elaboration du label pour chacune des barre de semaine en fonction des dates
     const tooltipLabel = [
         `${distIndexDate.minus({ weeks: 4 }).plus({days : 1}).toFormat('dd.MM')} au ${distIndexDate.minus({ weeks: 3 }).toFormat('dd.MM')}`,
@@ -73,8 +73,9 @@ export function formatBpmOneWeek(bpmIndexDate, activities) {
             max: activity.heartRate.max === 0 ? null : activity.heartRate.max,
             avg: activity.heartRate.average === 0 ? null : activity.heartRate.average
         };
+        bpmPerDay.reverse()
     });
-        // détermination des label en fonction des jours précédents
+        // détermination des labels en fonction des jours précédents
         for(let index = 0 ; index <= 7; index++) {
             const tempDay = bpmIndexDate.minus({ days: index })
             labels[7-index] = tempDay.setLocale('fr').toFormat('ccc')
