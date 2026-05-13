@@ -20,7 +20,6 @@ export function formatDistanceFourWeeks(distIndexDate, activities) {
         if (index === null) {
             return 
         } else {
-            console.log(index)
             // Concaténation des distances par semaine et de la distance totale
             distPerWeek[index] += activity.distance;
             distTotal+=activity.distance
@@ -52,7 +51,6 @@ export function formatDistanceFourWeeks(distIndexDate, activities) {
  * @returns {Object} - les données d'activité formatées durant la semaine précédant la date
  */
 export function formatBpmOneWeek(bpmIndexDate, activities) {
-    
     // Définition des valeurs par défaut
     let totalBpm = 0
     let records = 0
@@ -66,6 +64,8 @@ export function formatBpmOneWeek(bpmIndexDate, activities) {
     activities.forEach(activity => {
         const index = getBpmPosition(activity.date, bpmIndexDate);
         if (index === null) return;
+        console.log(activity)
+        console.log(index)
         totalBpm+=activity.heartRate.average
         records++
         bpmPerDay[index] = {
@@ -73,17 +73,21 @@ export function formatBpmOneWeek(bpmIndexDate, activities) {
             max: activity.heartRate.max === 0 ? null : activity.heartRate.max,
             avg: activity.heartRate.average === 0 ? null : activity.heartRate.average
         };
-        bpmPerDay.reverse()
-    });
-        // détermination des labels en fonction des jours précédents
-        for(let index = 0 ; index <= 7; index++) {
-            const tempDay = bpmIndexDate.minus({ days: index })
-            labels[7-index] = tempDay.setLocale('fr').toFormat('ccc')
-        }
-       return {
-            averageBpm : records > 0 ? Number((totalBpm/records).toFixed(0)) : 0,
-            bpmPerDay : bpmPerDay.map((val, i) => ({ name: labels[i], ...val }))
-        }
+        console.log(bpmPerDay)
+       
+    })
+    
+    bpmPerDay.reverse()
+
+    // détermination des labels en fonction des jours précédents
+    for(let index = 0 ; index < 7; index++) {
+        const tempDay = bpmIndexDate.minus({ days: index })
+        labels[6-index] = tempDay.setLocale('fr').toFormat('ccc')
+    }
+    return {
+        averageBpm : records > 0 ? Number((totalBpm/records).toFixed(0)) : 0,
+        bpmPerDay : bpmPerDay.map((val, i) => ({ name: labels[i], ...val }))
+    }
 }
 
 export function formatCurrentWeekActivities(start, end, activities) {

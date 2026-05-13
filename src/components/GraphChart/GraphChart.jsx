@@ -63,6 +63,8 @@ export default function GraphChart({data}) {
                 fill= {hovered ? '#0B23F4' : '#B6BDFC'} 
                 radius={[30, 30, 30, 30]} 
                 barSize={14}
+                 isAnimationActive={false}
+
             />}
             {hasAvg && <Line 
                 type="monotone" 
@@ -71,17 +73,25 @@ export default function GraphChart({data}) {
                 dot={{fill: '#0B23F4', r:4}}
                 strokeWidth={2}
                 connectNulls
+                isAnimationActive={false}
+
             />}
             {hasMin && <Bar 
                 dataKey="min" 
                 barSize={14} 
                 radius={[30, 30, 30, 30]} 
-                fill="#FCC1B6" />}
+                fill="#FCC1B6" 
+                isAnimationActive={false}
+
+            />}
             {hasMax && <Bar 
                 dataKey="max" 
                 barSize={14} 
                 radius={[30, 30, 30, 30]} 
-                fill="#F4320B" />}
+                fill="#F4320B" 
+                isAnimationActive={false}
+
+            />}
             
         </ComposedChart>
         </ResponsiveContainer>
