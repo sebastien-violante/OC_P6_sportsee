@@ -48,7 +48,6 @@ export default function Profil() {
                 const allActivities = await fetchActivities(useMock, token, memberDate.toFormat('yyyy-MM-dd'), today.toFormat('yyyy-MM-dd'))
                 if(!allActivities) return
                 setActivities(allActivities)
-                
                 // Détérmination des calories brûlées et du nombre de jours de repos
                 const calories = allActivities.reduce((sum, activity) => sum + activity.caloriesBurned, 0)
                 setCalories(calories)
@@ -56,7 +55,7 @@ export default function Profil() {
             }
             getAllActivities()
         }
-    }, [useMock])
+    }, [useMock, token])
     
     // En l'absence de token, redirection vers authentification
     if (!token && !useMock) {
