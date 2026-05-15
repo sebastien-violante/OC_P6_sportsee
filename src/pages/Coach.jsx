@@ -5,6 +5,9 @@ import { DateTime } from "luxon"
 import { formatActivitiesDataForIa, formatFormDataForIa } from "../api/services/formatDataForIa"
 import validateFormIa from "../utils/validateFormIa"
 import isEmpty from "lodash-es/isEmpty"
+import { TRAINING_PROMPT } from "../prompts/trainingPrompts"
+import ReactMarkdown from "react-markdown"
+import { BeatLoader } from "react-spinners"
 
 export default function Coach() {
 
@@ -12,13 +15,12 @@ export default function Coach() {
     const apiKey = import.meta.env.VITE_API_KEY
     const model = import.meta.env.VITE_MODEL
     const temperature = Number(import.meta.env.VITE_TEMPERATURE)
-    const maxTokens = Number(import.meta.env.VITE_MAX_TOKENS)
     const system = import.meta.env.VITE_SYSTEM 
-    const consigne = import.meta.env.VITE_CONSIGNE 
-    const url = import.meta.env.VITE_URL 
+    const url = import.meta.env.VITE_URL
+
+    const [loading, setLoading] = useState(false);
 
     const [activities, setActivities] = useState(null)
-
     // Récupération des données user provenant du context
         const {
             userId,
@@ -131,6 +133,7 @@ export default function Coach() {
     // Soumission du formulaire
     async function handleSubmit(event) {
         event.preventDefault()
+        setLoading(true)
         const errors = validateFormIa(formData)
         setErrors(errors)
         if (isEmpty(errors)) {
@@ -149,7 +152,7 @@ export default function Coach() {
             messages.push(activitiesMessage)
             messages.push({
                 role: "user",
-                content: consigne
+                content: TRAINING_PROMPT
             })
             
             const payload = {
@@ -157,18 +160,27 @@ export default function Coach() {
                 temperature: temperature,
                 messages: messages
             }
-            console.log(url)
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${apiKey}`
-                },
-                body: JSON.stringify(payload)
-            });
-            const data = await response.json()
-            const result = data.choices[0].message.content
-            setPlanning(result)
+
+            try{
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json()
+                
+                const result = data.choices[0].message.content
+                //const htmlPlan = marked.parse(result);
+                setPlanning(result)
+            } catch(error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
+            }
+            
         }
     }
 
@@ -224,7 +236,15 @@ export default function Coach() {
                 </div>
                 <button type="submit" className="" onClick={handleSubmit}>Valider</button>
             </form>
-            <p>{planning}</p>
+            {loading && (
+                <div style={{ display: "flex", justifyContent: "center", padding: 20 }}>
+                    <BeatLoader color="#36d7b7" />
+                </div>
+            )}
+
+            {!loading && planning && (
+                <ReactMarkdown>{planning}</ReactMarkdown>
+            )}            
         </>
         
     )
