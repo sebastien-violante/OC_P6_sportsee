@@ -55,8 +55,10 @@ export default function Coach() {
     
     // Initialisation à null des erreurs du formulaire
     const [errors, setErrors] = useState({
-        username: "",
-        password: ""
+        distance: "",
+        terrainType: "",
+        startDate: "",
+        days: ""
     })
 
      // Remplissage de l'objet formData
@@ -135,6 +137,7 @@ export default function Coach() {
         event.preventDefault()
         setLoading(true)
         const errors = validateFormIa(formData)
+        console.log(errors)
         setErrors(errors)
         if (isEmpty(errors)) {
             let messages = []
@@ -185,59 +188,74 @@ export default function Coach() {
     }
 
     return (
-        <>
+        <section className="coach">
             <h1>Votre plan d'entrainement personnalisé</h1>
-            <p className="intro">Remplissez le formulaire et validez pour obtenir votre plan d'entraînement sur 6 semaines, personnalisé par notre IA</p>
-            <form className="space-y-4">
-                <div>
-                    <label htmlFor="raceType" className="block mb-1 font-medium">Type de course</label>
-                    <select id="raceType" name="raceType" className="" onBlur={handleChange} onChange={(e) => fillDistance(e.target.value)}
->
-                        <option value="">sélectionnez</option>
-                        <option value="marathon">Marathon</option>
-                        <option value="semi-marathon">Semi-marathon</option>
-                        <option value="10km">10 km</option>
-                        <option value="course-libre">Juste pour la forme</option>
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="distance" className="">Distance</label>
-                    <input type="number" id="distance" name="distance" min="0" className="" placeholder="Entrez une distance"  onChange={handleChange} value={formData.distance}/>
-                </div>
-                <div>
-                    <label htmlFor="terrainType" className="">Type de terrain</label>
-                    <select id="terrainType" name="terrainType" className="" onBlur={handleChange}>
-                        <option value="">-- Choisir une option --</option>
-                        <option value="route">Route</option>
-                        <option value="chemin">Chemin</option>
-                        <option value="mixte">Mixte</option>
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="startDate" className="">Date de la course</label>
-                    <input type="date" id="startDate" name="startDate" className="" onBlur={handleChange}/>
-                </div>
+            <p className="intro">Remplissez le formulaire et validez-le pour obtenir votre plan d'entraînement sur 6 semaines, personnalisé par notre coach virtuel</p>
+            <form className="form">
+                
+                    <section className="formGroup">
+                        <label htmlFor="raceType" className="label">Type de course</label>
+                            <select id="raceType" name="raceType" className="" onBlur={handleChange} onChange={(e) => fillDistance(e.target.value)}>
+                                <option value="">-- Choisir un type --</option>
+                                <option value="marathon">Marathon</option>
+                                <option value="semi-marathon">Semi-marathon</option>
+                                <option value="10km">10 km</option>
+                                <option value="course-libre">Juste pour la forme</option>
+                            </select>
+                    </section>
+                
+                
+                    <section className="formGroup">
+                        <label htmlFor="distance" className="label">Distance</label>
+                        <input type="number" id="distance" name="distance" min="0" className="" placeholder="Entrez une distance"  onChange={handleChange} value={formData.distance}/>
+                        <span className="error">{errors.distance}</span>
+                    </section>
+                
+                
+                    <section className="formGroup">
+                        <label htmlFor="terrainType" className="label">Type de terrain</label>
+                        <select id="terrainType" name="terrainType" className="" onBlur={handleChange}>
+                            <option value="">-- Choisir un terrain --</option>
+                            <option value="route">Route</option>
+                            <option value="chemin">Chemin</option>
+                            <option value="mixte">Mixte</option>
+                        </select>
+                        <span className="error">{errors.terrainType}</span>
+                    </section>
+                
+                
+                    <section className="formGroup">
+                        <label htmlFor="startDate" className="label">Date de la course</label>
+                        <input type="date" id="startDate" name="startDate" className="" onBlur={handleChange}/>
+                        <span className="error">{errors.startDate}</span>
+                    </section>
+                
                 <div className="days-container">
-            <label>Choisissez les jours où vous pouvez courir</label>
-            <label><input type="checkbox" name="days" value="Lundi" onChange={handleChange}/>Lun</label>
-            <label><input type="checkbox" name="days" value="Mardi" onChange={handleChange}/>Mar</label>
-            <label><input type="checkbox" name="days" value="Mercredi" onChange={handleChange}/>Mer</label>
-            <label><input type="checkbox" name="days" value="Jeudi" onChange={handleChange}/>Jeu</label>
-            <label><input type="checkbox" name="days" value="Vendredi" onChange={handleChange}/>Ven</label>
-            <label><input type="checkbox" name="days" value="Samedi" onChange={handleChange}/>Sam</label>
-            <label><input type="checkbox" name="days" value="Dimanche" onChange={handleChange}/>Dim</label>
-        </div>
-                <div>
-                    <span className="">J'ai besoin de conseils d'alimentation</span>
-                    <label className="" onBlur={handleChange}>
-                        <input type="radio" name="nutritionAdvice" value="oui" className=""/>Oui</label>
-                    <label className="inline-flex items-center" onBlur={handleChange}>
-                        <input type="radio" name="nutritionAdvice" value="non" className=""/>Non</label>
+                    <section className="formGroup">
+                        <label className="label">Choisissez les jours où vous pouvez courir</label>
+                        <div className="checkboxes">
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Lundi" onChange={handleChange}/>Lun</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Mardi" onChange={handleChange}/>Mar</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Mercredi" onChange={handleChange}/>Mer</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Jeudi" onChange={handleChange}/>Jeu</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Vendredi" onChange={handleChange}/>Ven</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Samedi" onChange={handleChange}/>Sam</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Dimanche" onChange={handleChange}/>Dim</label> 
+                        </div>
+                        <span className="error">{errors.days}</span>
+                    </section>
                 </div>
-                <button type="submit" className="" onClick={handleSubmit}>Valider</button>
+                
+                    <section className="formGroup">
+                        <p className="label">J'ai besoin de conseils d'alimentation</p>
+                        <label className="nutritionLabel"><input type="checkbox" name="nutritionAdvice" value="oui" className="check" onChange={handleChange}/>Oui</label>
+                    </section>
+                
+                <button type="submit" className="btnSubmit" onClick={handleSubmit}>Valider</button>
             </form>
             {loading && (
-                <div style={{ display: "flex", justifyContent: "center", padding: 20 }}>
+                <div className="loader">
+                    <p>Votre plan est en préparation. Quelques secondes de patience...</p>
                     <BeatLoader color="#36d7b7" />
                 </div>
             )}
@@ -245,7 +263,7 @@ export default function Coach() {
             {!loading && planning && (
                 <ReactMarkdown>{planning}</ReactMarkdown>
             )}            
-        </>
+        </section>
         
     )
 }

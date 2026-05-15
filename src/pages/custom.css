@@ -410,6 +410,105 @@ body {
     flex-wrap: wrap;
 }
 
+/*///////////// COACH IA ////////////////////////*/
+
+.coach {
+    width: 90%;
+    margin: auto;
+    background: white;
+    padding: 30px 20px;
+    border-radius: 10px;
+}
+
+.coach h1 {
+    font-size: 1.375em;
+    margin-bottom: 20px;
+}
+
+.coach .form .formGroup {
+    margin: 20px auto 10px auto;
+    position: relative;
+    width: 70%;
+}
+
+.coach .form .formGroup span {
+    position: absolute;
+    bottom: -20px;
+    right: 5px;
+    color: red;
+}
+.coach .form .formGroup .label {
+    font-weight: 400;
+    font-size: 0.87em;
+    color: #707070;
+    display: block;
+    margin-bottom: 10px;
+}
+.coach .form .formGroup select,
+.coach .form .formGroup input
+{
+    margin-top: 5px;
+    height: 58px;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #717171;
+    padding-left: 1em;
+}
+
+.coach .form .formGroup .checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.coach .form .formGroup .dayLabel {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.coach .form .formGroup .nutritionLabel {
+     display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.coach .form .formGroup .dayInput {
+    width: 20px;
+    height: 20px;
+}
+.coach .form .formGroup .radio {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.coach .form .formGroup .radio .check{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    height: 20px;
+    width: 70px;
+}
+.coach .form .btnSubmit {
+    margin: 40px auto;
+    width: 100%;
+    height: 50px;
+    background: #0B23F4;
+    font-size: 1em;
+    font-weight: 500;
+    color: white;
+    border-radius: 10px;
+    border: none;
+}
+
+.coach .loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
 @media screen and (max-width: 1439px) {
     .wrapper {
        gap: 20px;

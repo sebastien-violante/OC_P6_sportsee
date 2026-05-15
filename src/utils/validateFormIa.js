@@ -8,7 +8,7 @@ export default function validateFormIa(data) {
     console.log(data)
     
     if(data.startDate === "") {
-        errors.date = "Vous n'avez pas choisi de date de course"
+        errors.startDate = "Vous n'avez pas choisi de date de course"
     }
     const diffWeeks = (Math.floor(startDate.diff(today, 'weeks').weeks))
     if(diffWeeks < 6) errors.startDate = "Votre date de départ doit se trouver dans au moins 6 semaines"
