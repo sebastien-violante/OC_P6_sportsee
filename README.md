@@ -1,16 +1,32 @@
-# React + Vite
+# Dashboard Sport - Projet OpenClassrooms
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Introduction
 
-Currently, two official plugins are available:
+Ce projet a été développé par **Sébastien VIOLANTE** dans le cadre de la formation *Concepteur d'application React* proposée par **OpenClassrooms**.  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Il s'agit du projet n°6 de la formation, qui consiste à réaliser un **dashboard de sport** connecté à une IA afin d'obtenir des propositions d'entraînement.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 1. Installation des dépendances
 
-## Expanding the ESLint configuration
+```bash
+npm install
+```
+## 2. Lancement du projet
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2.1. Lancement du backend
+
+Se rendre dans le dossier P6JS puis
+
+```bash
+yarn dev
+```
+### 2.2. Lancement du front
+
+Se rendre dans le dossier sportsee puis
+
+```bash
+npm run dev
+```
+### 2.1. Lancement du backend
