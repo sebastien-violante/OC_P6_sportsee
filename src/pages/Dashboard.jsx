@@ -105,12 +105,18 @@ export default function NewDashboard() {
       setEndBpmDate(newEndDate)
     }
   }
+  if (loadingUser) {
+  return (
+    <div className="fullPageSpinner">
+      <BeatLoader size={15} color="#36d7b7" />
+    </div>
+    );
+  }
 
   // Dans le cas où le token est null en mode API, redirection vers l'authentification
   if (!token && !useMock) {
     return <Navigate to="/" replace />
   }
-
   return (
         <>
           <section className="runner" aria-label={`Dashboard de ${userId}, ${totalDistance} kilomètre parcourus`} tabIndex={0} >
@@ -121,7 +127,7 @@ export default function NewDashboard() {
                 <img className="flag" src="flag.png" alt=""></img>
                 { loadingUser ? 
                 (<div className="flex justify-center">
-                  <BeatLoader size={10} color="#FFFFFF"/>
+                  <BeatLoader size={10} color="#36d7b7"/>
                 </div>) 
                 : <p className="totalDistanceNumber">{totalDistance} km</p>}
               </div>

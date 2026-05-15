@@ -2,15 +2,16 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import './Header.css'
 import { useCookies } from 'react-cookie'
 import Logo from '../Logo/Logo'
+import { DataContext } from '../../providers/ContextData'
+import { useContext } from 'react';
 
 export default function Header() {
-
+    const { setUser } = useContext(DataContext)
     const navigate = useNavigate()
     const [cookies, setCookie, removeCookie] = useCookies(["token"])
     const handleLogout = () => {
-         // Supprimer le token en session
-        //sessionStorage.removeItem("token")
         removeCookie("token", {path: "/"})
+        setUser(null)
         navigate("/")
     }
     return (
@@ -26,6 +27,9 @@ export default function Header() {
                     </li>
                     <li>
                         <NavLink  to="/profil" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Mon profil</NavLink>
+                    </li>
+                    <li>
+                        <NavLink  to="/coach-virtuel" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Coach IA</NavLink>
                     </li>
                     <li>
                         <button className="li-decon" onClick={handleLogout}>Se déconnecter</button>

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { formatUser } from "../api/services/formatUser";
 import fetchUser from "../api/fetchFromBack/fetchUser";
 import { DateTime } from "luxon";
-import { Cookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 
 export const DataContext = createContext()
 
@@ -11,8 +11,8 @@ export const DataProvider = ({ children }) => {
 
     // Variables permettant de passer du mode mock au mode api
     const [useMock, setUseMock] = useState(false)
-    const cookies = new Cookies()
-    const token = cookies.get("token")
+    const [cookies] = useCookies(["token"]);
+    const token = cookies.token;
     const [loadingUser, setLoadingUser] = useState(true)
 
     const [user, setUser] = useState(null)
@@ -20,15 +20,18 @@ export const DataProvider = ({ children }) => {
     // Aiguillage entre mode mock et mode api
     useEffect(() => {
         async function fetchData() {
+            setLoadingUser(true)
             try {
                 if(!token && !useMock) {
-                    setLoadingUser(false)
-                    return
+                    setUser(null);
+                } else {
+                    const userData = await fetchUser(useMock, token)
+                    setUser(userData) 
                 }
-                const userData = await fetchUser(useMock, token)
-                setUser(userData)
+             
             } catch(error) {
                 console.log(error)
+                setUser(null)
             } finally {
                 setLoadingUser(false)
             }
@@ -58,6 +61,7 @@ export const DataProvider = ({ children }) => {
     return (
         <DataContext.Provider value={{
             loadingUser,
+            setUser,
             toggleUseMock,
             useMock,
             userId,

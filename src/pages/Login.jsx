@@ -53,7 +53,7 @@ export default function Home() {
                         sameSite: "strict",
                         maxAge: 60 * 60 // délai max : 1 heure
                     })
-                    navigate('/dashboard')
+                    navigate('/dashboard', {replace: true})
                 }
             } catch (error) {
                setLoginError(error.message)

@@ -64,8 +64,6 @@ export function formatBpmOneWeek(bpmIndexDate, activities) {
     activities.forEach(activity => {
         const index = getBpmPosition(activity.date, bpmIndexDate);
         if (index === null) return;
-        console.log(activity)
-        console.log(index)
         totalBpm+=activity.heartRate.average
         records++
         bpmPerDay[index] = {
@@ -73,8 +71,6 @@ export function formatBpmOneWeek(bpmIndexDate, activities) {
             max: activity.heartRate.max === 0 ? null : activity.heartRate.max,
             avg: activity.heartRate.average === 0 ? null : activity.heartRate.average
         };
-        console.log(bpmPerDay)
-       
     })
     
     bpmPerDay.reverse()

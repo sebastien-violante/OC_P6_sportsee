@@ -6,7 +6,7 @@ export default function ProfileBadge({picture, id, date, loadingUser}) {
          <article className="identity">
           { loadingUser ? 
           (<div className="flex justify-center">
-            <BeatLoader size={15} />
+            <BeatLoader size={15} color="#36d7b7" />
          </div>) 
           : 
           (<>
