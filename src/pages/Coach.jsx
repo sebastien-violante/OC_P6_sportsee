@@ -12,16 +12,18 @@ import formIaHandleChange from "../utils/formIaHandleChange"
 
 export default function Coach() {
 
-    // récupération des inofs d'environnement
+    // récupération des infos d'environnement
     const apiKey = import.meta.env.VITE_API_KEY
     const model = import.meta.env.VITE_MODEL
     const temperature = Number(import.meta.env.VITE_TEMPERATURE)
     const system = import.meta.env.VITE_SYSTEM 
     const url = import.meta.env.VITE_URL
     const max_tokens = import.meta.env.VITE_MAX_TOKENS
-
+    const prompts_limitation = import.meta.VITE_PROMPTS_LIMITATION
+    // variable indiquant l'état de chargement des données
     const [loading, setLoading] = useState(false);
     
+    // récupération des données utilisateur depuis le context
     const {
         totalDistance,
         memberDate,
@@ -29,8 +31,10 @@ export default function Coach() {
         weight,
     } = useContext(DataContext)
    
+    // élaboration de la partie prompt concernant les activités de l'utilisateur
     const activitiesMessage = formatActivitiesDataForIa(totalDistance, memberDate, weight, age)
     
+    // initialisation des donées du formulaire
     const initialFormData = {
         raceType: "",
         distance: "",
@@ -38,10 +42,10 @@ export default function Coach() {
         startDate: "",
         nutritionAdvice: false,
         days: []
-    }
-    
+    }    
     const [formData, setFormData] = useState(initialFormData)
     
+    // initialisation du ontenu de la partie planning
     const [planning, setPlanning] = useState("")
     
     // Initialisation à null des erreurs du formulaire
@@ -52,6 +56,21 @@ export default function Coach() {
         days: ""
     })
 
+    useEffect(() => {
+        const today = DateTime.now().toISODate()
+        const lastDate = localStorage.getItem("prompts_date")
+
+        if (lastDate !== today) {
+            localStorage.setItem("prompts_date", today)
+            localStorage.setItem("prompts_credits", prompts_limitation)
+        }
+    }, [])
+
+    const getCredits = () => {
+        return Number(localStorage.getItem("prompts_credits") || 0)
+    }
+
+    // concaténation des données du formulaire au fur et à mesure de la saisie
     const handleChange = formIaHandleChange(setFormData)
  
     // Soumission du formulaire
@@ -60,6 +79,14 @@ export default function Coach() {
         const errors = validateFormIa(formData)
         setErrors(errors)
         if (isEmpty(errors)) {
+            const promptsCredits = localStorage.getItem("prompts_credits")
+            console.log(promptsCredits)
+            const credits = getCredits()
+            if (credits <= 0) {
+                setPlanning("Votre crédit IA est épuisé pour aujourd'hui !")
+                return
+            }
+            localStorage.setItem("prompts_credits", String(credits - 1))
             setLoading(true)
             let messages = []
             messages.push({
@@ -81,10 +108,10 @@ export default function Coach() {
             const payload = {
                 model: `${model}`,
                 temperature: temperature,
-                max_tokens: `${max_tokens}`,
+                max_tokens: Number(`${max_tokens}`),
                 messages: messages
             }
-
+console.log(payload)
             try{
                 const response = await fetch(url, {
                     method: "POST",

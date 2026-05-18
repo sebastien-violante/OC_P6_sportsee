@@ -10,7 +10,6 @@ export default function validateFormIa(data) {
     const today = DateTime.now()
     const startDate = DateTime.fromISO(data.startDate)
     const errors = {}
-    console.log(data)
     
     if(data.startDate === "") {
         errors.startDate = "Vous n'avez pas choisi de date de course"

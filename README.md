@@ -73,12 +73,12 @@ Le prompt est complété par les données que l'utilisateur saisit dans le formu
 
 ### 4.4 Données d'environnement
 
-Afin d'utiliser l'application, il est indispensable de créer un fichier .env, et de vérifier son inscription dans le .gitignore. Ce fichier doit comprendre les paramètres suivants :
+Afin d'utiliser l'application, il est indispensable de créer un fichier **.env**, et de vérifier son inscription dans le .gitignore. Ce fichier doit comprendre les paramètres suivants :
 
 **VITE_API_KEY**: le clé API permettant l'accès à Mistral  
 **VITE_MODEL**: le model d'accès à Mistral (pour ce projet, le modèle small est siffisant)  
 **VITE_TEMPERATURE**: la température de la réponse (pour ce projet, privilégier 0.7 ou inférieur)  
-**VITE_MAX_TOKENS**: la longuer de la réponse fournie par l'IA. Une valeur de 3000 permet d'obtenir un plan complet sans qu'il soit tronqué  
+**VITE_MAX_TOKENS**: la longueur de la réponse fournie par l'IA. Une valeur de 3000 permet d'obtenir un plan complet sans qu'il soit tronqué  
 **VITE_SYSTEM**: le system fourni dans le prompt (par exemple: *"tu es un coach sportif confirmé et spécialisé dans la course à pieds"*)
 
 ### 4.5 Consigne globale
@@ -199,16 +199,16 @@ Jour J : Petit-déjeuner 3h avant (ex: banane + porridge + compote).
 ### 5.3 Erreurs de requête possibles
 
 La requête vers l'API peut renvoyer les codes d'erreur suivants :
--**401**: unauthorized : l'authentification a échoué. Il se peut que le token ne soit pas valable ou qu'il soit absent de la requête
--**403**: forbidden : l'accès n'est pas autorisé en raison d'una absence de droit. Cela peut se produire sur les modeles medium et large qui sont payants
-Code HTTP	Cause	Exemple
-400	Mauvaise requête	mauvais JSON, paramètres invalides
-401	API key invalide	clé absente ou expirée
-403	Accès interdit	modèle non autorisé
-404	Ressource introuvable	mauvais endpoint
-422	Validation échouée	mauvais format messages
+-**401**: Unauthorized : l'authentification a échoué. Il se peut que le token ne soit pas valable ou qu'il soit absent de la requête  
+-**403**: Forbidden : l'accès n'est pas autorisé en raison d'una absence de droit. Cela peut se produire sur les modeles medium et large qui sont payants  
+-**404**: Not Found : le endpoint n'est pas correct. Il peut s'agir d'une modification du la variable VITE_URL ou alors de la modification par Mistral de son endpoint  
+-**429**: Too Many Request : trop de reqûetes sont reçues par l'api qui ne peut pas les traiter  
+-**500**: Internal Server Error: le service n'est tout simplement pas disponible  
+-**503**: Service Unavaliable: le service api ne répond pas  
+-**504**: Timeout: réponse trop longue  
 
-500	Erreur serveur Mistral	panne interne
-502	Bad gateway	problème réseau/proxy
-503	Service indisponible	surcharge serveur
-504	Timeout	réponse trop longue
+Par ailleurs, une erreur apparaît lesque le statut **finish-reason** est à **"length"** au lieu de "stop". Cela signifie que le **VITE_MAX_TOKENS** est insuffisant pour recevoir la totalité de la réponse del'api. Il faut donc l'augmenter.
+
+### 5.4 Limitations
+
+Le nombre de prompts envoyés à l'IA est limité à un nombre défini dans la variable **VITE_PROMPTS_LIMITATION** dont la valeur est fixée dans le **.env**. Ainsi, le coût utilisateur de l'usage du coach virtuel est contrôlé.
