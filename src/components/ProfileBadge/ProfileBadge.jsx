@@ -1,6 +1,14 @@
 import './ProfileBadge.css'
 import { BeatLoader } from 'react-spinners'
 
+/**
+ * Renvoie un composant affichant le profil de l'utilisateur 
+ * @param {String} picture - lien de la photo de l'utilisateur
+ * @param {String} id - les nom et prénom de l'utilisateur
+ * @param {DateTime} date - la date d'inscription de l'utilisateur
+ * @param {Boolean} loadingUser - constante indiquant l'état de chargement des données utilisateur
+ * @returns {JSX.Element} - composant header
+ */
 export default function ProfileBadge({picture, id, date, loadingUser}) {
     return (
          <article className="identity">

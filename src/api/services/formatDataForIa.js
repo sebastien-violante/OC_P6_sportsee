@@ -36,9 +36,8 @@ export function formatFormDataForIa(formData) {
     formData.days.forEach(day => days+=", "+day)
     const stringDays = days.slice(2)
     messages.push(`Je suis disponible pour courir chaque semaine les : ${stringDays}.`)
-
-    if(formData.nutritionAdvice === "oui") {
-        messages.push("je veux des conseils d'alimentation")
+    if(formData.nutritionAdvice) {
+        messages.push("Donne moi aussi des conseils d'alimentation")
     }
 
     return (messages)

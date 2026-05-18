@@ -10,7 +10,7 @@ export const userMock =
         "profilePicture": "http://localhost:8000/images/emma.jpg"
     },
     "statistics": {
-        "totalDistance": "3791.4",
+        "totalDistance": "1789",
         "totalSessions": 607,
         "totalDuration": 22624
     }

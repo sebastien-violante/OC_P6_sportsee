@@ -5,6 +5,10 @@ import Logo from '../Logo/Logo'
 import { DataContext } from '../../providers/ContextData'
 import { useContext } from 'react';
 
+/**
+ * Renvoie un composant header avec le logo du site et la barre de navigation
+ * @returns {JSX.Element} - composant header
+ */
 export default function Header() {
     const { setUser } = useContext(DataContext)
     const navigate = useNavigate()

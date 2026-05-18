@@ -8,6 +8,7 @@ import isEmpty from "lodash-es/isEmpty"
 import { TRAINING_PROMPT } from "../prompts/trainingPrompts"
 import ReactMarkdown from "react-markdown"
 import { BeatLoader } from "react-spinners"
+import formIaHandleChange from "../utils/formIaHandleChange"
 
 export default function Coach() {
 
@@ -17,39 +18,29 @@ export default function Coach() {
     const temperature = Number(import.meta.env.VITE_TEMPERATURE)
     const system = import.meta.env.VITE_SYSTEM 
     const url = import.meta.env.VITE_URL
+    const max_tokens = import.meta.env.VITE_MAX_TOKENS
 
     const [loading, setLoading] = useState(false);
-
-    const [activities, setActivities] = useState(null)
-    // Récupération des données user provenant du context
-        const {
-            userId,
-            totalDistance,
-            memberDate,
-            userPicture,
-            age,
-            weight,
-            height,
-            totalDurationHrs,
-            totalDurationMin,
-            useMock
-        } = useContext(DataContext)
     
-    // Récupération du token
-        const cookies = new Cookies()
-        const token = cookies.get("token")
+    const {
+        totalDistance,
+        memberDate,
+        age,
+        weight,
+    } = useContext(DataContext)
    
     const activitiesMessage = formatActivitiesDataForIa(totalDistance, memberDate, weight, age)
     
-
-    const [formData, setFormData] = useState({
-            raceType: "",
-            distance: "",
-            terrainType: "",
-            startDate: "",
-            nutritionAdvice: false,
-            days: []
-        })
+    const initialFormData = {
+        raceType: "",
+        distance: "",
+        terrainType: "",
+        startDate: "",
+        nutritionAdvice: false,
+        days: []
+    }
+    
+    const [formData, setFormData] = useState(initialFormData)
     
     const [planning, setPlanning] = useState("")
     
@@ -61,83 +52,12 @@ export default function Coach() {
         days: ""
     })
 
-     // Remplissage de l'objet formData
-    const handleChange = (event) => {
-        const { name, value, type, checked } = event.target
-        if (name === "raceType") {
-            let distanceValue = ""
-            switch (value) {
-                case "marathon":
-                    distanceValue = 42.195
-                    break
-                case "semi-marathon":
-                    distanceValue = 21
-                    break
-                case "10km":
-                    distanceValue = 10
-                    break
-            }
-            setFormData((prev) => ({
-                ...prev,
-                raceType: value,
-                distance: distanceValue
-            }))
-            return
-        }
-
-        if (name === "days") {
-            setFormData((prev) => ({
-                ...prev,
-                days: checked
-                    ? [...prev.days, value]
-                    : prev.days.filter(d => d !== value)
-            }))
-            return
-        }
-
-        if (type === "radio") {
-            setFormData((prev) => ({
-                ...prev,
-                [name]: value
-            }))
-            return
-        }
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value
-        }))
-    }
-
-       const fillDistance = (value) => {
-    let distanceValue = ""
-
-    switch(value) {
-        case "marathon":
-            distanceValue = 42.195
-            break
-        case "semi-marathon":
-            distanceValue = 21
-            break
-        case "10km":
-            distanceValue = 10
-            break
-        default:
-            distanceValue = ""
-    }
-
-    setFormData((prev) => ({
-        ...prev,
-        raceType: value,
-        distance: distanceValue
-    }))
-}
-
+    const handleChange = formIaHandleChange(setFormData)
+ 
     // Soumission du formulaire
     async function handleSubmit(event) {
         event.preventDefault()
-        
         const errors = validateFormIa(formData)
-        console.log(errors)
         setErrors(errors)
         if (isEmpty(errors)) {
             setLoading(true)
@@ -158,10 +78,10 @@ export default function Coach() {
                 role: "user",
                 content: TRAINING_PROMPT
             })
-            
             const payload = {
                 model: `${model}`,
                 temperature: temperature,
+                max_tokens: `${max_tokens}`,
                 messages: messages
             }
 
@@ -176,25 +96,41 @@ export default function Coach() {
                 });
 
                 if (!response.ok) {
-                    const errorBody = await response.text()
-                    console.error("API ERROR:", response.status, errorBody);
-                    switch (response.status) {
-                        case 401 : 
-                            throw new Error("Erreur 401 : vous n'avez pas l'autorisation de vous connecter")
-                            break
-                        default :
-                        
-                        }
-                    
-
-                    throw new Error(`Erreur API (${response.status})`)
+                   switch (response.status) {
+                    case 400:
+                        throw new Error("Votre demande est invalide.")
+                    case 401:
+                        throw new Error("Vos identifiants ne permettent pas la connection à l'api")
+                    case 403:
+                        throw new Error("Vous n'êtes pas autorisés à accéder à l'api.")
+                    case 404:
+                        throw new Error("La page demandée n'existe pas.")
+                    case 429:
+                        throw new Error("Trop de requêtes. Réessaiyez dans quelques instants.")
+                    case 500:
+                        throw new Error("Erreur interne du serveur.")
+                    case 503:
+                        throw new Error("Service temporairement indisponible.")
+                    default:
+                        throw new Error(`Erreur API (${response.status})`)
+                    }
                 }
+                
                 const data = await response.json()
                 const result = data.choices[0].message.content
+                if(data.choices[0].finish_reason === "length") {
+                    throw new Error(`Erreur API: la réponse est tronquée`)
+                }
+                console.log(data.choices[0].finish_reason)
                 setPlanning(result)
+
             } catch(error) {
-                console.error(error)
-                setPlanning(error.message)
+                 if (error.name === "TypeError") {
+                    setPlanning("Erreur réseau : impossible de contacter l'API")
+                } else {
+                    setPlanning(error.message)
+                }
+                
             } finally {
                 setLoading(false)
             }
@@ -207,65 +143,82 @@ export default function Coach() {
             <h1>Votre plan d'entrainement personnalisé</h1>
             <p className="intro">Remplissez le formulaire et validez-le pour obtenir votre plan d'entraînement sur 6 semaines, personnalisé par notre coach virtuel</p>
             <form className="form">
-                
-                    <section className="formGroup">
-                        <label htmlFor="raceType" className="label">Type de course</label>
-                            <select id="raceType" name="raceType" className="" onBlur={handleChange} onChange={(e) => fillDistance(e.target.value)}>
-                                <option value="">-- Choisir un type --</option>
-                                <option value="marathon">Marathon</option>
-                                <option value="semi-marathon">Semi-marathon</option>
-                                <option value="10km">10 km</option>
-                                <option value="course-libre">Juste pour la forme</option>
-                            </select>
-                    </section>
-                
-                
-                    <section className="formGroup">
-                        <label htmlFor="distance" className="label">Distance</label>
-                        <input type="number" id="distance" name="distance" min="0" className="" placeholder="Entrez une distance"  onChange={handleChange} value={formData.distance}/>
-                        <span className="error">{errors.distance}</span>
-                    </section>
-                
-                
-                    <section className="formGroup">
-                        <label htmlFor="terrainType" className="label">Type de terrain</label>
-                        <select id="terrainType" name="terrainType" className="" onBlur={handleChange}>
-                            <option value="">-- Choisir un terrain --</option>
-                            <option value="route">Route</option>
-                            <option value="chemin">Chemin</option>
-                            <option value="mixte">Mixte</option>
+                <section className="formGroup">
+                    <label htmlFor="raceType" className="label">Type de course</label>
+                        <select 
+                            id="raceType" 
+                            name="raceType" 
+                            className="" 
+                            onChange={handleChange}
+                            value={formData.raceType}
+                            >
+                            <option value="">-- Choisir un type --</option>
+                            <option value="marathon">Marathon</option>
+                            <option value="semi-marathon">Semi-marathon</option>
+                            <option value="10km">10 km</option>
+                            <option value="course-libre">Juste pour la forme</option>
                         </select>
-                        <span className="error">{errors.terrainType}</span>
-                    </section>
-                
-                
-                    <section className="formGroup">
-                        <label htmlFor="startDate" className="label">Date de la course</label>
-                        <input type="date" id="startDate" name="startDate" className="" onBlur={handleChange}/>
-                        <span className="error">{errors.startDate}</span>
-                    </section>
-                
+                </section>
+                <section className="formGroup">
+                    <label htmlFor="distance" className="label">Distance</label>
+                    <input 
+                        type="number" 
+                        id="distance" 
+                        name="distance" 
+                        min="0" 
+                        className="" 
+                        placeholder="Entrez une distance"  
+                        onChange={handleChange} 
+                        value={formData.distance}/>
+                    <span className="error">{errors.distance}</span>
+                </section>
+                <section className="formGroup">
+                    <label htmlFor="terrainType" className="label">Type de terrain</label>
+                    <select 
+                        id="terrainType" 
+                        name="terrainType" 
+                        className="" 
+                        onChange={handleChange}
+                        value={formData.terrainType}
+                        >
+                        <option value="">-- Choisir un terrain --</option>
+                        <option value="route">Route</option>
+                        <option value="chemin">Chemin</option>
+                        <option value="mixte">Mixte</option>
+                    </select>
+                    <span className="error">{errors.terrainType}</span>
+                </section>
+                <section className="formGroup">
+                    <label htmlFor="startDate" className="label">Date de la course</label>
+                    <input 
+                        type="date" 
+                        id="startDate" 
+                        name="startDate" 
+                        className="" 
+                        onChange={handleChange}
+                        value={formData.startDate}
+                        />
+                    <span className="error">{errors.startDate}</span>
+                </section>
                 <div className="days-container">
                     <section className="formGroup">
                         <label className="label">Choisissez les jours où vous pouvez courir</label>
                         <div className="checkboxes">
-                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Lundi" onChange={handleChange}/>Lun</label>
-                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Mardi" onChange={handleChange}/>Mar</label>
-                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Mercredi" onChange={handleChange}/>Mer</label>
-                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Jeudi" onChange={handleChange}/>Jeu</label>
-                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Vendredi" onChange={handleChange}/>Ven</label>
-                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Samedi" onChange={handleChange}/>Sam</label>
-                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Dimanche" onChange={handleChange}/>Dim</label> 
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Lundi" checked={formData.days.includes("Lundi")} onChange={handleChange}/>Lun</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Mardi" checked={formData.days.includes("Mardi")} onChange={handleChange}/>Mar</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Mercredi" checked={formData.days.includes("Mercredi")} onChange={handleChange}/>Mer</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Jeudi" checked={formData.days.includes("Jeudi")} onChange={handleChange}/>Jeu</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Vendredi" checked={formData.days.includes("Vendredi")} onChange={handleChange}/>Ven</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Samedi" checked={formData.days.includes("Samedi")} onChange={handleChange}/>Sam</label>
+                            <label className="dayLabel"><input className="dayInput" type="checkbox" name="days" value="Dimanche" checked={formData.days.includes("Dimanche")} onChange={handleChange}/>Dim</label> 
                         </div>
                         <span className="error">{errors.days}</span>
                     </section>
                 </div>
-                
-                    <section className="formGroup">
-                        <p className="label">J'ai besoin de conseils d'alimentation</p>
-                        <label className="nutritionLabel"><input type="checkbox" name="nutritionAdvice" value="oui" className="check" onChange={handleChange}/>Oui</label>
-                    </section>
-                
+                <section className="formGroup">
+                    <p className="label">J'ai besoin de conseils d'alimentation</p>
+                    <label className="nutritionLabel"><input type="checkbox" name="nutritionAdvice" checked={formData.nutritionAdvice} className="check" onChange={handleChange}/>Oui</label>
+                </section>
                 <button type="submit" className="btnSubmit" onClick={handleSubmit}>Valider</button>
             </form>
             {loading && (
@@ -274,13 +227,11 @@ export default function Coach() {
                     <BeatLoader color="#36d7b7" />
                 </div>
             )}
-
             {!loading && planning && (
                 <section className="planning">
                     <ReactMarkdown>{planning}</ReactMarkdown>
                 </section>
             )}            
         </section>
-        
     )
 }

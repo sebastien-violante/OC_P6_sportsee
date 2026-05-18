@@ -1,6 +1,11 @@
 import './Logo.css'
 
+/**
+ * Renvoie un composant logo animé
+ * @returns {JSX.Element} - composant Logo
+ */
 export default function Logo() {
+    // tableau de paramétrage des barres bleues
     const blueBars = [
         { src: "pictures/logo/blue1.svg", top: 11, left: 0, height: 8 },
         { src: "pictures/logo/blue2.svg", top: 8, left: 4, height: 13 },
@@ -8,7 +13,7 @@ export default function Logo() {
         { src: "pictures/logo/blue4.svg", top: 11, left: 12, height: 9 },
         { src: "pictures/logo/blue5.svg", top: 11, left: 16, height: 6 },
     ];
-
+    // tableau de paramétrage des barres rouges
     const redBars = [
         { src: "pictures/logo/red1.svg", top: 3, left: 0, height: 11, move: 7 },
         { src: "pictures/logo/red2.svg", top: 0, left: 4, height: 14, move: 9 },

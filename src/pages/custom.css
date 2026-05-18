@@ -98,7 +98,8 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    height: 2em;
+    text-decoration: none;
+    
 }
 .formWrapper .form .invalidCredential {
     color: red;
