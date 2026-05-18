@@ -2,7 +2,13 @@ import { ComposedChart, Line, Area, Bar, XAxis, YAxis, CartesianGrid, Tooltip, L
 import { RechartsDevtools } from '@recharts/devtools';
 import { useState } from 'react';
 
+/**
+ * Renvoie un composant graphique paramétrable en fonction des données fournies
+ * @param {Object} data - les données utilisateur
+ * @returns {JSX.Element} - composant GraphChart
+ */
 export default function GraphChart({data}) {
+    // Détermination de constantes en fonction de la composition du premier slot de données data[0]
     const hasMin = data[0]?.min !== undefined;
     const hasMax = data[0]?.max !== undefined;
     const hasAvg = data[0]?.avg !== undefined;
@@ -29,8 +35,10 @@ export default function GraphChart({data}) {
                 tickMargin={22}
                 tick={{ fontSize: 12, fill: "#707070" }} 
             />
+
             {hasAvg && <YAxis type="number" domain={[130, 'auto']} tick={{ fontSize: 10, fill: "#707070" }} tickMargin={9} tickLine={false} />}
             {!hasAvg && <YAxis tick={{ fontSize: 10, fill: "#707070" }} tickMargin={9} tickLine={false} />}
+            
             {hasDist && <Tooltip 
                 labelFormatter={(label, payload) => {
                     return payload?.[0]?.payload?.tooltipLabel || label;
@@ -92,8 +100,7 @@ export default function GraphChart({data}) {
                 isAnimationActive={false}
 
             />}
-            
-        </ComposedChart>
+            </ComposedChart>
         </ResponsiveContainer>
     )
 

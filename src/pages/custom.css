@@ -468,11 +468,15 @@ body {
 }
 
 .coach .form .formGroup .nutritionLabel {
-     display: flex;
+    display: flex;
     gap: 10px;
     align-items: center;
+    width: 100px
 }
-
+.coach .form .formGroup .nutritionLabel input{
+    width: 30px;
+    height: 30px;
+}
 .coach .form .formGroup .dayInput {
     width: 20px;
     height: 20px;
@@ -501,13 +505,36 @@ body {
     border-radius: 10px;
     border: none;
 }
-
 .coach .loader {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
 }
+.coach .planning {
+    padding: 30px;
+}
+.coach .planning h1,
+.caoch .planning h2,
+.coach .planning h3,
+.coach .planning h4
+ {
+    text-transform: uppercase;
+    color: grey;
+    margin: 10px 0 5px 0;
+}
+.coach hr {
+    display: none;
+}
+.coach .planning > ul {
+    border-radius: 5px;
+    border: 1px solid grey;
+    padding: 10px;
+}
+.coach .planning ul > li > ul{
+    margin-bottom: 5px;
+}
+
 
 @media screen and (max-width: 1439px) {
     .wrapper {

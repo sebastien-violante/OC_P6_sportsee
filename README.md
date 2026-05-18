@@ -200,4 +200,15 @@ Jour J : Petit-déjeuner 3h avant (ex: banane + porridge + compote).
 
 La requête vers l'API peut renvoyer les codes d'erreur suivants :
 -**401**: unauthorized : l'authentification a échoué. Il se peut que le token ne soit pas valable ou qu'il soit absent de la requête
--**403**: forbidden : l'accès n'est pas autorisé en raison d'una absence de droit. Cela peut se produire sur les system
+-**403**: forbidden : l'accès n'est pas autorisé en raison d'una absence de droit. Cela peut se produire sur les modeles medium et large qui sont payants
+Code HTTP	Cause	Exemple
+400	Mauvaise requête	mauvais JSON, paramètres invalides
+401	API key invalide	clé absente ou expirée
+403	Accès interdit	modèle non autorisé
+404	Ressource introuvable	mauvais endpoint
+422	Validation échouée	mauvais format messages
+
+500	Erreur serveur Mistral	panne interne
+502	Bad gateway	problème réseau/proxy
+503	Service indisponible	surcharge serveur
+504	Timeout	réponse trop longue

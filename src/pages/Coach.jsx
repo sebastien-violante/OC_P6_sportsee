@@ -135,11 +135,12 @@ export default function Coach() {
     // Soumission du formulaire
     async function handleSubmit(event) {
         event.preventDefault()
-        setLoading(true)
+        
         const errors = validateFormIa(formData)
         console.log(errors)
         setErrors(errors)
         if (isEmpty(errors)) {
+            setLoading(true)
             let messages = []
             messages.push({
                 role: "system",
@@ -173,13 +174,27 @@ export default function Coach() {
                     },
                     body: JSON.stringify(payload)
                 });
+
+                if (!response.ok) {
+                    const errorBody = await response.text()
+                    console.error("API ERROR:", response.status, errorBody);
+                    switch (response.status) {
+                        case 401 : 
+                            throw new Error("Erreur 401 : vous n'avez pas l'autorisation de vous connecter")
+                            break
+                        default :
+                        
+                        }
+                    
+
+                    throw new Error(`Erreur API (${response.status})`)
+                }
                 const data = await response.json()
-                
                 const result = data.choices[0].message.content
-                //const htmlPlan = marked.parse(result);
                 setPlanning(result)
             } catch(error) {
                 console.error(error)
+                setPlanning(error.message)
             } finally {
                 setLoading(false)
             }
@@ -261,7 +276,9 @@ export default function Coach() {
             )}
 
             {!loading && planning && (
-                <ReactMarkdown>{planning}</ReactMarkdown>
+                <section className="planning">
+                    <ReactMarkdown>{planning}</ReactMarkdown>
+                </section>
             )}            
         </section>
         

@@ -3,17 +3,9 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 const COLORS = ["#1E2BE6", "#AAB0E8"];
 const RADIAN = Math.PI / 180;
 
-const renderCustomLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  percent,
-  name,
-  value,
-  fill
-}) => {
+// Défini les paramètres personnalisés de rendu
+const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, name, value, fill }) => {
+  
   const radius = outerRadius + 20;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -42,7 +34,11 @@ const renderCustomLabel = ({
   );
 };
 
-
+/**
+ * Renvoie un composant graphique Donut 
+ * @param {Object} data - données utilisateur
+ * @returns {JSX.Element} - composant Donut
+ */
 export default function DonutChart({data}) {
   return (
     <PieChart width={400} height={250}>

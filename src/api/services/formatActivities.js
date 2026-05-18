@@ -80,12 +80,22 @@ export function formatBpmOneWeek(bpmIndexDate, activities) {
         const tempDay = bpmIndexDate.minus({ days: index })
         labels[6-index] = tempDay.setLocale('fr').toFormat('ccc')
     }
+    
     return {
         averageBpm : records > 0 ? Number((totalBpm/records).toFixed(0)) : 0,
         bpmPerDay : bpmPerDay.map((val, i) => ({ name: labels[i], ...val }))
     }
 }
 
+/**
+ * Renvoie les données formatées de la semaine actuelle
+ * @param {DateTime} start - début de la semaine actuelle (lundi)
+ * @param {DateTime} end - fin de la semaine actuelle (dimanche)
+ * @param {Object} activities - les activités utilisateur
+ * @returns {Object} - weekActivities - le nombre d'activités réalisées
+ * @returns {Object} - weekDistance - la distance courue
+ * @returns {Object} - weekDuration - le temps de course
+ */
 export function formatCurrentWeekActivities(start, end, activities) {
     const startMs = start.toMillis();
     const endMs = end.toMillis();
@@ -94,22 +104,27 @@ export function formatCurrentWeekActivities(start, end, activities) {
     let weekDuration = 0
     activities.forEach(activity => {
         const activityMs = DateTime.fromISO(activity.date).toMillis();
-            
         if (activityMs >= startMs && activityMs <= endMs) {
             weekActivities++
             weekDistance+=activity.distance
             weekDuration+=activity.duration
         }
     })
+
     return {weekActivities, weekDistance, weekDuration}
 }
 
-export function calculateBurntCalories(activities) {
 
+/**
+ * Renvoie le nombre de calories brûlées dans le total des activités
+ * @param {Object} activities - les activités utilisateur
+ * @returns {Number} - burntCalories - le nombre de calories brûlées
+ */
+export function calculateBurntCalories(activities) {
     let burntCalories = 0
     activities.forEach(activity => {
-        burntCalories+=activity.caloriesBurned}
-    )
+        burntCalories+=activity.caloriesBurned
+    })
 
     return burntCalories
 }

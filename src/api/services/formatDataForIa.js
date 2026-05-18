@@ -1,7 +1,14 @@
 import { DateTime } from "luxon"
 
+/**
+ * Renvoie un objet message pour le prompt IA, contenant les données utilisateur
+ * @param {Number} totalDistance - distance totale parcourue
+ * @param {DateTime} memberDate - date d'inscription de l'utilisateur
+ * @param {String} height - la taille de l'utilisateur
+ * @param {Number} - age - l'âde de l'utilisateur
+ * @returns {Object} - objet message contenant les données de l'utilisateur
+ */
 export function formatActivitiesDataForIa(totalDistance, memberDate, height, age) {
-    
     const today = DateTime.now()
     const reference = DateTime.fromISO(memberDate)
     const delay = Math.floor(today.diff(reference, 'days').days)
@@ -14,9 +21,12 @@ export function formatActivitiesDataForIa(totalDistance, memberDate, height, age
 
 }
 
+/**
+ * Renvoie un objet message pour le prompt IA, contenant les données du formulaire rempli par l'utilisateur
+ * @param {Object} formData - données du formulaire
+ * @returns {Object} - objet message contenant les données du formulaire saisi par l'utilisateur
+ */
 export function formatFormDataForIa(formData) {
-
-    console.log(formData.days)
     const messages = []
     let race = ""
     formData.raceType === "course-libre" ? race = `course libre de ${formData.distance} kilomètres` : race = `${formData.raceType} (${formData.distance} kilomètres)`
@@ -28,7 +38,7 @@ export function formatFormDataForIa(formData) {
     messages.push(`Je suis disponible pour courir chaque semaine les : ${stringDays}.`)
 
     if(formData.nutritionAdvice === "oui") {
-        messages.push("J'ai également besoin de conseils de nutrition")
+        messages.push("je veux des conseils d'alimentation")
     }
 
     return (messages)
