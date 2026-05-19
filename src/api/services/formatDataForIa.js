@@ -16,7 +16,7 @@ export function formatActivitiesDataForIa(totalDistance, memberDate, height, age
 
     return ({
         role: "user",
-        content: `Voici mes statistiques depuis le ${memberDate?.toFormat('dd-MM-yy')} : j'ai couru en moyenne ${avgDistance} kilomètres par jour jusqu'à aujourd'hui. Je pèse ${height} kilos et j'ai ${age} ans.`
+        content: `Mes statistiques depuis le ${memberDate?.toFormat('dd-MM-yy')} :en moyenne ${avgDistance} kilomètres/jour jusqu'à aujourd'hui. Poids : ${height} kg. Age : ${age} ans.`
     })
 
 }
@@ -36,8 +36,8 @@ export function formatFormDataForIa(formData) {
     formData.days.forEach(day => days+=", "+day)
     const stringDays = days.slice(2)
     messages.push(`Je suis disponible pour courir chaque semaine les : ${stringDays}.`)
-    if(formData.nutritionAdvice) {
-        messages.push("Donne moi aussi des conseils d'alimentation")
+    if(!formData.nutritionAdvice) {
+        messages.push("PAS DE CONSEILS D'ALIMENTATION")
     }
 
     return (messages)

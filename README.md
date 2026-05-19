@@ -134,81 +134,74 @@ Le body est composé de la manière suivante :
 
 ```bash
 {
-   "model" : "mistral-small-latest",
-   "temperature": 0.7
-   "messages": [
-        {"role": "system", "content": "tu es un coach sportif confirmé et spécialisé en course à pieds"},
-        {"role": "user", "content": "Je souhaite faire une course type semi-marathon (21 kilomètres), le 2026-07-19. Le terrain est plutôt route."},
-        {"role": "user", "content": "Je suis disponible pour courir chaque semaine les : Lundi, Mercredi."},
-        {"role": "user", "content": ""J'ai également besoin de conseils de nutrition"},
-        {"role": "user", "content": "Voici mes statistiques depuis le 01.01.2025 : j'ai couru en moyenne 5.3 kilomètres par jour jusqu'à aujourd'hui. Je pèse 71 kilos et j'ai 44 ans."},
-        {"role": "user", "content": "Objectif : fournir un plan d'entrainement sur 6 semaines correspondant aux critères fournis.Contraintes :- Liste à puces en Markdown, - Structure : - 1 titre principal (exemple: plan d'entraînement sur 6 semaines), - 6 sections (1 par semaine) avec :
-        - date, - distance à parcourir, - rythme à adopter, - 1 section conseils alimentaires uniquement si je te le demande, - explications courtes"}
-   ] 
+    "model":"mistral-small-latest",
+    "temperature":0.3,
+    "max_tokens":1500,
+    "messages":[
+        {"role":"system","content":"tu es un coach sportif confirmé et spécialisé en course à pieds"},
+        {"role":"user","content":"Je souhaite faire une course type marathon (42.195 kilomètres), le 2026-08-02. Le terrain est plutôt mixte."},{"role":"user","content":"Je suis disponible pour courir chaque semaine les : Mercredi, Jeudi, Samedi."},
+        {"role":"user","content":"Mes statistiques depuis le 01-01-25 :en moyenne 7 kilomètres/jour jusqu'à aujourd'hui. Poids : 62 kg. Age : 28 ans."},
+        {"role":"user","content":"\nAttendu : plan d'entrainement sur 6 semaines\nContraintes :\n- Liste à puces en Markdown\n- Structure :\n    - 1 titre principal h1\n    - 6 sections (1 par semaine contenant jours de course avec date, distance, rythme, temps de course)\n    - explications courtes. Pas de questions supplémentaires\n    - structure attendue :\n    Titre du plan (h1)\n    Sections : h2 puis dates (autant que de jours de course): distance, rhytme, temps de course\n    1 paragraphe avec conseils précis d'alimentation sauf si ma demande comprend \"PAS DE CONSEILS D'ALIMENTATION\"\n"}
+    ]
 }
 ```
 
 #### 5.2.3 Exemple de réponse attendue
 
 ```bash
-Plan d’entraînement sur 6 semaines pour un semi-marathon (21 km)
-Préparation pour le 19 juillet 2026 – Terrain route – 2 séances/semaine (Lundi & Mercredi)
-
-⚠️ Notes importantes :
-
-Ce plan est conçu pour un coureur débutant/intermédiaire en semi-marathon.
-Adaptez les allures en fonction de votre ressenti (objectif : endurance, pas de performance immédiate).
-Échauffez-vous toujours 10-15 min avant chaque séance (footing lent + étirements dynamiques).
-Hydratez-vous bien avant/après les runs, et buvez par petites gorgées pendant l’effort si >1h.
-Repos actif : marche, vélo ou natation les jours sans course pour favoriser la récupération.
-Semaine 1 (22-28 juin 2026)
-Lundi : 8 km à allure endurance fondamentale (6:30-7:00/km) Objectif : Habituer le corps à l’effort régulier. Respectez un rythme où vous pouvez parler facilement.
-Mercredi : 6 km à allure endurance (6:30-7:00/km) + 3 accélérations progressives (30 sec à allure 5:30/km en fin de sortie) Objectif : Travail de foulée et légère stimulation cardiaque.
-Astuce : Notez votre fréquence cardiaque (FC) pendant les runs pour ajuster les allures.
-
-Semaine 2 (29 juin - 5 juillet 2026)
-Lundi : 10 km à allure endurance (6:30-7:00/km) Objectif : Augmenter progressivement la distance sans forcer.
-Mercredi : 5 km à allure endurance + 4 x 3 min à allure semi-marathon (5:40-6:00/km) avec récupération 2 min marche/trotin Objectif : Préparer le corps aux variations de rythme.
-Focus : Étirez-vous bien après chaque sortie (mollets, quadriceps, ischio-jambiers).
-
-Semaine 3 (6-12 juillet 2026)
-Lundi : 12 km à allure endurance (6:30-7:00/km) Objectif : Tester votre capacité à tenir sur une distance proche de la moitié du semi.
-Mercredi : 6 km à allure endurance + 2 x 5 min à allure 5:50/km avec récupération 3 min marche Objectif : Renforcer l’endurance spécifique.
-Conseil : Portez les chaussures que vous utiliserez le jour J pour les habituer.
-
-Semaine 4 (13-19 juillet 2026)
-Lundi : 8 km à allure endurance (6:30-7:00/km) Objectif : Récupération active avant la semaine "clé".
-Mercredi : 15 km à allure endurance (6:30-7:00/km) Objectif : Longue sortie pour simuler la durée de l’effort le jour J.
-Rappel : Hydratez-vous pendant et après les runs longs (eau + électrolytes si nécessaire).
-
-Semaine 5 (20-26 juillet 2026) – Semaine de réduction
-Lundi : 6 km à allure endurance très légère (7:00-7:30/km) Objectif : Garder le rythme sans fatigue.
-Mercredi : 10 km à allure endurance (6:30-7:00/km) Objectif : Conserver la sensation de course sans forcer.
-À faire : Étudiez le parcours (dénivelé, ravitaillements) et planifiez votre stratégie de course.
-
-Semaine 6 (27 juillet - 2 août 2026) – Affûtage
-Lundi : 5 km à allure très légère (7:30-8:00/km) Objectif : Relâchement musculaire.
-Mercredi : 3 km à allure endurance + 3 accélérations courtes (20 sec) Objectif : Garder les jambes "vivantes" sans épuiser.
-Derniers conseils :
-
-Dormez 7-8h/nuit la semaine avant la course.
-Mangez des glucides complexes (pâtes, riz) 2 jours avant.
-Jour J : Petit-déjeuner 3h avant (ex: banane + porridge + compote).
+{
+    "id": "81f50d04b98b4a70a75e3dfa933b6514",
+    "created": 1779172235,
+    "model": "mistral-small-latest",
+    "usage": {
+        "prompt_tokens": 270,
+        "total_tokens": 1747,
+        "completion_tokens": 1477,
+        "prompt_tokens_details": {
+            "cached_tokens": 0
+        }
+    },
+    "object": "chat.completion",
+    "choices": [
+        {
+            "index": 0,
+            "finish_reason": "stop",
+            "message": {
+                "role": "assistant",
+                "tool_calls": null,
+                "content": "# Plan d'entraînement pour marathon mixte (6 semaines)\n\n## Semaine 1\n### **Mercredi 2025-07-16**\n- **Distance** : 10 km\n- **Rythme** : 5:30/km (allure marathon cible : 5:10/km)\n- **Temps de course** : 55 min\n\n### **Jeudi 2025-07-17**\n- **Distance** : 8 km\n- **Rythme** : 5:45/km (récupération active)\n- **Temps de course** : 45 min\n\n### **Samedi 2025-07-19**\n- **Distance** : 12 km\n- **Rythme** : 5:20/km (allure marathon cible)\n- **Temps de course** : 1h02 min\n\n**Conseils d'alimentation** :\nHydratez-vous avec 500 ml d’eau 2h avant la séance et 250 ml 30 min avant. Consommez une banane 30 min avant le départ pour un apport en glucides rapides. Après la course, privilégiez une collation protéinée (yaourt grec + fruits secs) dans les 30 min.\n\n---\n\n## Semaine 2\n### **Mercredi 2025-07-23**\n- **Distance** : 12 km\n- **Rythme** : 5:25/km\n- **Temps de course** : 1h03 min\n\n### **Jeudi 2025-07-24**\n- **Distance** : 8 km\n- **Rythme** : 5:50/km\n- **Temps de course** : 46 min\n\n### **Samedi 2025-07-26**\n- **Distance** : 15 km\n- **Rythme** : 5:15/km\n- **Temps de course** : 1h17 min\n\n**Conseils d'alimentation** :\nAugmentez votre apport en glucides complexes (pâtes complètes, riz basmati) la veille de la longue sortie. Pendant l’effort, testez un gel énergétique (30 g de glucides) à mi-parcours. Post-course : smoothie banane-lait d’amande + 10 g de protéines en poudre.\n\n---\n\n## Semaine 3\n### **Mercredi 2025-07-30**\n- **Distance** : 14 km\n- **Rythme** : 5:20/km\n- **Temps de course** : 1h13 min\n\n### **Jeudi 2025-07-31**\n- **Distance** : 8 km\n- **Rythme** : 5:45/km\n- **Temps de course** : 45 min\n\n### **Samedi 2025-08-02**\n- **Distance** : 18 km\n- **Rythme** : 5:10/km\n- **Temps de course** : 1h32 min\n\n**Conseils d'alimentation** :\nJour de la longue sortie : petit-déjeuner 3h avant (porridge + miel + amandes). Pendant la course, alternez eau et boisson isotonique (500 ml/h). Après l’effort : repas complet (poulet, quinoa, légumes) dans les 2h.\n\n---\n\n## Semaine 4\n### **Mercredi 2025-08-06**\n- **Distance** : 10 km\n- **Rythme** : 5:30/km\n- **Temps de course** : 55 min\n\n### **Jeudi 2025-08-07**\n- **Distance** : 6 km\n- **Rythme** : 6:00/km\n- **Temps de course** : 36 min\n\n### **Samedi 2025-08-09**\n- **Distance** : 20 km\n- **Rythme** : 5:05/km\n- **Temps de course** : 1h41 min\n\n**Conseils d'alimentation** :\nPhase de récupération : augmentez les apports en oméga-3 (saumon, noix) et en antioxydants (myrtilles, épinards). Hydratation : 1,5 L d’eau dans la journée + électrolytes si transpiration importante.\n\n---\n## Semaine 5\n### **Mercredi 2025-08-13**\n- **Distance** : 12 km\n- **Rythme** : 5:25/km\n- **Temps de course** : 1h03 min\n\n### **Jeudi 2025-08-14**\n- **Distance** : 8 km\n- **Rythme** : 5:50/km\n- **Temps de course** : 46 min\n\n### **Samedi 2025-08-16**\n- **Distance** : 12 km\n- **Rythme** : 5:15/km\n- **Temps de course** : 1h02 min\n\n**Conseils d'alimentation** :\nTestez votre stratégie de ravitaillement pour le marathon (gels, boissons) lors de cette sortie. Évitez les aliments nouveaux. Post-course : repas riche en protéines (steak de bœuf) + glucides (patate douce).\n\n---\n## Semaine 6 (Affûtage)\n### **Mercredi 2025-08-20**\n- **Distance** : 8 km\n- **Rythme** : 5:40/km\n- **Temps de course** : 43 min\n\n### **Jeudi 2025-08-21**\n- **Distance** : 5 km\n- **Rythme** : 6:00/km\n- **Temps de course** : 30 min\n\n### **Samedi 2025-08-23**\n- **Distance** : 6 km\n- **Rythme** : 5:50/km\n- **Temps de course** : 35 min\n\n**Conseils d'alimentation** :\nDiminuez progressivement les glucides (50% de votre apport habituel) 3 jours avant la course. Hydratez-vous bien mais sans excès. La veille au soir : dîner léger (soupe, poisson blanc, riz blanc)."
+            }
+        }
+    ]
+}
 ```
 
 ### 5.3 Erreurs de requête possibles
 
 La requête vers l'API peut renvoyer les codes d'erreur suivants :
--**401**: Unauthorized : l'authentification a échoué. Il se peut que le token ne soit pas valable ou qu'il soit absent de la requête  
--**403**: Forbidden : l'accès n'est pas autorisé en raison d'una absence de droit. Cela peut se produire sur les modeles medium et large qui sont payants  
--**404**: Not Found : le endpoint n'est pas correct. Il peut s'agir d'une modification du la variable VITE_URL ou alors de la modification par Mistral de son endpoint  
--**429**: Too Many Request : trop de reqûetes sont reçues par l'api qui ne peut pas les traiter  
--**500**: Internal Server Error: le service n'est tout simplement pas disponible  
--**503**: Service Unavaliable: le service api ne répond pas  
--**504**: Timeout: réponse trop longue  
+-**401** : Unauthorized : l'authentification a échoué. Il se peut que le token ne soit pas valable ou qu'il soit absent de la requête  
+-**403** : Forbidden : l'accès n'est pas autorisé en raison d'una absence de droit. Cela peut se produire sur les modeles medium et large qui sont payants  
+-**404** : Not Found : le endpoint n'est pas correct. Il peut s'agir d'une modification du la variable VITE_URL ou alors de la modification par Mistral de son endpoint  
+-**429** : Too Many Request : trop de reqûetes sont reçues par l'api qui ne peut pas les traiter  
+-**500** : Internal Server Error: le service n'est tout simplement pas disponible  
+-**503** : Service Unavaliable: le service api ne répond pas  
+-**504** : Timeout: réponse trop longue  
 
 Par ailleurs, une erreur apparaît lesque le statut **finish-reason** est à **"length"** au lieu de "stop". Cela signifie que le **VITE_MAX_TOKENS** est insuffisant pour recevoir la totalité de la réponse del'api. Il faut donc l'augmenter.
 
 ### 5.4 Limitations
 
-Le nombre de prompts envoyés à l'IA est limité à un nombre défini dans la variable **VITE_PROMPTS_LIMITATION** dont la valeur est fixée dans le **.env**. Ainsi, le coût utilisateur de l'usage du coach virtuel est contrôlé.
+- Le nombre de prompts envoyés à l'IA est limité à un nombre défini dans la variable **VITE_PROMPTS_LIMITATION** dont la valeur est fixée dans le **.env**. Ainsi, le côut par utilisateur et par jour est contrôlé.  
+
+- Le nombre de tokens envoyés est limité par la structure du message et le fait que l'utilisateur n'ajout aucune donnée. En l'état, la payload se situe aux environs de 270 tokens, soit environ 200 mots. La majeures partie de la charge provient de la variable **trainingPrompts** qui sert à cadrer la réponse attendue.  
+
+- Le nombre de tokens reçus est limité par la constante **VITE_MAX_TOKENS** à 2000 token, ce qui représente un paragraphe d'environ 1500 mots. A titre de comparaison :  
+| Usage             | Total tokens |  
+| ----------------- | ------------ |  
+| Petit chatbot     | 100–500      |  
+| Réponse détaillée | 1000–3000    |  
+| Gros article      | 4000–8000    |  
+| Contexte énorme   | 10000+       |  
+
+NB : si la réponse est régulièrement tronquée (finish_reason à "length"), il est conseillée d'augmenter **VITE_MAX_TOKENS** pour autoriser une réponse plus longue.
+

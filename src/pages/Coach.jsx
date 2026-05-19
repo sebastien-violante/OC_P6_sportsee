@@ -19,7 +19,7 @@ export default function Coach() {
     const system = import.meta.env.VITE_SYSTEM 
     const url = import.meta.env.VITE_URL
     const max_tokens = import.meta.env.VITE_MAX_TOKENS
-    const prompts_limitation = import.meta.VITE_PROMPTS_LIMITATION
+    const prompts_limitation = Number(import.meta.env.VITE_PROMPTS_LIMITATION)
     // variable indiquant l'état de chargement des données
     const [loading, setLoading] = useState(false);
     
@@ -67,7 +67,8 @@ export default function Coach() {
     }, [])
 
     const getCredits = () => {
-        return Number(localStorage.getItem("prompts_credits") || 0)
+        const credits = Number(localStorage.getItem("prompts_credits") || 0)
+        return isNaN(credits) ? 0 : credits
     }
 
     // concaténation des données du formulaire au fur et à mesure de la saisie
@@ -111,7 +112,6 @@ export default function Coach() {
                 max_tokens: Number(`${max_tokens}`),
                 messages: messages
             }
-console.log(payload)
             try{
                 const response = await fetch(url, {
                     method: "POST",
@@ -121,7 +121,7 @@ console.log(payload)
                     },
                     body: JSON.stringify(payload)
                 });
-
+console.log(JSON.stringify(payload))
                 if (!response.ok) {
                    switch (response.status) {
                     case 400:
