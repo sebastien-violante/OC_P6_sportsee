@@ -1,9 +1,15 @@
+/**
+ * Renvoie une date calculée à partir d'une date initiale, d'un type et d'un pas
+ * @param {Function} setFormData - le setter de formData
+ * @returns {Function} - une fonction associée à un élement du DOM
+ */
+
 export default function formIaHandleChange(setFormData) {
     return (event) => {
+        // Récupération des données du champ concerné par l'event (event.target)
         const { name, value, type, checked } = event.target
 
         setFormData(prev => {
-
             if (type === "checkbox" && name === "days") {
                 return {
                     ...prev,
@@ -12,14 +18,12 @@ export default function formIaHandleChange(setFormData) {
                         : prev.days.filter(d => d !== value)
                 }
             }
-
             if (type === "checkbox") {
                 return {
                     ...prev,
                     [name]: checked
                 }
             }
-
             if (name === "raceType") {
                 let distanceValue = ""
 

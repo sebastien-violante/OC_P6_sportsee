@@ -1,7 +1,11 @@
+/**
+ * Permet un focus trap par la gestion de Tab et Shift Tab
+ * @param {Object} event - l'évènement à l'origine de l'action
+ * @param {Object} options - objet formé de deux éléments HTML
+ */
 export default function handleKeyboard(event, options) {
 
-    const { first, last} = options
-    
+    const {first, last} = options
     const active = document.activeElement
     const handlers = {
         Tab: (event) => {

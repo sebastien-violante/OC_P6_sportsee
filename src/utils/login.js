@@ -17,7 +17,7 @@ export default async function login(data) {
         });
 
         if (!response.ok) {
-            // Transformation de l'erreur en json ou null
+            // Transformation de l'erreur en json ou null (évite une erreur de type "Unexpected token < in JSON" si le serveur ne renvoie pas son erreur sous format JSON)
             const errorData = await response.json().catch(() => null);
             
             // Cas de login/password invalides

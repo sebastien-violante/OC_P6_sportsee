@@ -21,7 +21,7 @@ export default function GraphChart({data}) {
                 data={data}
                 margin={{
                     top: 20,
-                    right: 0,
+                    right: 20,
                     bottom: 0,
                     left: 0,
                 }}

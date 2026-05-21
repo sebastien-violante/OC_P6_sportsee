@@ -51,7 +51,7 @@ Le résultat (plan d'entraînement) s'affiche en dessous du formulaire lorsque l
 
 L'utilisation du coach virtuel nécessite de posséder un token Mistral. Il peut être généré à l'adresse suivante :
 
-https://admin.mistral.ai/organization/workspaces/6c93f99c-468a-43d5-821c-e239391a6abc/api-keys
+https://admin.mistral.ai/organization/api-keys
 
 Dans le projet, le token est stocké en tant que variable d'environnement **VITE_API_KEY** et rappelée dans le composant Coach.jsx
 
@@ -103,7 +103,7 @@ Ce endpoint est à ajouter dans le fichier .env comme valeur de la constante **V
 Le header de la requête contient :
 ```bash
 Content-Type: application/json
-Ahtorization: Bearer <token>
+Authorization: Bearer <token>
 ```
 **Explication**  
 Content-Type permet d'indiquer que le body de la requête est en json. Le token est celui qui est appelé depuis VITE_API_KEY

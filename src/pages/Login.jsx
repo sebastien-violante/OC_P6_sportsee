@@ -76,7 +76,7 @@ export default function Home() {
         }
     }
 
-    // Permet d'effacer le message d'erreur d'un champ lorsd'une nouvelle saisie
+    // Permet d'effacer le message d'erreur d'un champ lors d'une nouvelle saisie
     const hideError = (event) => {
         const name = event.target.name;
         setErrors(prev => ({

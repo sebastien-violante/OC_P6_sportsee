@@ -10,7 +10,7 @@ import getCurrentWeek from '../utils/getCurrentWeek'
 import fetchActivities from '../api/fetchFromBack/fetchActivities'
 import { formatDistanceFourWeeks, formatBpmOneWeek, formatCurrentWeekActivities } from '../api/services/formatActivities'
 import changePeriod from '../utils/changePeriod';
-import { Cookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 import { BeatLoader } from 'react-spinners';
 
 export default function NewDashboard() {
@@ -21,8 +21,8 @@ export default function NewDashboard() {
   const { userId, totalDistance, memberDate, userPicture, useMock, loadingUser } = useContext(DataContext)
 
   // Récupération du token dans les cookies
-  const cookies = new Cookies()
-  const token = cookies.get("token")
+  const [cookies] = useCookies(["token"]);
+  const token = cookies.token;
   
   // Initialisation de la date du jour pour base de départ des données
   const today = DateTime.now()
@@ -33,20 +33,19 @@ export default function NewDashboard() {
   const initialWeekData = { weekActivities: 0, weekDuration: 0, weekDistance: 0 }
 
   // STATES ET CONSTANTES DERIVEES /////////////////////////////////////////////////////////////
-
   const [distanceData, setDistanceData] = useState(initialDistanceData)
   const [bpmData, setBpmData] = useState(initialBpmData)
   const [weekData, setWeekData] = useState(initialWeekData)
+  const [endDistanceDate, setEndDistanceDate] = useState(today)
+  const [endBpmDate, setEndBpmDate] = useState(today)
 
   // Calcul de l'intervalle pour le graphe des distances
-  const [endDistanceDate, setEndDistanceDate] = useState(today)
   const startDistanceDate = getFirstDayPeriod(endDistanceDate, "week")
 
   // variable permettant l'affichage du sous-titre du graphique distance
   const isSameDay = endDistanceDate.hasSame(today, "day");
   
   // Calcul de l'intervalle pour le graphe des bpm
-  const [endBpmDate, setEndBpmDate] = useState(today)
   const startBpmDate = getFirstDayPeriod(endBpmDate, "day")
 
   // Calcul des dates de fin et début de la semaine actuelle
@@ -89,9 +88,11 @@ export default function NewDashboard() {
 
   // Calcul des données du graphique du donut
   const activityTarget = 6
+  const done = Number(weekData.weekActivities ?? 0)
+  const toDo = Number(activityTarget ?? 0) - Number(weekData.weekActivities ?? 0)
   const dataDonut = useMemo(() => [
-        {name: "réalisés", value: Number(weekData.weekActivities ?? 0)},
-        {name: "restants", value: Number(activityTarget ?? 0) - Number(weekData.weekActivities ?? 0)}
+        {name: done <= 1 ? "réalisée" : "réalisées", value: Number(weekData.weekActivities ?? 0)},
+        {name: toDo <= 1 ? "restante" : "restantes", value: Number(activityTarget ?? 0) - Number(weekData.weekActivities ?? 0)}
   ], [weekData])
 
   // HANDLERS //////////////////////////////////////////////////////////////////////////////////

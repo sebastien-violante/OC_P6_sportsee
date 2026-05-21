@@ -1,5 +1,4 @@
-import { createContext } from "react"
-import { useState, useEffect } from "react"
+import { createContext, useState, useEffect} from "react"
 import { formatUser } from "../api/services/formatUser";
 import fetchUser from "../api/fetchFromBack/fetchUser";
 import { DateTime } from "luxon";
@@ -11,8 +10,10 @@ export const DataProvider = ({ children }) => {
 
     // Variables permettant de passer du mode mock au mode api
     const [useMock, setUseMock] = useState(false)
+    // Récupération du token en cookies
     const [cookies] = useCookies(["token"]);
     const token = cookies.token;
+    // Variable indiquant l'état de chargement de des données user
     const [loadingUser, setLoadingUser] = useState(true)
 
     const [user, setUser] = useState(null)
@@ -24,6 +25,7 @@ export const DataProvider = ({ children }) => {
             try {
                 if(!token && !useMock) {
                     setUser(null);
+                    return
                 } else {
                     const userData = await fetchUser(useMock, token)
                     setUser(userData) 

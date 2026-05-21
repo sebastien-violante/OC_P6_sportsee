@@ -7,6 +7,7 @@ import validateFormIa from "../utils/validateFormIa"
 import isEmpty from "lodash-es/isEmpty"
 import { TRAINING_PROMPT } from "../prompts/trainingPrompts"
 import ReactMarkdown from "react-markdown"
+import rehypeSanitize from "rehype-sanitize"
 import { BeatLoader } from "react-spinners"
 import formIaHandleChange from "../utils/formIaHandleChange"
 
@@ -16,7 +17,6 @@ export default function Coach() {
     const apiKey = import.meta.env.VITE_API_KEY
     const model = import.meta.env.VITE_MODEL
     const temperature = Number(import.meta.env.VITE_TEMPERATURE)
-    const system = import.meta.env.VITE_SYSTEM 
     const url = import.meta.env.VITE_URL
     const max_tokens = import.meta.env.VITE_MAX_TOKENS
     const prompts_limitation = Number(import.meta.env.VITE_PROMPTS_LIMITATION)
@@ -92,7 +92,7 @@ export default function Coach() {
             let messages = []
             messages.push({
                 role: "system",
-                content: `${system}`
+                content: "tu es un coach sportif confirmé et spécialisé en course à pieds"
             })
             const formMessages = formatFormDataForIa(formData)
             formMessages.map(message => {
@@ -121,7 +121,6 @@ export default function Coach() {
                     },
                     body: JSON.stringify(payload)
                 });
-console.log(JSON.stringify(payload))
                 if (!response.ok) {
                    switch (response.status) {
                     case 400:
@@ -221,7 +220,7 @@ console.log(JSON.stringify(payload))
                         type="date" 
                         id="startDate" 
                         name="startDate" 
-                        className="" 
+                        className="startDate" 
                         onChange={handleChange}
                         value={formData.startDate}
                         />
@@ -250,13 +249,15 @@ console.log(JSON.stringify(payload))
             </form>
             {loading && (
                 <div className="loader">
-                    <p>Votre plan est en préparation. Quelques secondes de patience...</p>
+                    <p>Votre plan est en préparation. Encore quelques secondes de patience...</p>
                     <BeatLoader color="#36d7b7" />
                 </div>
             )}
             {!loading && planning && (
                 <section className="planning">
-                    <ReactMarkdown>{planning}</ReactMarkdown>
+                    <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
+                        {planning}
+                    </ReactMarkdown>
                 </section>
             )}            
         </section>
