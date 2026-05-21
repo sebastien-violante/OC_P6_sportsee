@@ -26,13 +26,11 @@ export const DataProvider = ({ children }) => {
                 if(!token && !useMock) {
                     setUser(null);
                     return
-                } else {
-                    const userData = await fetchUser(useMock, token)
-                    setUser(userData) 
-                }
-             
+                }              
+                const userData = await fetchUser(useMock, token)
+                const formatted = userData ? formatUser(userData, useMock) : null
+                setUser(formatted) 
             } catch(error) {
-                console.log(error)
                 setUser(null)
             } finally {
                 setLoadingUser(false)
@@ -41,21 +39,6 @@ export const DataProvider = ({ children }) => {
         fetchData()
     }, [useMock, token])
 
-    // Données utilisateur
-    const formattedUser = user ? formatUser(user, useMock) : {
-        userId: "Anonyme", 
-        memberDate: null, 
-        totalDistance: 0, 
-        userPicture: "defaultUser.jpg", 
-        age: "--", 
-        weight:"--",
-        height:"--",
-        totalDurationHrs: "0h",
-        totalDurationMin:'0min',
-        totalSessions: 0
-    }
-    const {userId, totalDistance, memberDate, userPicture, age, weight, height, totalDurationHrs, totalDurationMin, totalSessions} = formattedUser
-    
     function toggleUseMock() {
         setUseMock(prev => !prev)
     }
@@ -63,19 +46,10 @@ export const DataProvider = ({ children }) => {
     return (
         <DataContext.Provider value={{
             loadingUser,
-            setUser,
             toggleUseMock,
+            setUser,
             useMock,
-            userId,
-            totalDistance,
-            memberDate,
-            userPicture,
-            age,
-            weight,
-            height,
-            totalDurationHrs,
-            totalDurationMin,
-            totalSessions,
+            user
         }}
         >
             {children}

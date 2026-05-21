@@ -18,7 +18,7 @@ export default function NewDashboard() {
   // CONSTANTES //////////////////////////////////////////////////////////////////////////////////
 
   // Informations utilisateur provenant du contexte
-  const { userId, totalDistance, memberDate, userPicture, useMock, loadingUser } = useContext(DataContext)
+  const { user, loadingUser, useMock } = useContext(DataContext)
 
   // Récupération du token dans les cookies
   const [cookies] = useCookies(["token"]);
@@ -106,22 +106,23 @@ export default function NewDashboard() {
       setEndBpmDate(newEndDate)
     }
   }
-  if (loadingUser) {
+  if (loadingUser || !user) {
   return (
     <div className="fullPageSpinner">
       <BeatLoader size={15} color="#36d7b7" />
     </div>
     );
   }
-
+  
   // Dans le cas où le token est null en mode API, redirection vers l'authentification
   if (!token && !useMock) {
     return <Navigate to="/" replace />
   }
+
   return (
         <>
-          <section className="runner" aria-label={`Dashboard de ${userId}, ${totalDistance} kilomètre parcourus`} tabIndex={0} >
-            <ProfileBadge picture={userPicture} id={userId} date={memberDate} loadingUser={loadingUser}/>
+          <section className="runner" aria-label={`Dashboard de ${user.userId}, ${user.totalDistance} kilomètre parcourus`} tabIndex={0} >
+            <ProfileBadge picture={user.userPicture} id={user.userId} date={user.memberDate} loadingUser={loadingUser}/>
             <article className="totalDistance">
               <p className="caption">Distance totale parcourue</p>
               <div className="badge">
@@ -130,14 +131,14 @@ export default function NewDashboard() {
                 (<div className="flex justify-center">
                   <BeatLoader size={10} color="#36d7b7"/>
                 </div>) 
-                : <p className="totalDistanceNumber">{totalDistance} km</p>}
+                : <p className="totalDistanceNumber">{user.totalDistance} km</p>}
               </div>
             </article>
           </section>
           <section className='lastPerfo'>
             <h2 className="sectionTitle">Vos dernières performances</h2>
             <div className="graphs">
-              <article className="graphBarDistance" aria-label={`Graphique des distances parcourues par ${userId} sur 4 semaines`} tabIndex={0}>
+              <article className="graphBarDistance" aria-label={`Graphique des distances parcourues par ${user.userId} sur 4 semaines`} tabIndex={0}>
                 <div className="data">
                   <p className="average">{distanceData.distAverage}km en moyenne</p>
                     <div className="selectDate">
@@ -165,7 +166,7 @@ export default function NewDashboard() {
                   <GraphChart data={distanceData.distances} />
                 </div>
               </article>
-              <article className="graphBarBpm" aria-label={`Graphique du rythme cardiaque de ${userId} sur 7 jours`} tabIndex={0}>
+              <article className="graphBarBpm" aria-label={`Graphique du rythme cardiaque de ${user.userId} sur 7 jours`} tabIndex={0}>
                 <div className="data">
                   <p className="average">{bpmData.averageBpm} BPM</p>
                     <div className="selectDate">
@@ -199,7 +200,7 @@ export default function NewDashboard() {
               <h2 className="sectionTitle">Cette semaine</h2>
               <p className="sectionSubTitle">Du {weekStart.setLocale('fr').toFormat('d LLLL')} au {weekEnd.setLocale('fr').toFormat('d LLLL')}</p>
               <div className="donutAndData">
-                <article className="donut" aria-label={`Graphique des activités de ${userId} cette semaine`} tabIndex={0}>
+                <article className="donut" aria-label={`Graphique des activités de ${user.userId} cette semaine`} tabIndex={0}>
                   <div className="donutHeader">
                     <p className="realised"><span className="target">x{weekData.weekActivities}</span> sur objectif de {activityTarget}</p>
                     <p className="caption">Courses hebdomadaires réalisées</p>
@@ -207,11 +208,11 @@ export default function NewDashboard() {
                   <DonutChart data={dataDonut}/>
                 </article>
                 <div className="data">
-                  <article className="duration" aria-label={`Durée d'activité de ${userId} cette semaine`} tabIndex={0}>
+                  <article className="duration" aria-label={`Durée d'activité de ${user.userId} cette semaine`} tabIndex={0}>
                     <p className="label">Durée d'activité</p>
                     <p className="result"><span className="number">{weekData.weekDuration}</span> minutes</p>
                   </article>
-                  <article className="distance" aria-label={`Distance parcourue par ${userId} cette semaine`} tabIndex={0}>
+                  <article className="distance" aria-label={`Distance parcourue par ${user.userId} cette semaine`} tabIndex={0}>
                     <p className="label">Distance</p>
                     <p className="result"><span className="number">{Math.round(weekData.weekDistance*10)/10}</span> kilomètres</p>
                   </article>

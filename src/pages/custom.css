@@ -249,12 +249,16 @@ body {
     width: 583px;
 }
 .distanceGraphWrapper {
-    width: 330px;
+    max-width: 330px;
     height: 307px;
+    min-width: 0;
+    min-height: 0;
 }
 .bpmGraphWrapper {
-    width: 503px;
+    max-width: 503px;
     height: 307px;
+    min-width: 0;
+    min-height: 0;
 }
 .sectionSubTitle {
     color: var(--grey);
