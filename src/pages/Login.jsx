@@ -97,13 +97,30 @@ export default function Home() {
                     <h1 tabIndex={0}>Transformez<br />vos stats en résultats</h1>
                     <h2 className="subtitle">Se connecter</h2>
                     <section className="formGroup">
-                        <label htmlFor="username" className="label">Adresse email</label>
-                        <input id="username" className="input" name="username" type="text" onBlur={handleChange} onKeyDown={hideError}/>
+                        <label htmlFor="username" className="label">Identifiant</label>
+                        <input 
+                            id="username" 
+                            className="input" 
+                            name="username" 
+                            type="text" 
+                            onChange={handleChange} 
+                            onKeyDown={hideError}
+                            autoComplete="username"
+
+                            />
                         <span className="error">{errors.username}</span>
                     </section>
                     <section className="formGroup">
                         <label htmlFor="password" className="label">Mot de passe</label>
-                        <input id="password" className="input" name="password" type="password" onBlur={handleChange} onKeyDown={hideError}/>
+                        <input 
+                            id="password" 
+                            className="input" 
+                            name="password" 
+                            type="password" 
+                            onChange={handleChange} 
+                            onKeyDown={hideError}
+                            autoComplete="password"
+                            />
                         <span className="error">{errors.password}</span>
                     </section>
                     <input type="submit" className="btnSubmit" value="Se connecter" onClick={handleSubmit}/>
