@@ -23,8 +23,8 @@ createRoot(document.getElementById('root')).render(
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/profil" element={<Profil />} />
               <Route path="/coach-virtuel" element={<Coach />} />
-              <Route path="*" element={<Error />} />
             </Route>
+            <Route path="*" element={<Error />} />
           </Routes>
         </Router>
       </DataProvider>

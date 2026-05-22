@@ -106,8 +106,7 @@ export default function Home() {
                             onChange={handleChange} 
                             onKeyDown={hideError}
                             autoComplete="username"
-
-                            />
+                        />
                         <span className="error">{errors.username}</span>
                     </section>
                     <section className="formGroup">

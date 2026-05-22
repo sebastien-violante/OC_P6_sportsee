@@ -80,8 +80,6 @@ export default function Coach() {
         const errors = validateFormIa(formData)
         setErrors(errors)
         if (isEmpty(errors)) {
-            const promptsCredits = localStorage.getItem("prompts_credits")
-            console.log(promptsCredits)
             const credits = getCredits()
             if (credits <= 0) {
                 setPlanning("Votre crédit IA est épuisé pour aujourd'hui !")
@@ -147,7 +145,6 @@ export default function Coach() {
                 if(data.choices[0].finish_reason === "length") {
                     throw new Error(`Erreur API: la réponse est tronquée`)
                 }
-                console.log(data.choices[0].finish_reason)
                 setPlanning(result)
 
             } catch(error) {
