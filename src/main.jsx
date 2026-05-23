@@ -8,14 +8,12 @@ import Layout from './pages/Layout.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Profil from './pages/Profil.jsx';
 import Coach from './pages/Coach.jsx';
-import { DataProvider } from './providers/ContextData.jsx';
 import { CookiesProvider } from 'react-cookie';
 import "@fontsource/inter"; 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <CookiesProvider>
-      <DataProvider>
         <Router>
           <Routes>
             <Route path="/" element={<Login />} />
@@ -27,7 +25,6 @@ createRoot(document.getElementById('root')).render(
             <Route path="*" element={<Error />} />
           </Routes>
         </Router>
-      </DataProvider>
     </CookiesProvider>
   </StrictMode>,
 )

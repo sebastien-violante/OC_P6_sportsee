@@ -33,23 +33,22 @@ export default function NewDashboard() {
   const initialWeekData = { weekActivities: 0, weekDuration: 0, weekDistance: 0 }
 
   // STATES ET CONSTANTES DERIVEES /////////////////////////////////////////////////////////////
+
   const [distanceData, setDistanceData] = useState(initialDistanceData)
   const [bpmData, setBpmData] = useState(initialBpmData)
   const [weekData, setWeekData] = useState(initialWeekData)
+  // au premier affichage, les fin de période correspondent à la date du jour
   const [endDistanceDate, setEndDistanceDate] = useState(today)
   const [endBpmDate, setEndBpmDate] = useState(today)
 
-  // Calcul de l'intervalle pour le graphe des distances
+  // Calcul des dates extrêmes de périodes pour les graphes
   const startDistanceDate = getFirstDayPeriod(endDistanceDate, "week")
+  const startBpmDate = getFirstDayPeriod(endBpmDate, "day")
+  const {weekStart, weekEnd} = getCurrentWeek(today)
 
   // variable permettant l'affichage du sous-titre du graphique distance
   const isSameDay = endDistanceDate.hasSame(today, "day");
   
-  // Calcul de l'intervalle pour le graphe des bpm
-  const startBpmDate = getFirstDayPeriod(endBpmDate, "day")
-
-  // Calcul des dates de fin et début de la semaine actuelle
-  const {weekStart, weekEnd} = getCurrentWeek(today)
   
   // EFFETS //////////////////////////////////////////////////////////////////////////////////
 
@@ -106,18 +105,22 @@ export default function NewDashboard() {
       setEndBpmDate(newEndDate)
     }
   }
-  if (loadingUser || !user) {
-  return (
-    <div className="fullPageSpinner">
-      <BeatLoader size={15} color="#36d7b7" />
-    </div>
-    );
-  }
-  
+ 
   // Dans le cas où le token est null en mode API, redirection vers l'authentification
   if (!token && !useMock) {
     return <Navigate to="/" replace />
   }
+  if (loadingUser) {
+  return (
+    <div className="fullPageSpinner">
+      <BeatLoader size={15} color="#36d7b7" />
+    </div>
+  );
+}
+
+if (!user) {
+  return <Navigate to="/" replace />;
+}
 
   return (
         <>

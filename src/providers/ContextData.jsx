@@ -3,30 +3,39 @@ import { formatUser } from "../api/services/formatUser";
 import fetchUser from "../api/fetchFromBack/fetchUser";
 import { DateTime } from "luxon";
 import { useCookies } from "react-cookie";
+import { findLastKey } from "lodash";
 
 export const DataContext = createContext()
 
 export const DataProvider = ({ children }) => {
 
+    // CONSTANTES /////////////////////////////////////////////////////////////
+    
     // Variables permettant de passer du mode mock au mode api
     const [useMock, setUseMock] = useState(false)
     // Récupération du token en cookies
     const [cookies] = useCookies(["token"]);
-    const token = cookies.token;
+    const token = cookies?.token;
+    
+    // STATES /////////////////////////////////////////////////////////////
+    
     // Variable indiquant l'état de chargement de des données user
     const [loadingUser, setLoadingUser] = useState(true)
 
     const [user, setUser] = useState(null)
     
+    // EFFECTS /////////////////////////////////////////////////////////////
+
     // Aiguillage entre mode mock et mode api
     useEffect(() => {
         async function fetchData() {
             setLoadingUser(true)
+            if(!token && !useMock) {
+                setUser(null);
+                setLoadingUser(false)
+                return
+            }   
             try {
-                if(!token && !useMock) {
-                    setUser(null);
-                    return
-                }              
                 const userData = await fetchUser(useMock, token)
                 const formatted = userData ? formatUser(userData, useMock) : null
                 setUser(formatted) 

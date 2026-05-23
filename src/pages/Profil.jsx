@@ -19,15 +19,17 @@ export default function Profil() {
     // Date du jour
     const today = DateTime.now()
 
-    // STATES /////////////////////////////////////////////
-    const [restDays, setRestDays] = useState(0)
-    const [calories, setCalories] = useState(0)
-    const [activities, setActivities] = useState([])
-
     // Récupération du token
     const [cookies] = useCookies(["token"]);
     const token = cookies.token;
 
+    // STATES /////////////////////////////////////////////
+
+    const [restDays, setRestDays] = useState(0)
+    const [calories, setCalories] = useState(0)
+    const [activities, setActivities] = useState([])
+
+    
     // EFFETS /////////////////////////////////////////////
 
     // Rapatriement de toutes les activités depuis memberDate

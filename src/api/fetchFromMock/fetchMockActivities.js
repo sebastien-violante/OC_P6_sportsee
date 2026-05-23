@@ -12,6 +12,6 @@ export function fetchMockActivities() {
                 status: 200,
                 json: async () => activitiesMock
             })
-        }, 500)
+        }, 500)  // simulation de timeout 
     })
 }

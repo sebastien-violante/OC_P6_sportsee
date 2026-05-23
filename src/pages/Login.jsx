@@ -13,30 +13,29 @@ import handleKeyboard from '../utils/handleKeyBoard'
 export default function Home() {
     
     // CONSTANTES ////////////////////////////////////////////////////////////////////////////////////
+
     const navigate = useNavigate()
-    const [cookies, setCookie] = useCookies(["token"])
-    
-    // STATES ///////////////////////////////////////////////////////////////////////////////////////
+    const [, setCookie] = useCookies(["token"])
     const refForm = useRef()
     const refFocusables = useRef([]) 
+
+    // STATES ///////////////////////////////////////////////////////////////////////////////////////
+    
     // Initialisation à null des valeurs des champs du formulaire
-    const [formData, setFormData] = useState({
-        identifiant: "",
-        password: "",
-    })
+    const [formData, setFormData] = useState({ identifiant: "", password: "" })
     // Initialisation à null des erreurs du formulaire
-    const [errors, setErrors] = useState({
-        username: "",
-        password: ""
-    })
+    const [errors, setErrors] = useState({ username: "", password: "" })
     // Initialisation à null de l'erreur issu de la soumission du formulaire
     const [loginError, setLoginError] = useState("")
+
     // EFFECTS /////////////////////////////////////////////////////////////////////////////////////
+
     useEffect(() => {
         if(!refForm.current) return
         refFocusables.current = getFocusables(refForm.current)
         refFocusables.current[0]?.focus()
     }, [])
+
     // HANDLERS ////////////////////////////////////////////////////////////////////////////////////
 
     // Gestion des actions clavier 
@@ -63,7 +62,7 @@ export default function Home() {
                 const token = await login(formData)
                 if(token) {
                     setCookie("token", token, {
-                        path: "/",
+                        path: "/", // token accessible à toutes les routes en /...
                         secure: true,
                         sameSite: "strict",
                         maxAge: 60 * 60 // délai max : 1 heure
