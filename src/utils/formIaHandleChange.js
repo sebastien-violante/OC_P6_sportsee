@@ -1,5 +1,5 @@
 /**
- * Renvoie une date calculée à partir d'une date initiale, d'un type et d'un pas
+ * Renvoie un formData complété des informations effectuées sur le formulaire à chaque changement sur un champ
  * @param {Function} setFormData - le setter de formData
  * @returns {Function} - une fonction associée à un élement du DOM
  */

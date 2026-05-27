@@ -3,7 +3,6 @@ import { formatUser } from "../api/services/formatUser";
 import fetchUser from "../api/fetchFromBack/fetchUser";
 import { DateTime } from "luxon";
 import { useCookies } from "react-cookie";
-import { findLastKey } from "lodash";
 
 export const DataContext = createContext()
 

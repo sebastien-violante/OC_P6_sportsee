@@ -1970,13 +1970,24 @@ export const activitiesMock =
         "caloriesBurned": 440
     },
     {
-        "date": "2026-05-23",
-        "distance": 2,
+        "date": "2026-05-25",
+        "distance": 12,
         "duration": 41,
         "heartRate": {
-            "min": 122,
-            "max": 140,
-            "average": 135
+            "min": 145,
+            "max": 167,
+            "average": 160
+        },
+        "caloriesBurned": 440
+    },
+    {
+        "date": "2026-05-26",
+        "distance": 28,
+        "duration": 41,
+        "heartRate": {
+            "min": 150,
+            "max": 170,
+            "average": 165
         },
         "caloriesBurned": 440
     },
