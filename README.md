@@ -3,11 +3,11 @@
 ![Page de dashbord de l'application Sportsee](https://raw.githubusercontent.com/sebastien-violante/OC_P6_sportsee/main/public/pictures/screens/screen-github-1.png)
 
 # Projet n°6 de la formation Concepteur d'application React
-## Développez un dashboard de sport avec React et React Router
+## Développer un dashboard de sport avec React et React Router
 
 Dans ce projet, il s'agit de développer une nouvelle version d'un site de coaching de course à pieds, à partir de maquettes, le tout en **React**.
 
-Le back est fourni et ensuite, c'est avec **Postman** qu'il faut faire ses premières armes pour le requêter, avant de mettr en place **des mocks** et un système permettant de basculer en live du mode api au mode mock. Pour les graphiques, c'est **recharts** qui rentre en jeu.
+Le back est fourni et c'est avec **Postman** qu'il faut faire ses premières armes pour le requêter, avant de mettre en place **des mocks** et un système permettant de basculer en live du mode api au mode mock. Pour les graphiques, c'est **recharts** qui rentre en jeu.
 
 Le plus ? Dans ce projet, j'implémente l'**API Mistral** pour créer un **plan d'entrainement** à partir des statistiques des sessions de course à pieds déjà réalisées et de desiderats de l'utilisateur. Et ça fonctionne très bien !
 
